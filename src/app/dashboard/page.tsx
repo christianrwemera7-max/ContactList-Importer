@@ -1,7 +1,7 @@
 
 'use client';
 
-import { Search, Bell, Zap, Trophy, TrendingUp, Users, ArrowRight } from 'lucide-react';
+import { Search, Bell, Zap, Trophy, TrendingUp, Users, ArrowRight, Rocket, GraduationCap, Heart } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import { BottomNav } from '@/components/layout/BottomNav';
@@ -52,85 +52,59 @@ export default function Dashboard() {
           
           <div className="mt-6 pt-6 border-t border-border/50 grid grid-cols-3 gap-4">
             <div className="text-center">
-              <p className="text-[10px] text-muted-2 uppercase font-mono mb-1">Academy</p>
-              <p className="font-display font-bold text-lg">75%</p>
+              <p className="text-[10px] text-muted-2 uppercase font-mono mb-1">KONEKT Score</p>
+              <p className="font-display font-bold text-lg text-gold">850 pts</p>
             </div>
             <div className="text-center">
-              <p className="text-[10px] text-muted-2 uppercase font-mono mb-1">Présence</p>
+              <p className="text-[10px] text-muted-2 uppercase font-mono mb-1">Activité</p>
               <p className="font-display font-bold text-lg text-cyan">92%</p>
             </div>
             <div className="text-center">
-              <p className="text-[10px] text-muted-2 uppercase font-mono mb-1">Rang</p>
-              <p className="font-display font-bold text-lg text-orange">Leader</p>
+              <p className="text-[10px] text-muted-2 uppercase font-mono mb-1">Progression</p>
+              <p className="font-display font-bold text-lg text-orange">75%</p>
             </div>
           </div>
         </section>
 
-        {/* Activation Pathway */}
+        {/* KONEKT FLOW - Activation Tabs */}
         <section>
-          <p className="font-mono text-[10px] uppercase tracking-widest text-muted-2 mb-4">Activation & Progression</p>
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-            <Link href="/academy" className="glass-card p-4 rounded-2xl flex items-center gap-4 hover:border-cyan/50 transition-colors">
-              <div className="w-10 h-10 rounded-xl bg-cyan/10 flex items-center justify-center text-cyan">
-                <TrendingUp className="w-5 h-5" />
-              </div>
-              <div className="flex-1">
-                <p className="text-[13px] font-bold">Apprendre</p>
-                <p className="text-[11px] text-muted-2">Academy · 2 modules suggérés</p>
-              </div>
-              <ArrowRight className="w-4 h-4 text-muted-2" />
-            </Link>
-            <Link href="/opportunities" className="glass-card p-4 rounded-2xl flex items-center gap-4 hover:border-orange/50 transition-colors">
-              <div className="w-10 h-10 rounded-xl bg-orange/10 flex items-center justify-center text-orange">
-                <Zap className="w-5 h-5" />
-              </div>
-              <div className="flex-1">
-                <p className="text-[13px] font-bold">Opportunités</p>
-                <p className="text-[11px] text-muted-2">3 missions PRO en avance</p>
-              </div>
-              <ArrowRight className="w-4 h-4 text-muted-2" />
-            </Link>
+          <div className="flex gap-4 overflow-x-auto pb-4 no-scrollbar">
+            <FlowTab icon={Users} label="Communauté" active color="text-cyan" />
+            <FlowTab icon={Zap} label="Opportunités" color="text-orange" />
+            <FlowTab icon={GraduationCap} label="Learning" color="text-gold" />
+            <FlowTab icon={Rocket} label="Projects" color="text-primary" />
+            <FlowTab icon={Heart} label="Impact" color="text-green-400" />
+          </div>
+
+          <div className="space-y-4">
+            {/* Flow Items */}
+            <FlowItem 
+              type="opportunity" 
+              title="Assistant Marketing Digital" 
+              meta="KONEKT Opportunities · Mission freelance" 
+              tag="PRO · 48H D'AVANCE"
+              content="Une startup partenaire cherche un membre KONEKT pour piloter ses réseaux sociaux."
+            />
+            
+            <FlowItem 
+              type="community" 
+              title="Atelier Cellule Cocody" 
+              meta="Samedi 30 Août · 15:00" 
+              tag="CONVOCATION"
+              content="Rencontre mensuelle : 'Structurer son pitch'. Présence obligatoire pour les Leaders."
+            />
           </div>
         </section>
 
-        {/* Cell Community */}
+        {/* Match Recommendations */}
         <section>
-          <div className="flex items-center justify-between mb-4">
-            <p className="font-mono text-[10px] uppercase tracking-widest text-muted-2">Ma cellule · Cocody #032</p>
-            <Link href="/cells" className="text-[10px] text-cyan uppercase font-bold hover:underline">Voir l'espace</Link>
-          </div>
+          <p className="font-mono text-[10px] uppercase tracking-widest text-muted-2 mb-4">KONEKT Match · Recommandations</p>
           <div className="flex gap-4 overflow-x-auto pb-2 no-scrollbar">
-            <RingItem initials="AK" label="Awa · Leader" isLeader />
-            <RingItem initials="MT" label="Malick" />
-            <RingItem initials="SD" label="Sarah" />
-            <RingItem initials="JK" label="Junior" />
-            <RingItem initials="+14" label="Voir tous" isMuted />
+            <MatchCard initials="AK" name="Awa K." skill="Marketing" />
+            <MatchCard initials="MT" name="Malick T." skill="Développeur" />
+            <MatchCard initials="SD" name="Sarah D." skill="Finance" />
+            <MatchCard initials="JK" name="Junior K." skill="Design" />
           </div>
-        </section>
-
-        {/* Today's Priority */}
-        <section className="space-y-4">
-          <p className="font-mono text-[10px] uppercase tracking-widest text-muted-2">Priorité du jour</p>
-          
-          <article className="glass-card p-5 rounded-[2rem] space-y-4 border-l-4 border-orange">
-             <div className="flex items-center gap-3">
-              <div className="w-9 h-9 rounded-xl bg-orange/10 flex items-center justify-center text-orange">
-                <Users className="w-5 h-5" />
-              </div>
-              <div className="flex-1 min-w-0">
-                <p className="text-[13px] font-bold">KONEKT Cellules</p>
-                <p className="text-[11px] text-muted">Rencontre mensuelle</p>
-              </div>
-            </div>
-            <h3 className="font-display font-semibold text-lg leading-tight">Atelier : Structurer son pitch en 10 minutes</h3>
-            <p className="text-[13px] text-muted leading-relaxed">
-              La rencontre de ce samedi se tiendra à l'Espace KONEKT Abidjan. N'oubliez pas vos carnets de projets.
-            </p>
-            <div className="flex items-center gap-4 pt-2">
-              <Button size="sm" className="bg-orange hover:bg-orange/90 text-ink font-bold px-6">Confirmer ma présence</Button>
-              <span className="font-mono text-[10px] text-gold uppercase">Dans 2 jours</span>
-            </div>
-          </article>
         </section>
       </main>
 
@@ -139,18 +113,40 @@ export default function Dashboard() {
   );
 }
 
-function RingItem({ initials, label, isLeader, isMuted }: any) {
+function FlowTab({ icon: Icon, label, active, color }: any) {
   return (
-    <div className="flex flex-col items-center gap-2 shrink-0 w-16 group">
-      <div className={`
-        w-[56px] h-[56px] rounded-full p-[2px] transition-transform group-hover:scale-105 cursor-pointer
-        ${isLeader ? "bg-gradient-to-tr from-orange to-gold" : isMuted ? "bg-border" : "konekt-ring"}
-      `}>
-        <div className="w-full h-full rounded-full bg-surface flex items-center justify-center border-[2.5px] border-background font-display font-bold text-base">
-          {initials}
-        </div>
+    <button className={`flex items-center gap-2 px-4 py-2 rounded-full border transition-all shrink-0 font-medium text-[13px] ${active ? `bg-surface-2 border-${color.split('-')[1]}/40 ${color}` : "border-border text-muted hover:border-border/80"}`}>
+      <Icon className="w-4 h-4" />
+      {label}
+    </button>
+  );
+}
+
+function FlowItem({ type, title, meta, tag, content }: any) {
+  return (
+    <article className={`glass-card p-5 rounded-[2rem] space-y-3 border-l-4 ${type === 'opportunity' ? 'border-orange' : 'border-cyan'}`}>
+      <div className="flex items-center justify-between">
+        <p className="text-[11px] text-muted font-medium">{meta}</p>
+        <Badge variant="outline" className={`text-[9px] uppercase font-mono ${type === 'opportunity' ? 'text-orange border-orange/30' : 'text-cyan border-cyan/30'}`}>{tag}</Badge>
       </div>
-      <span className="text-[10px] text-muted text-center truncate w-full group-hover:text-text transition-colors">{label}</span>
+      <h3 className="font-display font-semibold text-lg leading-tight">{title}</h3>
+      <p className="text-[13px] text-muted leading-relaxed">{content}</p>
+      <div className="pt-2">
+        <Button size="sm" variant="ghost" className="text-xs h-8 px-4 hover:bg-surface-2">En savoir plus</Button>
+      </div>
+    </article>
+  );
+}
+
+function MatchCard({ initials, name, skill }: any) {
+  return (
+    <div className="glass-card p-4 rounded-2xl min-w-[140px] text-center border-border/50 hover:border-cyan/30 transition-colors">
+      <div className="w-12 h-12 rounded-full bg-surface-3 border border-border mx-auto mb-3 flex items-center justify-center font-display font-bold text-sm text-cyan">
+        {initials}
+      </div>
+      <p className="text-[12px] font-bold truncate">{name}</p>
+      <p className="text-[10px] text-muted mt-1">{skill}</p>
+      <button className="mt-3 text-[10px] text-cyan font-bold hover:underline">Se connecter</button>
     </div>
   );
 }
