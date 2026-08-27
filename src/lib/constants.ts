@@ -25,13 +25,13 @@ export const TIERS = {
   }
 };
 
-export const ROLES = [
-  { code: "member", label: "Membre" },
-  { code: "leader", label: "Leader de cellule" },
-  { code: "zone_coordinator", label: "Coordinateur de zone" },
-  { code: "regional_coordinator", label: "Coordinateur régional" },
-  { code: "national", label: "Direction nationale" }
-];
+export const ROLES = {
+  MEMBER: { code: "member", label: "Membre" },
+  LEADER: { code: "leader", label: "Leader de cellule" },
+  ZONE_COORDINATOR: { code: "zone_coordinator", label: "Coordinateur de zone" },
+  REGIONAL_COORDINATOR: { code: "regional_coordinator", label: "Coordinateur régional" },
+  NATIONAL: { code: "national", label: "Direction nationale" }
+};
 
 export const FLOW_TYPES = {
   COMMUNITY: { label: "Communauté", color: "text-cyan", icon: "Users" },
@@ -39,13 +39,6 @@ export const FLOW_TYPES = {
   LEARNING: { label: "Learning", color: "text-gold", icon: "GraduationCap" },
   PROJECT: { label: "Projects", color: "text-primary", icon: "Rocket" },
   IMPACT: { label: "Impact", color: "text-green-400", icon: "Heart" }
-};
-
-export const PROJECT_STATUS = {
-  IDEA: "Idée",
-  PROTOTYPE: "Prototype",
-  LAUNCH: "Lancement",
-  GROWTH: "Croissance"
 };
 
 export const MEMBER_STATUS = {

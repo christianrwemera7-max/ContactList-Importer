@@ -6,83 +6,97 @@ import { BottomNav } from "@/components/layout/BottomNav";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
-import { ShieldCheck, GraduationCap, Briefcase, Award, Settings, ChevronRight, CreditCard, Share2, Rocket, Plus } from "lucide-react";
+import { ShieldCheck, Award, Settings, ChevronRight, CreditCard, Share2, Rocket, Plus, Zap, TrendingUp } from "lucide-react";
 
 export default function ProfilePage() {
   return (
-    <div className="flex flex-col min-h-screen pb-24 md:pb-0">
-      <AppSidebar />
-      <main className="flex-1 md:ml-64 p-5 max-w-2xl mx-auto w-full py-10 space-y-10">
+    <div className="flex flex-col min-h-screen pb-24 md:pb-0 bg-ink">
+      <header className="px-5 py-6 border-b border-border/50 sticky top-0 bg-ink/80 backdrop-blur-md z-40 flex justify-between items-center">
+        <h1 className="font-display font-bold text-xl">KONEKT ID</h1>
+        <button className="w-9 h-9 flex items-center justify-center rounded-xl bg-surface-2 border border-border">
+          <Settings className="w-4 h-4 text-muted-2" />
+        </button>
+      </header>
+
+      <main className="flex-1 max-w-2xl mx-auto w-full p-5 space-y-10 py-10">
         
-        {/* Profile Header / KONEKT ID */}
+        {/* KONEKT ID Card */}
         <section className="flex flex-col items-center text-center">
-          <div className="w-24 h-24 rounded-[2rem] bg-gradient-to-tr from-surface-3 to-surface border-2 border-orange flex items-center justify-center font-display font-bold text-4xl text-text mb-4 shadow-2xl shadow-orange/20">
-            JK
+          <div className="w-28 h-28 rounded-[2.5rem] p-1 bg-gradient-to-tr from-cyan via-orange to-gold mb-6 shadow-2xl shadow-orange/10">
+            <div className="w-full h-full rounded-[2.3rem] bg-surface-3 flex items-center justify-center font-display font-bold text-4xl text-text border-4 border-ink">
+              JK
+            </div>
           </div>
           <h1 className="font-display font-bold text-2xl mb-1">Junior K.</h1>
-          <p className="text-cyan font-bold text-sm mb-4">Leader de cellule · Cocody #032</p>
-          <div className="flex gap-2 mb-6">
-            <Badge className="bg-orange/10 text-orange border-orange/30">KONEKT PLUS</Badge>
-            <Badge variant="outline" className="border-border text-muted-2">Kinshasa, RDC</Badge>
+          <p className="text-cyan font-bold text-sm mb-6 flex items-center gap-2">
+            Leader de cellule · Cocody #032 <ShieldCheck className="w-4 h-4" />
+          </p>
+          <div className="flex gap-2 mb-8">
+            <Badge className="bg-orange/10 text-orange border-orange/30 px-3 py-1 font-mono">PLUS</Badge>
+            <Badge variant="outline" className="border-border text-muted-2 px-3 py-1 font-mono">ID: 8742-032</Badge>
           </div>
-          <div className="flex gap-3 w-full max-w-[280px]">
-            <Button className="flex-1 bg-surface border border-border hover:bg-surface-2 gap-2 text-xs rounded-xl">
+          <div className="flex gap-3 w-full max-w-[320px]">
+            <Button className="flex-1 bg-surface-2 border border-border hover:bg-surface-3 gap-2 text-xs rounded-2xl h-11">
               <Share2 className="w-3 h-3" /> Partager
             </Button>
-            <Button className="flex-1 bg-orange text-ink font-bold gap-2 text-xs rounded-xl">
+            <Button className="flex-1 bg-orange text-ink font-bold gap-2 text-xs rounded-2xl h-11">
               Modifier
             </Button>
           </div>
         </section>
 
         {/* KONEKT SCORE & Stats */}
-        <section className="grid grid-cols-3 gap-3">
-          <Card className="bg-surface-2 border-border p-4 text-center rounded-2xl relative overflow-hidden group">
-            <div className="absolute top-0 right-0 p-1 opacity-10"><Award className="w-4 h-4 text-gold" /></div>
-            <p className="font-display font-bold text-xl text-gold">850</p>
-            <p className="text-[9px] text-muted-2 uppercase font-mono mt-1">KONEKT Score</p>
+        <section className="grid grid-cols-3 gap-4">
+          <Card className="glass-card p-5 text-center rounded-[2rem] border-gold/20">
+            <p className="font-display font-bold text-2xl text-gold">850</p>
+            <p className="text-[9px] text-muted-2 uppercase font-mono mt-2 tracking-widest">Score</p>
           </Card>
-          <Card className="bg-surface-2 border-border p-4 text-center rounded-2xl">
-            <p className="font-display font-bold text-xl text-cyan">92%</p>
-            <p className="text-[9px] text-muted-2 uppercase font-mono mt-1">Activité</p>
+          <Card className="glass-card p-5 text-center rounded-[2rem] border-cyan/20">
+            <p className="font-display font-bold text-2xl text-cyan">92%</p>
+            <p className="text-[9px] text-muted-2 uppercase font-mono mt-2 tracking-widest">Activité</p>
           </Card>
-          <Card className="bg-surface-2 border-border p-4 text-center rounded-2xl">
-            <p className="font-display font-bold text-xl text-orange">75%</p>
-            <p className="text-[9px] text-muted-2 uppercase font-mono mt-1">Formation</p>
+          <Card className="glass-card p-5 text-center rounded-[2rem] border-orange/20">
+            <div className="flex items-center justify-center gap-1">
+              <p className="font-display font-bold text-2xl text-orange">75</p>
+              <span className="text-xs text-orange font-bold">%</span>
+            </div>
+            <p className="text-[9px] text-muted-2 uppercase font-mono mt-2 tracking-widest">Path</p>
           </Card>
         </section>
 
-        {/* KONEKT SKILLS */}
-        <section className="space-y-4">
-          <div className="flex items-center justify-between">
-            <p className="font-mono text-[10px] uppercase tracking-widest text-muted-2">Je sais faire (Skills)</p>
-            <button className="w-5 h-5 rounded-md bg-surface-3 flex items-center justify-center text-muted hover:text-cyan"><Plus className="w-3 h-3" /></button>
-          </div>
-          <div className="flex flex-wrap gap-2">
-            <SkillBadge label="Marketing Digital" />
-            <SkillBadge label="Gestion de Projet" />
-            <SkillBadge label="IA & Prompting" />
-            <SkillBadge label="Design UI" />
-          </div>
-        </section>
+        {/* SKILLS & NEEDS */}
+        <div className="space-y-8">
+          <section className="space-y-4">
+            <div className="flex items-center justify-between">
+              <h3 className="font-mono text-[10px] uppercase tracking-widest text-muted-2">Je sais faire (Skills)</h3>
+              <button className="w-6 h-6 rounded-lg bg-surface-3 flex items-center justify-center text-muted hover:text-cyan"><Plus className="w-3 h-3" /></button>
+            </div>
+            <div className="flex flex-wrap gap-2">
+              <SkillBadge label="Marketing Digital" />
+              <SkillBadge label="Gestion de Projet" />
+              <SkillBadge label="IA & Prompting" />
+              <SkillBadge label="Design UI" />
+            </div>
+          </section>
 
-        <section className="space-y-4">
-          <div className="flex items-center justify-between">
-            <p className="font-mono text-[10px] uppercase tracking-widest text-muted-2">Je recherche (Matchmaking)</p>
-            <button className="w-5 h-5 rounded-md bg-surface-3 flex items-center justify-center text-muted hover:text-orange"><Plus className="w-3 h-3" /></button>
-          </div>
-          <div className="flex flex-wrap gap-2">
-            <MatchBadge label="Associé Tech" color="border-orange/30 text-orange" />
-            <MatchBadge label="Mentor Finance" color="border-gold/30 text-gold" />
-            <MatchBadge label="Équipe Mobile" color="border-cyan/30 text-cyan" />
-          </div>
-        </section>
+          <section className="space-y-4">
+            <div className="flex items-center justify-between">
+              <h3 className="font-mono text-[10px] uppercase tracking-widest text-muted-2">Je recherche (Matchmaking)</h3>
+              <button className="w-6 h-6 rounded-lg bg-surface-3 flex items-center justify-center text-muted hover:text-orange"><Plus className="w-3 h-3" /></button>
+            </div>
+            <div className="flex flex-wrap gap-2">
+              <MatchBadge label="Associé Tech" color="border-orange/30 text-orange" />
+              <MatchBadge label="Mentor Finance" color="border-gold/30 text-gold" />
+              <MatchBadge label="Équipe Mobile" color="border-cyan/30 text-cyan" />
+            </div>
+          </section>
+        </div>
 
         {/* Progression Path */}
-        <section>
-          <p className="font-mono text-[10px] uppercase tracking-widest text-muted-2 mb-6">Chemin de Leadership</p>
-          <div className="relative flex justify-between px-2">
-            <div className="absolute top-4 left-0 right-0 h-[2px] bg-border z-0" />
+        <section className="space-y-6">
+          <h3 className="font-mono text-[10px] uppercase tracking-widest text-muted-2">Chemin de Leadership</h3>
+          <div className="relative flex justify-between px-4">
+            <div className="absolute top-[18px] left-8 right-8 h-[2px] bg-surface-3 z-0" />
             <PathStep label="Membre" status="done" />
             <PathStep label="Leader" status="active" />
             <PathStep label="Coord. Zone" status="locked" />
@@ -91,29 +105,12 @@ export default function ProfilePage() {
           </div>
         </section>
 
-        {/* Active Projects (Project Lab) */}
-        <section className="space-y-4">
-          <p className="font-mono text-[10px] uppercase tracking-widest text-muted-2">KONEKT Projects (Project Lab)</p>
-          <Card className="bg-surface-2 border-border p-4 rounded-2xl border-l-4 border-primary group hover:border-primary/60 transition-colors">
-            <div className="flex justify-between items-start mb-2">
-              <h3 className="font-display font-bold text-sm">Wôrô · Livraison Étudiante</h3>
-              <Badge className="bg-primary/10 text-primary border-none text-[8px] uppercase">Prototype</Badge>
-            </div>
-            <p className="text-[11px] text-muted mb-3">Plateforme de livraison de repas locaux entre campus.</p>
-            <div className="flex gap-2">
-              <Badge variant="outline" className="text-[9px] border-border text-muted-2">2 Contrib.</Badge>
-              <Badge variant="outline" className="text-[9px] border-border text-muted-2 text-cyan">Recherche Dev</Badge>
-            </div>
-          </Card>
-        </section>
-
         {/* Menu Actions */}
-        <section className="space-y-1">
-          <MenuItem icon={CreditCard} label="Mon adhésion — PLUS" />
-          <MenuItem icon={ShieldCheck} label="Transparence financière" />
-          <MenuItem icon={Briefcase} label="Mes candidatures" />
-          <MenuItem icon={Rocket} label="Soumettre un projet" />
-          <MenuItem icon={Settings} label="Paramètres" />
+        <section className="space-y-2 pt-6">
+          <MenuItem icon={CreditCard} label="Mon adhésion — PLUS" meta="Renouvellement le 15 sept." />
+          <MenuItem icon={TrendingUp} label="Transparence financière" meta="Rapport août disponible" />
+          <MenuItem icon={Rocket} label="Soumettre un projet" meta="Project Lab" />
+          <MenuItem icon={Award} label="Mes Certifications" meta="3 badges obtenus" />
         </section>
       </main>
       <BottomNav />
@@ -123,7 +120,7 @@ export default function ProfilePage() {
 
 function SkillBadge({ label }: { label: string }) {
   return (
-    <span className="px-3 py-1.5 rounded-xl bg-surface-2 border border-border text-[11px] font-medium text-muted-2 hover:border-cyan/40 hover:text-cyan transition-colors cursor-default">
+    <span className="px-4 py-2 rounded-2xl bg-surface-2 border border-border text-[11px] font-bold text-muted hover:border-cyan/50 hover:text-cyan transition-all cursor-default">
       {label}
     </span>
   );
@@ -131,7 +128,7 @@ function SkillBadge({ label }: { label: string }) {
 
 function MatchBadge({ label, color }: { label: string, color: string }) {
   return (
-    <span className={`px-3 py-1.5 rounded-xl bg-surface-2 border ${color} text-[11px] font-bold hover:bg-surface-3 transition-colors cursor-default`}>
+    <span className={`px-4 py-2 rounded-2xl bg-surface-2 border ${color} text-[11px] font-black hover:bg-surface-3 transition-all cursor-default`}>
       {label}
     </span>
   );
@@ -139,29 +136,34 @@ function MatchBadge({ label, color }: { label: string, color: string }) {
 
 function PathStep({ label, status }: { label: string, status: 'done' | 'active' | 'locked' }) {
   return (
-    <div className="flex flex-col items-center gap-3 z-10 w-16">
+    <div className="flex flex-col items-center gap-4 z-10 w-16">
       <div className={`
-        w-8 h-8 rounded-full border-2 flex items-center justify-center transition-all
-        ${status === 'done' ? 'bg-cyan border-cyan text-ink' : status === 'active' ? 'bg-orange border-orange text-ink shadow-[0_0_15px_rgba(255,107,53,0.4)]' : 'bg-surface-3 border-border text-muted-2'}
+        w-9 h-9 rounded-full border-2 flex items-center justify-center transition-all duration-500
+        ${status === 'done' ? 'bg-cyan border-cyan text-ink' : status === 'active' ? 'bg-orange border-orange text-ink shadow-[0_0_20px_rgba(255,107,53,0.4)]' : 'bg-surface-3 border-border text-muted-2'}
       `}>
-        {status === 'done' && <ShieldCheck className="w-4 h-4" />}
-        {status === 'active' && <div className="w-2 h-2 rounded-full bg-ink animate-pulse" />}
+        {status === 'done' && <ShieldCheck className="w-5 h-5" />}
+        {status === 'active' && <div className="w-2.5 h-2.5 rounded-full bg-ink animate-pulse" />}
       </div>
-      <span className={`text-[9px] text-center font-bold uppercase tracking-tighter ${status === 'locked' ? 'text-muted-2' : 'text-text'}`}>
+      <span className={`text-[8px] text-center font-black uppercase tracking-widest ${status === 'locked' ? 'text-muted-2' : 'text-text'}`}>
         {label}
       </span>
     </div>
   );
 }
 
-function MenuItem({ icon: Icon, label }: any) {
+function MenuItem({ icon: Icon, label, meta }: any) {
   return (
-    <button className="w-full flex items-center justify-between p-4 hover:bg-surface-2 transition-colors border-b border-border/50 group">
+    <button className="w-full flex items-center justify-between p-5 glass-card rounded-2xl border-border/40 hover:border-cyan/30 transition-all group mb-2">
       <div className="flex items-center gap-4">
-        <Icon className="w-5 h-5 text-muted-2 group-hover:text-text transition-colors" />
-        <span className="text-sm font-medium text-text">{label}</span>
+        <div className="w-10 h-10 rounded-xl bg-surface-3 flex items-center justify-center text-muted-2 group-hover:text-cyan transition-colors">
+          <Icon className="w-5 h-5" />
+        </div>
+        <div className="text-left">
+          <span className="block text-sm font-bold text-text">{label}</span>
+          <span className="block text-[10px] text-muted-2 font-medium">{meta}</span>
+        </div>
       </div>
-      <ChevronRight className="w-4 h-4 text-muted-2" />
+      <ChevronRight className="w-4 h-4 text-muted-2 group-hover:text-cyan group-hover:translate-x-1 transition-all" />
     </button>
   );
 }
