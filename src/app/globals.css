@@ -5,34 +5,34 @@
 
 @layer base {
   :root {
-    --background: 222 43% 7%;
+    --background: 222 47% 7%;
     --foreground: 210 40% 98%;
-    --card: 222 38% 12%;
+    --card: 222 47% 11%;
     --card-foreground: 210 40% 98%;
-    --popover: 222 38% 12%;
+    --popover: 222 47% 11%;
     --popover-foreground: 210 40% 98%;
-    --primary: 15 100% 60%;
-    --primary-foreground: 222 43% 7%;
-    --secondary: 222 25% 20%;
+    --primary: 15 100% 61%;
+    --primary-foreground: 222 47% 7%;
+    --secondary: 222 30% 18%;
     --secondary-foreground: 210 40% 98%;
     --muted: 226 21% 63%;
     --muted-foreground: 226 21% 63%;
     --accent: 171 77% 55%;
-    --accent-foreground: 222 43% 7%;
+    --accent-foreground: 222 47% 7%;
     --destructive: 0 84.2% 60.2%;
     --destructive-foreground: 210 40% 98%;
     --border: 226 35% 25%;
     --input: 226 35% 25%;
-    --ring: 15 100% 60%;
+    --ring: 15 100% 61%;
     --radius: 22px;
   }
 }
 
 body {
-  @apply bg-background text-foreground font-sans min-h-screen;
+  @apply bg-background text-foreground font-sans min-h-screen antialiased;
   background: 
-    radial-gradient(1200px 600px at 15% -10%, rgba(255,107,53,0.12), transparent 60%),
-    radial-gradient(1000px 500px at 90% 10%, rgba(51,230,200,0.10), transparent 55%),
+    radial-gradient(1200px 600px at 15% -10%, rgba(255,107,53,0.08), transparent 60%),
+    radial-gradient(1000px 500px at 90% 10%, rgba(51,230,200,0.06), transparent 55%),
     hsl(var(--background));
 }
 
@@ -40,14 +40,38 @@ body {
   background: conic-gradient(hsl(var(--accent)), hsl(var(--primary)), hsl(var(--accent)));
 }
 
+.glass-card {
+  @apply bg-card/60 backdrop-blur-xl border border-border/40 shadow-2xl transition-all duration-300;
+  box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.3);
+}
+
+.glass-card:hover {
+  @apply border-primary/30 bg-card/80;
+}
+
 .pro-badge {
-  @apply bg-orange-500/15 text-primary border border-orange-500/35 font-mono text-[10px] uppercase tracking-wider px-2 py-1 rounded-md;
+  @apply bg-primary/15 text-primary border border-primary/30 font-mono text-[10px] uppercase tracking-wider px-2 py-1 rounded-md;
 }
 
 .plus-badge {
-  @apply bg-cyan-500/15 text-accent border border-cyan-500/35 font-mono text-[10px] uppercase tracking-wider px-2 py-1 rounded-md;
+  @apply bg-accent/15 text-accent border border-accent/30 font-mono text-[10px] uppercase tracking-wider px-2 py-1 rounded-md;
 }
 
-.glass-card {
-  @apply bg-card/80 backdrop-blur-md border border-border/50 shadow-2xl transition-all hover:border-primary/30;
+.no-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+.no-scrollbar {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+
+/* Node connections aesthetic */
+.connected-nodes::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background-image: radial-gradient(circle, hsl(var(--border)) 1px, transparent 1px);
+  background-size: 24px 24px;
+  opacity: 0.2;
+  pointer-events: none;
 }

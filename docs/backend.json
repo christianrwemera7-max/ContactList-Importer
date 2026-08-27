@@ -2,8 +2,8 @@
 {
   "entities": {
     "Profile": {
-      "title": "Membre",
-      "description": "Profil central du membre KONEKT.",
+      "title": "KONEKT ID",
+      "description": "Identité numérique et professionnelle du membre.",
       "type": "object",
       "properties": {
         "uid": { "type": "string" },
@@ -13,14 +13,29 @@
         "phone": { "type": "string" },
         "photoURL": { "type": "string" },
         "bio": { "type": "string" },
+        "profession": { "type": "string" },
+        "skills": { "type": "array", "items": { "type": "string" } },
+        "lookingFor": { "type": "array", "items": { "type": "string" } },
         "city": { "type": "string" },
         "country": { "type": "string" },
         "status": { "type": "string", "enum": ["active", "payment_late", "suspended", "alumni"] },
         "currentTier": { "type": "string", "enum": ["START", "PLUS", "PRO"] },
+        "role": { "type": "string", "enum": ["member", "leader", "zone_coordinator", "regional_coordinator", "national"] },
         "currentCellId": { "type": "string" },
+        "badges": { 
+          "type": "array", 
+          "items": { 
+            "type": "object",
+            "properties": {
+              "label": { "type": "string" },
+              "type": { "type": "string" },
+              "grantedAt": { "type": "string", "format": "date-time" }
+            }
+          }
+        },
         "joinedAt": { "type": "string", "format": "date-time" }
       },
-      "required": ["uid", "email", "status", "currentTier"]
+      "required": ["uid", "email", "status", "currentTier", "role"]
     },
     "Subscription": {
       "title": "Abonnement",
@@ -49,27 +64,6 @@
         "capacity": { "type": "number", "default": 20 },
         "locationType": { "type": "string", "enum": ["geographic", "university", "thematic"] },
         "status": { "type": "string", "enum": ["active", "inactive", "forming"] }
-      }
-    },
-    "Zone": {
-      "title": "Zone",
-      "description": "Regroupement de cellules.",
-      "type": "object",
-      "properties": {
-        "id": { "type": "string" },
-        "poleId": { "type": "string" },
-        "name": { "type": "string" },
-        "coordinatorMemberId": { "type": "string" }
-      }
-    },
-    "Pole": {
-      "title": "Pôle",
-      "description": "Niveau régional.",
-      "type": "object",
-      "properties": {
-        "id": { "type": "string" },
-        "name": { "type": "string" },
-        "regionalCoordinatorMemberId": { "type": "string" }
       }
     },
     "Course": {
@@ -102,33 +96,6 @@
         "deadlineAt": { "type": "string", "format": "date-time" },
         "status": { "type": "string", "enum": ["draft", "open", "closed"] }
       }
-    },
-    "FinancialReport": {
-      "title": "Rapport Financier",
-      "description": "Transparence financière.",
-      "type": "object",
-      "properties": {
-        "id": { "type": "string" },
-        "periodStart": { "type": "string", "format": "date" },
-        "periodEnd": { "type": "string", "format": "date" },
-        "totalCollected": { "type": "number" },
-        "totalSpent": { "type": "number" },
-        "reserveBalance": { "type": "number" },
-        "publishedAt": { "type": "string", "format": "date-time" }
-      }
-    },
-    "Post": {
-      "title": "Publication",
-      "description": "Élément du fil d'actualité.",
-      "type": "object",
-      "properties": {
-        "id": { "type": "string" },
-        "authorMemberId": { "type": "string" },
-        "type": { "type": "string", "enum": ["opportunity", "course", "testimonial", "project", "announcement"] },
-        "content": { "type": "string" },
-        "cellId": { "type": "string" },
-        "createdAt": { "type": "string", "format": "date-time" }
-      }
     }
   },
   "auth": {
@@ -137,19 +104,11 @@
   "firestore": {
     "/members/{memberId}": {
       "schema": "Profile",
-      "description": "Profils des membres"
+      "description": "Profils des membres (KONEKT ID)"
     },
     "/members/{memberId}/subscriptions/{subId}": {
       "schema": "Subscription",
       "description": "Historique d'abonnement"
-    },
-    "/poles/{poleId}": {
-      "schema": "Pole",
-      "description": "Liste des pôles"
-    },
-    "/zones/{zoneId}": {
-      "schema": "Zone",
-      "description": "Liste des zones"
     },
     "/cells/{cellId}": {
       "schema": "Cell",
@@ -162,14 +121,6 @@
     "/opportunities/{oppId}": {
       "schema": "Opportunity",
       "description": "Catalogue d'opportunités"
-    },
-    "/governance/finances/reports/{reportId}": {
-      "schema": "FinancialReport",
-      "description": "Rapports financiers périodiques"
-    },
-    "/posts/{postId}": {
-      "schema": "Post",
-      "description": "Fil d'actualité global ou par cellule"
     }
   }
 }
