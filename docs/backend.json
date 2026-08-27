@@ -1,0 +1,113 @@
+
+{
+  "entities": {
+    "Profile": {
+      "title": "Profil Membre",
+      "description": "Informations d'identité, de niveau d'adhésion et de position hiérarchique.",
+      "type": "object",
+      "properties": {
+        "uid": { "type": "string" },
+        "displayName": { "type": "string" },
+        "email": { "type": "string", "format": "email" },
+        "photoURL": { "type": "string" },
+        "bio": { "type": "string" },
+        "skills": { "type": "array", "items": { "type": "string" } },
+        "cellId": { "type": "string" },
+        "zoneId": { "type": "string" },
+        "poleId": { "type": "string" },
+        "tier": { "type": "string", "enum": ["START", "PLUS", "PRO"] },
+        "role": { "type": "string", "enum": ["Membre", "Leader", "Coordinateur", "National"] },
+        "status": { "type": "string", "enum": ["Actif", "En retard", "Suspendu", "Alumni"] },
+        "joinedAt": { "type": "string", "format": "date-time" }
+      },
+      "required": ["uid", "email", "tier", "role", "status"]
+    },
+    "Cell": {
+      "title": "Cellule KONEKT",
+      "description": "Unité de base de la communauté (20 membres).",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string" },
+        "name": { "type": "string" },
+        "zoneId": { "type": "string" },
+        "leaderId": { "type": "string" },
+        "description": { "type": "string" },
+        "type": { "type": "string", "enum": ["Géographique", "Universitaire", "Thématique"] },
+        "memberCount": { "type": "number" }
+      },
+      "required": ["id", "name", "zoneId", "leaderId"]
+    },
+    "Course": {
+      "title": "Formation Academy",
+      "description": "Contenu éducatif KONEKT Academy.",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string" },
+        "title": { "type": "string" },
+        "description": { "type": "string" },
+        "thumbnail": { "type": "string" },
+        "tierRequired": { "type": "string", "enum": ["START", "PLUS", "PRO"] },
+        "category": { "type": "string" },
+        "videoUrl": { "type": "string" }
+      },
+      "required": ["id", "title", "tierRequired"]
+    },
+    "Opportunity": {
+      "title": "Opportunité KONEKT",
+      "description": "Emplois, stages et projets KONEKT Opportunities.",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string" },
+        "title": { "type": "string" },
+        "description": { "type": "string" },
+        "partnerName": { "type": "string" },
+        "type": { "type": "string", "enum": ["Emploi", "Stage", "Mission", "Projet"] },
+        "tierRequired": { "type": "string", "enum": ["START", "PLUS", "PRO"] },
+        "deadline": { "type": "string", "format": "date" }
+      },
+      "required": ["id", "title", "type"]
+    },
+    "FinancialReport": {
+      "title": "Rapport de Gouvernance",
+      "description": "Données de transparence financière.",
+      "type": "object",
+      "properties": {
+        "month": { "type": "string" },
+        "totalCollected": { "type": "number" },
+        "expenses": { "type": "array", "items": { 
+          "type": "object", 
+          "properties": {
+            "label": { "type": "string" },
+            "amount": { "type": "number" }
+          }
+        }},
+        "reserve": { "type": "number" }
+      }
+    }
+  },
+  "auth": {
+    "providers": ["google", "email"]
+  },
+  "firestore": {
+    "/profiles/{userId}": {
+      "schema": "Profile",
+      "description": "Profils des membres"
+    },
+    "/cells/{cellId}": {
+      "schema": "Cell",
+      "description": "Définition des cellules"
+    },
+    "/academy/{courseId}": {
+      "schema": "Course",
+      "description": "Catalogue de formations"
+    },
+    "/opportunities/{oppId}": {
+      "schema": "Opportunity",
+      "description": "Liste des opportunités"
+    },
+    "/governance/finances": {
+      "schema": "FinancialReport",
+      "description": "Données financières globales"
+    }
+  }
+}
