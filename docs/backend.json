@@ -12,85 +12,184 @@
         "email": { "type": "string", "format": "email" },
         "phone": { "type": "string" },
         "photoURL": { "type": "string" },
-        "bio": { "type": "string" },
-        "profession": { "type": "string" },
-        "skills": { "type": "array", "items": { "type": "string" } },
-        "lookingFor": { "type": "array", "items": { "type": "string" } },
-        "konektScore": { "type": "number", "default": 0 },
+        "birthDate": { "type": "string", "format": "date" },
         "city": { "type": "string" },
         "country": { "type": "string" },
+        "bio": { "type": "string" },
         "status": { "type": "string", "enum": ["active", "payment_late", "suspended", "alumni"] },
         "currentTier": { "type": "string", "enum": ["START", "PLUS", "PRO"] },
-        "role": { "type": "string", "enum": ["member", "leader", "zone_coordinator", "regional_coordinator", "national"] },
         "currentCellId": { "type": "string" },
-        "badges": { 
-          "type": "array", 
-          "items": { 
-            "type": "object",
-            "properties": {
-              "label": { "type": "string" },
-              "type": { "type": "string" },
-              "grantedAt": { "type": "string", "format": "date-time" }
-            }
-          }
-        },
-        "joinedAt": { "type": "string", "format": "date-time" }
+        "joinedAt": { "type": "string", "format": "date-time" },
+        "lastActivityAt": { "type": "string", "format": "date-time" },
+        "skills": { "type": "array", "items": { "type": "string" } },
+        "interests": { "type": "array", "items": { "type": "string" } },
+        "objectives": { "type": "array", "items": { "type": "string" } },
+        "konektScore": { "type": "number", "default": 0 }
       },
-      "required": ["uid", "email", "status", "currentTier", "role"]
+      "required": ["uid", "email", "status", "currentTier"]
+    },
+    "Subscription": {
+      "title": "Abonnement",
+      "description": "Historique des paiements et niveau d'adhésion.",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string" },
+        "memberId": { "type": "string" },
+        "tier": { "type": "string", "enum": ["START", "PLUS", "PRO"] },
+        "status": { "type": "string", "enum": ["active", "past_due", "canceled"] },
+        "startDate": { "type": "string", "format": "date-time" },
+        "renewalDate": { "type": "string", "format": "date-time" },
+        "cancellationDate": { "type": "string", "format": "date-time" }
+      }
     },
     "Cell": {
-      "title": "Cellule numérique",
-      "description": "Unité de base et mini-organisation de 20 membres.",
+      "title": "Cellule",
+      "description": "Unité de base de 20 membres.",
       "type": "object",
       "properties": {
         "id": { "type": "string" },
         "zoneId": { "type": "string" },
         "name": { "type": "string" },
         "code": { "type": "string" },
-        "leaderMemberId": { "type": "string" },
-        "activityRate": { "type": "number", "default": 0 },
-        "nextMeetingAt": { "type": "string", "format": "date-time" },
+        "leaderId": { "type": "string" },
         "capacity": { "type": "number", "default": 20 },
-        "goals": {
-          "type": "array",
-          "items": {
-            "type": "object",
-            "properties": {
-              "label": { "type": "string" },
-              "target": { "type": "number" },
-              "current": { "type": "number" }
-            }
-          }
-        },
         "locationType": { "type": "string", "enum": ["geographic", "university", "thematic"] },
-        "status": { "type": "string", "enum": ["active", "inactive", "forming"] }
+        "city": { "type": "string" },
+        "status": { "type": "string", "enum": ["active", "inactive", "forming"] },
+        "activityRate": { "type": "number", "default": 0 }
+      }
+    },
+    "CellMembership": {
+      "title": "Appartenance Cellule",
+      "description": "Historique d'appartenance d'un membre à une cellule.",
+      "type": "object",
+      "properties": {
+        "memberId": { "type": "string" },
+        "cellId": { "type": "string" },
+        "role": { "type": "string" },
+        "joinedAt": { "type": "string", "format": "date-time" },
+        "leftAt": { "type": "string", "format": "date-time" },
+        "status": { "type": "string", "enum": ["active", "past"] }
+      }
+    },
+    "RoleAssignment": {
+      "title": "Rôle de Leadership",
+      "description": "Responsabilités au sein de l'organisation.",
+      "type": "object",
+      "properties": {
+        "memberId": { "type": "string" },
+        "roleCode": { "type": "string", "enum": ["member", "leader", "zone_coordinator", "regional_coordinator", "national"] },
+        "scopeType": { "type": "string", "enum": ["cell", "zone", "pole", "national"] },
+        "scopeId": { "type": "string" },
+        "assignedById": { "type": "string" },
+        "startDate": { "type": "string", "format": "date-time" },
+        "endDate": { "type": "string", "format": "date-time" },
+        "status": { "type": "string", "enum": ["active", "ended"] }
+      }
+    },
+    "MemberActivity": {
+      "title": "Activité Membre",
+      "description": "Trace d'une interaction importante pour le score d'engagement.",
+      "type": "object",
+      "properties": {
+        "memberId": { "type": "string" },
+        "activityType": { "type": "string" },
+        "referenceId": { "type": "string" },
+        "timestamp": { "type": "string", "format": "date-time" },
+        "metadata": { "type": "object" }
+      }
+    },
+    "Course": {
+      "title": "Formation",
+      "description": "Contenu éducatif de la KONEKT Academy.",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string" },
+        "title": { "type": "string" },
+        "description": { "type": "string" },
+        "category": { "type": "string" },
+        "level": { "type": "string", "enum": ["débutant", "intermédiaire", "avancé"] },
+        "minTierRequired": { "type": "string", "enum": ["START", "PLUS", "PRO"] },
+        "thumbnailURL": { "type": "string" },
+        "published": { "type": "boolean" }
+      }
+    },
+    "Enrollment": {
+      "title": "Inscription Formation",
+      "description": "Suivi de progression d'un membre sur un cours.",
+      "type": "object",
+      "properties": {
+        "memberId": { "type": "string" },
+        "courseId": { "type": "string" },
+        "status": { "type": "string", "enum": ["in_progress", "completed", "abandoned"] },
+        "enrolledAt": { "type": "string", "format": "date-time" },
+        "progressPercent": { "type": "number" }
+      }
+    },
+    "Opportunity": {
+      "title": "Opportunité",
+      "description": "Emplois, stages ou financements.",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string" },
+        "partnerId": { "type": "string" },
+        "title": { "type": "string" },
+        "description": { "type": "string" },
+        "type": { "type": "string", "enum": ["EMPLOI", "STAGE", "MISSION", "CONCOURS", "FINANCEMENT", "PARTENARIAT"] },
+        "category": { "type": "string" },
+        "location": { "type": "string" },
+        "remote": { "type": "boolean" },
+        "minTierRequired": { "type": "string", "enum": ["START", "PLUS", "PRO"] },
+        "proEarlyAccessHours": { "type": "number" },
+        "deadlineAt": { "type": "string", "format": "date-time" },
+        "status": { "type": "string", "enum": ["draft", "open", "closed"] }
       }
     },
     "Project": {
-      "title": "KONEKT Project",
+      "title": "Projet Lab",
       "description": "Projet entrepreneurial porté par des membres.",
       "type": "object",
       "properties": {
         "id": { "type": "string" },
         "ownerId": { "type": "string" },
         "title": { "type": "string" },
+        "problem": { "type": "string" },
+        "solution": { "type": "string" },
         "description": { "type": "string" },
         "category": { "type": "string" },
-        "status": { "type": "string", "enum": ["idea", "prototype", "launch", "growth"] },
-        "requiredSkills": { "type": "array", "items": { "type": "string" } },
-        "createdAt": { "type": "string", "format": "date-time" }
+        "location": { "type": "string" },
+        "status": { "type": "string", "enum": ["IDÉE", "SOUMIS", "EN ÉVALUATION", "SÉLECTIONNÉ", "ACCOMPAGNÉ", "LANCÉ"] },
+        "needs": { "type": "array", "items": { "type": "string" } },
+        "visibility": { "type": "string", "enum": ["public", "private", "cell"] }
       }
     },
     "Post": {
-      "title": "KONEKT Flow",
+      "title": "KONEKT Flow Post",
       "description": "Élément du fil d'activation.",
       "type": "object",
       "properties": {
         "id": { "type": "string" },
-        "type": { "type": "string", "enum": ["community", "opportunity", "learning", "project", "impact"] },
         "authorId": { "type": "string" },
+        "type": { "type": "string", "enum": ["opportunity", "course", "testimonial", "project", "announcement"] },
+        "refEntityType": { "type": "string" },
+        "refEntityId": { "type": "string" },
+        "cellId": { "type": "string" },
         "content": { "type": "string" },
         "createdAt": { "type": "string", "format": "date-time" }
+      }
+    },
+    "FinancialReport": {
+      "title": "Rapport Financier",
+      "description": "Transparence sur les fonds collectés et dépensés.",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string" },
+        "periodStart": { "type": "string", "format": "date" },
+        "periodEnd": { "type": "string", "format": "date" },
+        "totalCollected": { "type": "number" },
+        "totalSpent": { "type": "number" },
+        "reserveBalance": { "type": "number" },
+        "publishedAt": { "type": "string", "format": "date-time" }
       }
     }
   },
@@ -100,19 +199,51 @@
   "firestore": {
     "/members/{memberId}": {
       "schema": "Profile",
-      "description": "Profils des membres (KONEKT ID)"
+      "description": "Profils des membres"
+    },
+    "/members/{memberId}/subscriptions/{subId}": {
+      "schema": "Subscription",
+      "description": "Historique des abonnements"
     },
     "/cells/{cellId}": {
       "schema": "Cell",
       "description": "Liste des cellules"
     },
+    "/cells/{cellId}/memberships/{membershipId}": {
+      "schema": "CellMembership",
+      "description": "Historique d'appartenance à la cellule"
+    },
+    "/roles/{roleId}": {
+      "schema": "RoleAssignment",
+      "description": "Attribution des rôles de leadership"
+    },
+    "/activity/{activityId}": {
+      "schema": "MemberActivity",
+      "description": "Flux d'activités pour le score"
+    },
+    "/academy/{courseId}": {
+      "schema": "Course",
+      "description": "Catalogue de formations"
+    },
+    "/academy/{courseId}/enrollments/{enrollmentId}": {
+      "schema": "Enrollment",
+      "description": "Suivi des inscriptions"
+    },
+    "/opportunities/{oppId}": {
+      "schema": "Opportunity",
+      "description": "Liste des opportunités"
+    },
     "/projects/{projectId}": {
       "schema": "Project",
-      "description": "Project Lab"
+      "description": "Projets entrepreneuriaux"
     },
     "/flow/{postId}": {
       "schema": "Post",
-      "description": "KONEKT Flow items"
+      "description": "Articles du KONEKT Flow"
+    },
+    "/finance/reports/{reportId}": {
+      "schema": "FinancialReport",
+      "description": "Rapports financiers périodiques"
     }
   }
 }

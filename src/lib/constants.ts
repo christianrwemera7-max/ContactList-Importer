@@ -5,23 +5,23 @@ export const TIERS = {
   START: { 
     code: "START", 
     name: "START", 
-    price: 0, 
+    price: 5, 
     color: "text-muted",
-    description: "Accès aux bases de la communauté et formations fondamentales."
+    description: "Accès à la communauté et aux formations de base."
   },
   PLUS: { 
     code: "PLUS", 
     name: "PLUS", 
     price: 10, 
     color: "text-cyan",
-    description: "Accès complet aux cellules, messagerie et Academy standard."
+    description: "Accès complet aux cellules et formations avancées."
   },
   PRO: { 
     code: "PRO", 
     name: "PRO", 
-    price: 25, 
+    price: 20, 
     color: "text-orange",
-    description: "Accès prioritaire aux opportunités, mentorat et KONEKT Projects."
+    description: "Accès au Project Lab et opportunités premium."
   }
 };
 
@@ -33,17 +33,29 @@ export const ROLES = {
   NATIONAL: { code: "national", label: "Direction nationale" }
 };
 
-export const FLOW_TYPES = {
-  COMMUNITY: { label: "Communauté", color: "text-cyan", icon: "Users" },
-  OPPORTUNITY: { label: "Opportunités", color: "text-orange", icon: "Zap" },
-  LEARNING: { label: "Learning", color: "text-gold", icon: "GraduationCap" },
-  PROJECT: { label: "Projects", color: "text-primary", icon: "Rocket" },
-  IMPACT: { label: "Impact", color: "text-green-400", icon: "Heart" }
-};
-
 export const MEMBER_STATUS = {
+  PENDING: "pending",
   ACTIVE: "active",
   PAYMENT_LATE: "payment_late",
   SUSPENDED: "suspended",
-  ALUMNI: "alumni"
+  ALUMNI: "alumni",
+  CANCELLED: "cancelled"
+};
+
+export const OPPORTUNITY_TYPES = {
+  EMPLOI: "EMPLOI",
+  STAGE: "STAGE",
+  MISSION: "MISSION",
+  CONCOURS: "CONCOURS",
+  FINANCEMENT: "FINANCEMENT",
+  PARTENARIAT: "PARTENARIAT"
+};
+
+export const PROJECT_STATUS = {
+  IDEE: "IDÉE",
+  SOUMIS: "SOUMIS",
+  EVALUATION: "EN ÉVALUATION",
+  SELECTIONNE: "SÉLECTIONNÉ",
+  ACCOMPAGNE: "ACCOMPAGNÉ",
+  LANCE: "LANCÉ"
 };
