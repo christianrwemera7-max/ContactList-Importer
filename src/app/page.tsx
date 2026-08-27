@@ -1,80 +1,106 @@
 
+'use client';
+
 import Link from 'next/link';
 import { Button } from '@/components/ui/button';
 import { APP_NAME } from '@/lib/constants';
-import { ArrowRight, Shield, Zap, Globe, Sparkles } from 'lucide-react';
+import { ArrowRight, Shield, Zap, Globe, Sparkles, Users, Rocket, GraduationCap } from 'lucide-react';
 
 export default function LandingPage() {
   return (
-    <div className="min-h-screen bg-slate-50">
+    <div className="min-h-screen connected-nodes relative">
       {/* Hero Section */}
-      <section className="relative pt-20 pb-32 overflow-hidden">
-        <div className="max-w-7xl mx-auto px-6 relative z-10">
-          <div className="text-center space-y-8 max-w-4xl mx-auto">
-            <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-primary/10 text-primary text-sm font-bold animate-fade-in">
-              <Sparkles className="w-4 h-4" />
-              L'avenir se construit ensemble
-            </div>
-            <h1 className="text-6xl md:text-8xl font-black tracking-tighter text-slate-900 leading-none">
-              Rejoignez le mouvement <span className="text-primary">{APP_NAME}</span>
-            </h1>
-            <p className="text-xl text-slate-600 max-w-2xl mx-auto leading-relaxed">
-              Connectez-vous, apprenez, collaborez et entreprenez au sein d'une communauté structurée pour bâtir la valeur de demain.
-            </p>
-            <div className="flex flex-col sm:flex-row justify-center gap-4">
-              <Button asChild size="lg" className="h-14 px-8 rounded-full text-lg font-bold shadow-xl shadow-primary/25">
-                <Link href="/dashboard">
-                  Démarrer l'adhésion <ArrowRight className="ml-2 w-5 h-5" />
-                </Link>
-              </Button>
-              <Button variant="outline" size="lg" className="h-14 px-8 rounded-full text-lg font-bold bg-white">
-                Découvrir la vision
-              </Button>
-            </div>
+      <section className="relative pt-32 pb-24 overflow-hidden">
+        <div className="max-w-7xl mx-auto px-6 relative z-10 text-center space-y-8">
+          <div className="inline-flex items-center gap-2 px-5 py-2 rounded-full glass-card text-primary text-xs font-bold uppercase tracking-widest animate-in fade-in slide-in-from-top-4 duration-700">
+            <Sparkles className="w-4 h-4" />
+            Une génération connectée pour demain
           </div>
-        </div>
-
-        {/* Abstract Background Shapes */}
-        <div className="absolute top-0 left-1/2 -translate-x-1/2 w-full h-full pointer-events-none opacity-20">
-          <div className="absolute top-20 left-10 w-96 h-96 bg-primary rounded-full blur-[120px]" />
-          <div className="absolute bottom-10 right-10 w-96 h-96 bg-indigo-500 rounded-full blur-[120px]" />
+          <h1 className="text-6xl md:text-8xl font-display font-bold tracking-tighter leading-none animate-in fade-in slide-in-from-bottom-4 duration-700 delay-200">
+            Rejoindre <span className="text-primary">{APP_NAME}</span>
+          </h1>
+          <p className="text-xl text-muted max-w-2xl mx-auto leading-relaxed animate-in fade-in duration-1000 delay-500">
+            L'écosystème numérique pour se connecter, apprendre, collaborer et entreprendre au cœur d'une communauté structurée.
+          </p>
+          <div className="flex flex-col sm:flex-row justify-center gap-5 pt-8 animate-in fade-in slide-in-from-bottom-8 duration-700 delay-700">
+            <Button asChild size="lg" className="h-16 px-10 rounded-[2rem] text-lg font-bold bg-primary hover:bg-primary/90 text-ink shadow-2xl shadow-primary/20">
+              <Link href="/join">
+                Rejoindre KONEKT <ArrowRight className="ml-2 w-5 h-5" />
+              </Link>
+            </Button>
+            <Button variant="outline" size="lg" className="h-16 px-10 rounded-[2rem] text-lg font-bold glass-card border-border hover:bg-surface-2 transition-all">
+              Découvrir la vision
+            </Button>
+          </div>
         </div>
       </section>
 
-      {/* Pillars Section */}
-      <section className="py-24 bg-white">
-        <div className="max-w-7xl mx-auto px-6">
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-12">
-            <FeatureCard 
-              icon={Globe}
-              title="Connexion"
-              description="Appartenez à une cellule de 20 membres pour un accompagnement personnalisé et local."
-            />
-            <FeatureCard 
-              icon={Zap}
-              title="Apprentissage"
-              description="Accédez à KONEKT Academy : des formations pratiques pour booster vos compétences."
-            />
-            <FeatureCard 
-              icon={Shield}
-              title="Confiance"
-              description="Une gouvernance transparente et une finance partagée pour construire l'actif de demain."
-            />
-          </div>
+      {/* Pillars Grid */}
+      <section className="py-24 max-w-7xl mx-auto px-6">
+        <div className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-5 gap-6">
+          <PillarCard 
+            icon={Users}
+            title="Connexion"
+            description="Appartenir à une cellule locale de 20 membres."
+            color="text-accent"
+          />
+          <PillarCard 
+            icon={GraduationCap}
+            title="Éducation"
+            description="Accéder à KONEKT Academy et aux mentors."
+            color="text-gold"
+          />
+          <PillarCard 
+            icon={Zap}
+            title="Collaboration"
+            description="Travailler ensemble sur des projets réels."
+            color="text-orange"
+          />
+          <PillarCard 
+            icon={Rocket}
+            title="Opportunités"
+            description="Jobs, stages et financements exclusifs."
+            color="text-primary"
+          />
+          <PillarCard 
+            icon={Shield}
+            title="Valeur"
+            description="Construire un actif et une réputation forte."
+            color="text-cyan"
+          />
+        </div>
+      </section>
+
+      {/* Social Proof */}
+      <section className="py-20 border-t border-border/50">
+        <div className="max-w-7xl mx-auto px-6 grid grid-cols-2 md:grid-cols-4 gap-8 text-center">
+          <Stat label="Membres" value="8,742" />
+          <Stat label="Cellules" value="437" />
+          <Stat label="Formations" value="125" />
+          <Stat label="Projets" value="42" />
         </div>
       </section>
     </div>
   );
 }
 
-function FeatureCard({ icon: Icon, title, description }: any) {
+function PillarCard({ icon: Icon, title, description, color }: any) {
   return (
-    <div className="p-8 rounded-[2rem] bg-slate-50 border border-slate-100 space-y-6 transition-all hover:scale-105 hover:shadow-2xl">
-      <div className="w-16 h-16 bg-primary rounded-2xl flex items-center justify-center text-white shadow-lg">
-        <Icon className="w-8 h-8" />
+    <div className="glass-card p-8 rounded-[2.5rem] space-y-4 group">
+      <div className={`w-12 h-12 rounded-2xl bg-surface-3 flex items-center justify-center ${color} border border-border group-hover:scale-110 transition-transform`}>
+        <Icon className="w-6 h-6" />
       </div>
-      <h3 className="text-2xl font-bold text-slate-900">{title}</h3>
-      <p className="text-slate-600 leading-relaxed">{description}</p>
+      <h3 className="text-lg font-display font-bold">{title}</h3>
+      <p className="text-xs text-muted leading-relaxed">{description}</p>
+    </div>
+  );
+}
+
+function Stat({ label, value }: any) {
+  return (
+    <div className="space-y-1">
+      <p className="text-3xl font-display font-bold text-primary">{value}</p>
+      <p className="text-[10px] font-mono text-muted-2 uppercase tracking-widest">{label}</p>
     </div>
   );
 }

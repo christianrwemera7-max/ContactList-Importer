@@ -29,32 +29,36 @@
 }
 
 body {
-  @apply bg-background text-foreground font-sans min-h-screen antialiased;
+  @apply bg-background text-foreground font-sans min-h-screen antialiased selection:bg-primary selection:text-ink;
   background: 
-    radial-gradient(1200px 600px at 15% -10%, rgba(255,107,53,0.08), transparent 60%),
-    radial-gradient(1000px 500px at 90% 10%, rgba(51,230,200,0.06), transparent 55%),
+    radial-gradient(1200px 600px at 15% -10%, rgba(255,107,53,0.12), transparent 60%),
+    radial-gradient(1000px 500px at 90% 10%, rgba(51,230,200,0.10), transparent 55%),
     hsl(var(--background));
-}
-
-.konekt-ring {
-  background: conic-gradient(hsl(var(--accent)), hsl(var(--primary)), hsl(var(--accent)));
 }
 
 .glass-card {
   @apply bg-card/60 backdrop-blur-xl border border-border/40 shadow-2xl transition-all duration-300;
-  box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.3);
+  box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.4);
 }
 
 .glass-card:hover {
   @apply border-primary/30 bg-card/80;
 }
 
+.konekt-ring {
+  background: conic-gradient(hsl(var(--accent)), hsl(var(--primary)), hsl(var(--accent)));
+}
+
+.leader-ring {
+  background: conic-gradient(hsl(var(--primary)), hsl(var(--gold)), hsl(var(--primary)));
+}
+
 .pro-badge {
-  @apply bg-primary/15 text-primary border border-primary/30 font-mono text-[10px] uppercase tracking-wider px-2 py-1 rounded-md;
+  @apply bg-primary/15 text-primary border border-primary/30 font-mono text-[9px] uppercase tracking-wider px-2 py-0.5 rounded-md;
 }
 
 .plus-badge {
-  @apply bg-accent/15 text-accent border border-accent/30 font-mono text-[10px] uppercase tracking-wider px-2 py-1 rounded-md;
+  @apply bg-accent/15 text-accent border border-accent/30 font-mono text-[9px] uppercase tracking-wider px-2 py-0.5 rounded-md;
 }
 
 .no-scrollbar::-webkit-scrollbar {
@@ -65,13 +69,12 @@ body {
   scrollbar-width: none;
 }
 
-/* Node connections aesthetic */
 .connected-nodes::before {
   content: '';
   position: absolute;
   inset: 0;
   background-image: radial-gradient(circle, hsl(var(--border)) 1px, transparent 1px);
   background-size: 24px 24px;
-  opacity: 0.2;
+  opacity: 0.15;
   pointer-events: none;
 }
