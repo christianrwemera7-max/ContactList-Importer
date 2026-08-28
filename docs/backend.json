@@ -13,8 +13,9 @@
         "phone": { "type": "string" },
         "photoURL": { "type": "string" },
         "birthDate": { "type": "string", "format": "date" },
-        "city": { "type": "string" },
         "country": { "type": "string" },
+        "city": { "type": "string" },
+        "language": { "type": "string" },
         "bio": { "type": "string" },
         "status": { "type": "string", "enum": ["active", "payment_late", "suspended", "alumni"] },
         "currentTier": { "type": "string", "enum": ["START", "PLUS", "PRO"] },
@@ -30,16 +31,35 @@
     },
     "Subscription": {
       "title": "Abonnement",
-      "description": "Historique des paiements et niveau d'adhésion.",
+      "description": "Historique des adhésions et niveaux de service.",
       "type": "object",
       "properties": {
         "id": { "type": "string" },
         "memberId": { "type": "string" },
         "tier": { "type": "string", "enum": ["START", "PLUS", "PRO"] },
-        "status": { "type": "string", "enum": ["active", "past_due", "canceled"] },
+        "status": { "type": "string", "enum": ["pending", "active", "past_due", "suspended", "cancelled", "alumni"] },
         "startDate": { "type": "string", "format": "date-time" },
         "renewalDate": { "type": "string", "format": "date-time" },
         "cancellationDate": { "type": "string", "format": "date-time" }
+      }
+    },
+    "Pole": {
+      "title": "Pôle",
+      "description": "Niveau régional (ex: Pôle Côte d'Ivoire).",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string" },
+        "name": { "type": "string" }
+      }
+    },
+    "Zone": {
+      "title": "Zone",
+      "description": "Niveau local regroupant des cellules (ex: Zone Abidjan-Sud).",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string" },
+        "poleId": { "type": "string" },
+        "name": { "type": "string" }
       }
     },
     "Cell": {
@@ -51,17 +71,16 @@
         "zoneId": { "type": "string" },
         "name": { "type": "string" },
         "code": { "type": "string" },
-        "leaderId": { "type": "string" },
+        "leaderMemberId": { "type": "string" },
         "capacity": { "type": "number", "default": 20 },
         "locationType": { "type": "string", "enum": ["geographic", "university", "thematic"] },
         "city": { "type": "string" },
-        "status": { "type": "string", "enum": ["active", "inactive", "forming"] },
-        "activityRate": { "type": "number", "default": 0 }
+        "status": { "type": "string", "enum": ["active", "inactive", "forming"] }
       }
     },
     "CellMembership": {
       "title": "Appartenance Cellule",
-      "description": "Historique d'appartenance d'un membre à une cellule.",
+      "description": "Historique de participation d'un membre à une cellule.",
       "type": "object",
       "properties": {
         "memberId": { "type": "string" },
@@ -78,10 +97,10 @@
       "type": "object",
       "properties": {
         "memberId": { "type": "string" },
-        "roleCode": { "type": "string", "enum": ["member", "leader", "zone_coordinator", "regional_coordinator", "national"] },
+        "role": { "type": "string", "enum": ["member", "leader", "zone_coordinator", "regional_coordinator", "national"] },
         "scopeType": { "type": "string", "enum": ["cell", "zone", "pole", "national"] },
         "scopeId": { "type": "string" },
-        "assignedById": { "type": "string" },
+        "assignedBy": { "type": "string" },
         "startDate": { "type": "string", "format": "date-time" },
         "endDate": { "type": "string", "format": "date-time" },
         "status": { "type": "string", "enum": ["active", "ended"] }
@@ -114,6 +133,20 @@
         "published": { "type": "boolean" }
       }
     },
+    "Lesson": {
+      "title": "Leçon",
+      "description": "Unité de contenu d'une formation.",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string" },
+        "courseId": { "type": "string" },
+        "title": { "type": "string" },
+        "orderIndex": { "type": "number" },
+        "contentType": { "type": "string", "enum": ["video", "pdf", "quiz"] },
+        "contentURL": { "type": "string" },
+        "duration": { "type": "number" }
+      }
+    },
     "Enrollment": {
       "title": "Inscription Formation",
       "description": "Suivi de progression d'un membre sur un cours.",
@@ -132,17 +165,26 @@
       "type": "object",
       "properties": {
         "id": { "type": "string" },
-        "partnerId": { "type": "string" },
         "title": { "type": "string" },
         "description": { "type": "string" },
-        "type": { "type": "string", "enum": ["EMPLOI", "STAGE", "MISSION", "CONCOURS", "FINANCEMENT", "PARTENARIAT"] },
-        "category": { "type": "string" },
-        "location": { "type": "string" },
-        "remote": { "type": "boolean" },
+        "type": { "type": "string", "enum": ["EMPLOI", "STAGE", "MISSION", "CONCOURS", "FINANCEMENT", "PARTENARIAT", "FORMATION", "PROJET", "ÉVÉNEMENT"] },
+        "secteur": { "type": "string" },
+        "localisation": { "type": "string" },
         "minTierRequired": { "type": "string", "enum": ["START", "PLUS", "PRO"] },
-        "proEarlyAccessHours": { "type": "number" },
-        "deadlineAt": { "type": "string", "format": "date-time" },
+        "deadline": { "type": "string", "format": "date-time" },
+        "partenaire": { "type": "string" },
         "status": { "type": "string", "enum": ["draft", "open", "closed"] }
+      }
+    },
+    "Application": {
+      "title": "Candidature",
+      "description": "Interaction avec une opportunité.",
+      "type": "object",
+      "properties": {
+        "opportunityId": { "type": "string" },
+        "memberId": { "type": "string" },
+        "status": { "type": "string", "enum": ["SAVED", "VIEWED", "APPLIED", "SHORTLISTED", "ACCEPTED", "REJECTED"] },
+        "appliedAt": { "type": "string", "format": "date-time" }
       }
     },
     "Project": {
@@ -156,11 +198,21 @@
         "problem": { "type": "string" },
         "solution": { "type": "string" },
         "description": { "type": "string" },
-        "category": { "type": "string" },
-        "location": { "type": "string" },
-        "status": { "type": "string", "enum": ["IDÉE", "SOUMIS", "EN ÉVALUATION", "SÉLECTIONNÉ", "ACCOMPAGNÉ", "LANCÉ"] },
+        "secteur": { "type": "string" },
+        "localisation": { "type": "string" },
+        "status": { "type": "string", "enum": ["IDÉE", "SOUMIS", "EN ÉVALUATION", "SÉLECTIONNÉ", "ACCOMPAGNÉ", "EN DÉVELOPPEMENT", "LANCÉ"] },
         "needs": { "type": "array", "items": { "type": "string" } },
         "visibility": { "type": "string", "enum": ["public", "private", "cell"] }
+      }
+    },
+    "ProjectMember": {
+      "title": "Membre de Projet",
+      "description": "Lien entre un membre et un projet entrepreneurial.",
+      "type": "object",
+      "properties": {
+        "projectId": { "type": "string" },
+        "memberId": { "type": "string" },
+        "role": { "type": "string", "enum": ["Founder", "Co-founder", "Contributor", "Mentor", "Expert"] }
       }
     },
     "Post": {
@@ -178,6 +230,20 @@
         "createdAt": { "type": "string", "format": "date-time" }
       }
     },
+    "Notification": {
+      "title": "Notification",
+      "description": "Alerte système pour le membre.",
+      "type": "object",
+      "properties": {
+        "memberId": { "type": "string" },
+        "type": { "type": "string" },
+        "title": { "type": "string" },
+        "content": { "type": "string" },
+        "reference": { "type": "string" },
+        "readAt": { "type": "string", "format": "date-time" },
+        "createdAt": { "type": "string", "format": "date-time" }
+      }
+    },
     "FinancialReport": {
       "title": "Rapport Financier",
       "description": "Transparence sur les fonds collectés et dépensés.",
@@ -191,6 +257,20 @@
         "reserveBalance": { "type": "number" },
         "publishedAt": { "type": "string", "format": "date-time" }
       }
+    },
+    "AuditLog": {
+      "title": "Journal d'Audit",
+      "description": "Traçabilité des actions critiques (notamment financières).",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string" },
+        "actorId": { "type": "string" },
+        "actionType": { "type": "string" },
+        "entityType": { "type": "string" },
+        "entityId": { "type": "string" },
+        "occurredAt": { "type": "string", "format": "date-time" },
+        "metadata": { "type": "object" }
+      }
     }
   },
   "auth": {
@@ -199,51 +279,79 @@
   "firestore": {
     "/members/{memberId}": {
       "schema": "Profile",
-      "description": "Profils des membres"
+      "description": "Profils détaillés des membres (KONEKT ID)"
     },
     "/members/{memberId}/subscriptions/{subId}": {
       "schema": "Subscription",
-      "description": "Historique des abonnements"
+      "description": "Historique des abonnements du membre"
+    },
+    "/members/{memberId}/activities/{activityId}": {
+      "schema": "MemberActivity",
+      "description": "Activités enregistrées pour le score d'engagement"
+    },
+    "/members/{memberId}/enrollments/{enrollmentId}": {
+      "schema": "Enrollment",
+      "description": "Formations suivies par le membre"
+    },
+    "/members/{memberId}/applications/{applicationId}": {
+      "schema": "Application",
+      "description": "Candidatures envoyées par le membre"
+    },
+    "/members/{memberId}/notifications/{notificationId}": {
+      "schema": "Notification",
+      "description": "Notifications personnelles"
+    },
+    "/poles/{poleId}": {
+      "schema": "Pole",
+      "description": "Régions organisationnelles"
+    },
+    "/zones/{zoneId}": {
+      "schema": "Zone",
+      "description": "Zones géographiques"
     },
     "/cells/{cellId}": {
       "schema": "Cell",
-      "description": "Liste des cellules"
+      "description": "Cellules de base"
     },
     "/cells/{cellId}/memberships/{membershipId}": {
       "schema": "CellMembership",
-      "description": "Historique d'appartenance à la cellule"
+      "description": "Membres d'une cellule (actuels et passés)"
     },
     "/roles/{roleId}": {
       "schema": "RoleAssignment",
-      "description": "Attribution des rôles de leadership"
-    },
-    "/activity/{activityId}": {
-      "schema": "MemberActivity",
-      "description": "Flux d'activités pour le score"
+      "description": "Assignations de rôles de leadership"
     },
     "/academy/{courseId}": {
       "schema": "Course",
       "description": "Catalogue de formations"
     },
-    "/academy/{courseId}/enrollments/{enrollmentId}": {
-      "schema": "Enrollment",
-      "description": "Suivi des inscriptions"
+    "/academy/{courseId}/lessons/{lessonId}": {
+      "schema": "Lesson",
+      "description": "Contenus pédagogiques"
     },
     "/opportunities/{oppId}": {
       "schema": "Opportunity",
-      "description": "Liste des opportunités"
+      "description": "Marché des opportunités"
     },
     "/projects/{projectId}": {
       "schema": "Project",
-      "description": "Projets entrepreneuriaux"
+      "description": "Projets entrepreneuriaux du Lab"
+    },
+    "/projects/{projectId}/members/{pmId}": {
+      "schema": "ProjectMember",
+      "description": "Équipes projet"
     },
     "/flow/{postId}": {
       "schema": "Post",
-      "description": "Articles du KONEKT Flow"
+      "description": "Fil d'actualité centralisé (KONEKT Flow)"
     },
     "/finance/reports/{reportId}": {
       "schema": "FinancialReport",
-      "description": "Rapports financiers périodiques"
+      "description": "Rapports financiers périodiques publics"
+    },
+    "/finance/audit/{logId}": {
+      "schema": "AuditLog",
+      "description": "Journal complet des actions critiques"
     }
   }
 }
