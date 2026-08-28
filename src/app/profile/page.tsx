@@ -6,21 +6,38 @@ import { BottomNav } from "@/components/layout/BottomNav";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
-import { ShieldCheck, Award, Settings, ChevronRight, CreditCard, Share2, Rocket, Plus, TrendingUp, Building, Target, Code, Briefcase } from "lucide-react";
+import { ShieldCheck, Award, Settings, ChevronRight, CreditCard, Share2, Rocket, Plus, TrendingUp, Building, Target, Code, Briefcase, Sparkles } from "lucide-react";
+import { useKonekt } from "@/lib/store";
+import { useState } from "react";
+import { generateMemberSummary } from "@/ai/flows/generate-member-summary";
+import { toast } from "@/hooks/use-toast";
 
 export default function ProfilePage() {
-  const user = {
-    name: "Christian Rwemera",
-    profession: "Entrepreneur numérique",
-    tier: "PLUS",
-    role: "LEADER",
-    cell: "Kinshasa Centre #014",
-    score: 850,
-    activityIndex: "92%",
-    coursesCount: 12,
-    skills: ["Marketing Digital", "Droit des Affaires", "IA Prompting", "Gestion Projet"],
-    objectives: ["Associés", "Clients", "Mentorat"],
-    badges: ["🏆 Actif", "📚 Apprenant", "🤝 Collaborateur"]
+  const { state } = useKonekt();
+  const user = state.currentUser;
+  const [isAnalyzing, setIsAnalyzing] = useState(false);
+  const [aiBio, setAiBio] = useState<string | null>(null);
+
+  if (!user) return null;
+
+  const handleAiAnalysis = async () => {
+    setIsAnalyzing(true);
+    try {
+      const result = await generateMemberSummary({
+        name: user.name,
+        profession: "Entrepreneur numérique", // Valeur par défaut pour le mock
+        skills: user.skills,
+        objectives: user.objectives,
+        konektScore: user.score,
+        tier: user.tier as any
+      });
+      setAiBio(result.bio);
+      toast({ title: "KONEKT ID Analysé", description: "Votre bio intelligente est prête !" });
+    } catch (e) {
+      toast({ variant: "destructive", title: "Erreur IA", description: "Impossible d'analyser le profil." });
+    } finally {
+      setIsAnalyzing(false);
+    }
   };
 
   return (
@@ -37,7 +54,7 @@ export default function ProfilePage() {
         <section className="flex flex-col items-center text-center">
           <div className="w-32 h-32 rounded-[3rem] p-[3px] bg-gradient-to-tr from-cyan via-orange to-gold mb-6 shadow-2xl relative group">
             <div className="w-full h-full rounded-[2.85rem] bg-surface-3 flex items-center justify-center font-display font-bold text-4xl text-text border-4 border-ink overflow-hidden">
-              CR
+              {user.name.split(' ').map(n => n[0]).join('')}
             </div>
             <div className="absolute -bottom-2 -right-2 w-11 h-11 bg-gold rounded-2xl flex items-center justify-center border-4 border-ink text-ink shadow-lg group-hover:scale-110 transition-transform">
               <ShieldCheck className="w-6 h-6" />
@@ -47,9 +64,13 @@ export default function ProfilePage() {
           <div className="space-y-1">
             <h1 className="font-display font-bold text-3xl tracking-tight">{user.name}</h1>
             <div className="flex items-center justify-center gap-2 text-cyan font-black text-[10px] uppercase tracking-[0.2em]">
-              <Building className="w-3.5 h-3.5" /> {user.role} · {user.cell}
+              <Building className="w-3.5 h-3.5" /> {user.role} · {state.currentCell?.name}
             </div>
-            <p className="text-muted text-sm mt-2">{user.profession}</p>
+            {aiBio ? (
+               <p className="text-muted text-sm mt-4 px-4 italic leading-relaxed animate-in fade-in slide-in-from-top-2">"{aiBio}"</p>
+            ) : (
+               <p className="text-muted text-sm mt-2">Prêt à construire et à collaborer au sein de l'écosystème KONEKT.</p>
+            )}
           </div>
 
           <div className="flex gap-3 mt-8 mb-10">
@@ -57,29 +78,28 @@ export default function ProfilePage() {
             <Badge variant="outline" className="border-border text-muted-2 px-4 py-1.5 font-mono text-[10px]">ID: 8742-014</Badge>
           </div>
 
-          <div className="flex gap-3 w-full max-w-[340px]">
-            <Button className="flex-1 bg-surface-2 border border-border hover:bg-surface-3 gap-2 text-xs rounded-2xl h-12 font-bold">
-              <Share2 className="w-4 h-4" /> Partager ID
-            </Button>
-            <Button className="flex-1 bg-orange text-ink font-black gap-2 text-xs rounded-2xl h-12 uppercase tracking-wider">
-              Modifier
-            </Button>
+          <div className="flex flex-col gap-3 w-full max-w-[340px]">
+            <div className="flex gap-3 w-full">
+              <Button className="flex-1 bg-surface-2 border border-border hover:bg-surface-3 gap-2 text-xs rounded-2xl h-12 font-bold">
+                <Share2 className="w-4 h-4" /> Partager ID
+              </Button>
+              <Button onClick={handleAiAnalysis} disabled={isAnalyzing} className="flex-1 bg-primary text-ink font-black gap-2 text-xs rounded-2xl h-12 uppercase tracking-wider">
+                <Sparkles className={`w-4 h-4 ${isAnalyzing ? 'animate-spin' : ''}`} /> {isAnalyzing ? 'Analyse...' : 'Bio IA'}
+              </Button>
+            </div>
           </div>
         </section>
 
         {/* Stats */}
         <section className="grid grid-cols-3 gap-4">
           <StatCard value={user.score} label="KONEKT SCORE" color="text-gold" />
-          <StatCard value={user.activityIndex} label="ENGAGEMENT" color="text-cyan" />
-          <StatCard value={user.coursesCount} label="APPRENTISSAGE" color="text-orange" />
+          <StatCard value={`${state.currentCell?.activityRate}%`} label="ENGAGEMENT" color="text-cyan" />
+          <StatCard value="12" label="APPRENTISSAGE" color="text-orange" />
         </section>
 
         {/* Skills Matrix */}
         <section className="space-y-6">
-          <div className="flex items-center justify-between">
-            <h3 className="font-mono text-[10px] uppercase tracking-[0.2em] text-muted-2 font-black">Mon Profil Professionnel</h3>
-          </div>
-          
+          <h3 className="font-mono text-[10px] uppercase tracking-[0.2em] text-muted-2 font-black">Mon Profil Professionnel</h3>
           <div className="space-y-4">
             <div className="glass-card p-6 rounded-[2.5rem] space-y-4 border-white/5">
               <div className="flex items-center gap-2 text-[10px] font-mono text-cyan uppercase tracking-widest mb-2">
@@ -89,10 +109,9 @@ export default function ProfilePage() {
                 {user.skills.map(s => <SkillBadge key={s} label={s} />)}
               </div>
             </div>
-
             <div className="glass-card p-6 rounded-[2.5rem] space-y-4 border-white/5">
               <div className="flex items-center gap-2 text-[10px] font-mono text-orange uppercase tracking-widest mb-2">
-                <Target className="w-3.5 h-3.5" /> Objectifs de recherche
+                <Target className="w-3.5 h-3.5" /> Objectifs
               </div>
               <div className="flex flex-wrap gap-2">
                 {user.objectives.map(o => (
@@ -118,11 +137,11 @@ export default function ProfilePage() {
           </div>
         </section>
 
-        {/* Settings */}
+        {/* Menu Items */}
         <section className="space-y-3 pt-4 pb-10">
-          <MenuItem icon={CreditCard} label="Abonnement KONEKT PLUS" meta="Renouvellement le 15 sept. (10$)" color="text-cyan" />
-          <MenuItem icon={Award} label="Mes Badges & Certificats" meta={`${user.badges.length} actifs`} color="text-gold" />
-          <MenuItem icon={Briefcase} label="Mes Candidatures" meta="3 opportunités en cours" color="text-orange" />
+          <MenuItem icon={CreditCard} label={`Abonnement KONEKT ${user.tier}`} meta="Renouvellement le 15 sept." color="text-cyan" />
+          <MenuItem icon={Award} label="Mes Badges & Certificats" meta="3 actifs" color="text-gold" />
+          <MenuItem icon={Briefcase} label="Mes Candidatures" meta="En cours" color="text-orange" />
         </section>
       </main>
       <BottomNav />
@@ -164,9 +183,9 @@ function PathStep({ label, status }: { label: string, status: 'done' | 'active' 
   );
 }
 
-function MenuItem({ icon: Icon, label, meta, color, href }: any) {
+function MenuItem({ icon: Icon, label, meta, color }: any) {
   return (
-    <div className="w-full flex items-center justify-between p-5 glass-card rounded-[2rem] border-border/40 hover:border-cyan/30 group">
+    <div className="w-full flex items-center justify-between p-5 glass-card rounded-[2rem] border-border/40 hover:border-cyan/30 group cursor-pointer">
       <div className="flex items-center gap-5">
         <div className={`w-11 h-11 rounded-2xl bg-surface-3 flex items-center justify-center text-muted-2 group-hover:${color} border border-border/50`}>
           <Icon className="w-5 h-5" />

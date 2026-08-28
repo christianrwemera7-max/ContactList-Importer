@@ -1,60 +1,64 @@
+
 "use client"
 
 import { Progress } from "@/components/ui/progress"
 import { Card, CardContent } from "@/components/ui/card"
-import { Trophy, Coins, CheckCircle2 } from "lucide-react"
-import { useCompetition } from "@/lib/store"
-import { PRIZE_POOL_TOTAL } from "@/lib/constants"
+import { TrendingUp, Zap, Target } from "lucide-react"
+import { useKonekt } from "@/lib/store"
+
+/**
+ * @fileOverview Refonte de l'indicateur de progression pour KONEKT.
+ * Remplace l'indicateur de cagnotte sportive par un indicateur d'engagement.
+ */
 
 export function PrizeProgress() {
-  const { state } = useCompetition()
-  const distributed = state.distributedPrize;
-  const percentage = (distributed / PRIZE_POOL_TOTAL) * 100;
+  const { state } = useKonekt();
+  const score = state.currentUser?.score || 0;
+  const target = 1000;
+  const percentage = (score / target) * 100;
 
   return (
-    <Card className="bg-secondary/30 glass border-none overflow-hidden prize-glow">
+    <Card className="bg-secondary/30 glass border-none overflow-hidden group">
       <CardContent className="p-8">
         <div className="flex flex-col md:flex-row items-center justify-between gap-8 mb-8">
           <div className="flex items-center gap-5">
-            <div className="p-4 bg-accent rounded-3xl shadow-lg shadow-accent/20">
-              <Coins className="w-8 h-8 text-accent-foreground" />
+            <div className="p-4 bg-primary/20 rounded-3xl shadow-lg shadow-primary/10 border border-primary/20 group-hover:scale-105 transition-transform">
+              <Zap className="w-8 h-8 text-primary" />
             </div>
             <div>
-              <p className="text-xs text-muted-foreground uppercase tracking-[0.2em] font-black">Cagnotte Totale</p>
-              <h2 className="text-5xl font-headline font-black text-accent tracking-tighter">1,000$</h2>
+              <p className="text-xs text-muted-foreground uppercase tracking-[0.2em] font-black">Engagement Global</p>
+              <h2 className="text-5xl font-headline font-black text-white tracking-tighter">
+                {score}<span className="text-primary text-2xl ml-1">pts</span>
+              </h2>
             </div>
           </div>
           <div className="flex-1 w-full max-w-md">
             <div className="flex justify-between text-xs font-black mb-3 uppercase tracking-wider">
-              <span className="text-muted-foreground">Distribué</span>
-              <span className="text-accent">{distributed}$ / {PRIZE_POOL_TOTAL}$</span>
+              <span className="text-muted-foreground">Vers : Contributeur</span>
+              <span className="text-primary">{score} / {target}</span>
             </div>
-            <Progress value={percentage} className="h-4 bg-white/10" />
-          </div>
-          <div className="text-center md:text-right">
-             <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-white/5 border border-white/10">
-                <CheckCircle2 className={`w-4 h-4 ${percentage === 100 ? 'text-primary' : 'text-muted-foreground'}`} />
-                <span className="text-xs font-bold">{percentage === 100 ? 'Compétition Terminée' : 'Phase Actuelle: ' + state.currentPhase}</span>
-             </div>
+            <Progress value={percentage} className="h-4 bg-white/10" indicatorClassName="bg-primary" />
           </div>
         </div>
 
-        <div className="grid grid-cols-2 sm:grid-cols-4 gap-4">
-          <PrizeCard label="Champion" amount="500$" sub="🏆 Trophée" color="text-accent" />
-          <PrizeCard label="Finaliste" amount="200$" sub="🥈 Argent" color="text-slate-300" />
-          <PrizeCard label="3ème Place" amount="100$" sub="🥉 Bronze" color="text-orange-400" />
-          <PrizeCard label="Individuels" amount="200$" sub="✨ 5 Prix" color="text-primary" />
+        <div className="grid grid-cols-2 sm:grid-cols-3 gap-4">
+          <MetricCard label="Academy" value="12" sub="Modules" color="text-orange" icon={Target} />
+          <MetricCard label="Impact" value="+150" sub="Points" color="text-cyan" icon={TrendingUp} />
+          <MetricCard label="Réseau" value="48" sub="Membres" color="text-gold" icon={Zap} />
         </div>
       </CardContent>
     </Card>
   )
 }
 
-function PrizeCard({ label, amount, sub, color }: { label: string, amount: string, sub: string, color: string }) {
+function MetricCard({ label, value, sub, color, icon: Icon }: any) {
   return (
-    <div className="p-4 rounded-2xl bg-white/5 border border-white/5 hover:bg-white/10 transition-all group">
-      <p className="text-[10px] text-muted-foreground uppercase font-black tracking-widest mb-1">{label}</p>
-      <p className={`text-2xl font-black ${color} group-hover:scale-110 transition-transform origin-left`}>{amount}</p>
+    <div className="p-4 rounded-2xl bg-white/5 border border-white/5 hover:border-white/10 transition-all group cursor-default">
+      <div className="flex items-center justify-between mb-2">
+        <p className="text-[10px] text-muted-foreground uppercase font-black tracking-widest">{label}</p>
+        <Icon className={`w-3 h-3 ${color} opacity-50`} />
+      </div>
+      <p className={`text-2xl font-black ${color} group-hover:scale-110 transition-transform origin-left`}>{value}</p>
       <p className="text-[10px] text-muted-foreground mt-1">{sub}</p>
     </div>
   )
