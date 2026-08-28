@@ -113,7 +113,3 @@ export const useKonekt = () => {
   if (!context) throw new Error('useKonekt must be used within KonektProvider');
   return context;
 };
-
-// Aliases de compatibilité pour éviter les erreurs de build sur les anciennes pages
-export const useCompetition = useKonekt;
-export const CompetitionProvider = KonektProvider;
