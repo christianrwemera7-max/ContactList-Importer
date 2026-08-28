@@ -3,6 +3,7 @@ import type { Metadata } from "next";
 import { Inter, Space_Grotesk, IBM_Plex_Mono } from "next/font/google";
 import "./globals.css";
 import { Toaster } from "@/components/ui/toaster";
+import { KonektProvider } from "@/lib/store";
 
 const inter = Inter({ 
   subsets: ["latin"], 
@@ -22,7 +23,7 @@ const ibmPlexMono = IBM_Plex_Mono({
 
 export const metadata: Metadata = {
   title: "KONEKT — Se connecter, Apprendre, Entreprendre",
-  description: "Plateforme d'adhésion et d'activation numérique KONEKT.",
+  description: "Plateforme d'adhésion et d'activation numérique KONEKT pour une génération connectée.",
 };
 
 export default function RootLayout({
@@ -32,9 +33,11 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="fr" className={`${inter.variable} ${spaceGrotesk.variable} ${ibmPlexMono.variable}`}>
-      <body className="antialiased selection:bg-primary selection:text-background">
-        {children}
-        <Toaster />
+      <body className="antialiased selection:bg-primary selection:text-background bg-ink text-text">
+        <KonektProvider>
+          {children}
+          <Toaster />
+        </KonektProvider>
       </body>
     </html>
   );
