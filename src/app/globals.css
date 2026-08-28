@@ -53,22 +53,6 @@ body {
   background: conic-gradient(hsl(var(--primary)), hsl(var(--gold)), hsl(var(--primary)));
 }
 
-.pro-badge {
-  @apply bg-primary/15 text-primary border border-primary/30 font-mono text-[9px] uppercase tracking-wider px-2 py-0.5 rounded-md;
-}
-
-.plus-badge {
-  @apply bg-accent/15 text-accent border border-accent/30 font-mono text-[9px] uppercase tracking-wider px-2 py-0.5 rounded-md;
-}
-
-.no-scrollbar::-webkit-scrollbar {
-  display: none;
-}
-.no-scrollbar {
-  -ms-overflow-style: none;
-  scrollbar-width: none;
-}
-
 .connected-nodes::before {
   content: '';
   position: absolute;
@@ -77,4 +61,12 @@ body {
   background-size: 24px 24px;
   opacity: 0.15;
   pointer-events: none;
+}
+
+.no-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+.no-scrollbar {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
 }
