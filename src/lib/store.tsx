@@ -43,7 +43,7 @@ interface KonektContextType {
 
 const KonektContext = createContext<KonektContextType | undefined>(undefined);
 
-const STORAGE_KEY = 'konekt_global_state_v4';
+const STORAGE_KEY = 'konekt_global_state_v5';
 
 export const KonektProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
   const [state, setState] = useState<AppState>({

@@ -1,5 +1,5 @@
 
 /**
- * @fileOverview Redirection vers le store TSX pour éviter les conflits NextJS.
+ * @fileOverview Export barillet pour le store global KONEKT.
  */
 export * from './store.tsx';
