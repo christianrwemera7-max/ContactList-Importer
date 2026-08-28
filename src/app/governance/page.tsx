@@ -5,7 +5,7 @@ import { AppSidebar } from "@/components/layout/AppSidebar";
 import { BottomNav } from "@/components/layout/BottomNav";
 import { Badge } from "@/components/ui/badge";
 import { Card } from "@/components/ui/card";
-import { ShieldCheck, TrendingUp, PieChart, Info, ArrowUpRight, DollarSign, Users } from "lucide-react";
+import { ShieldCheck, TrendingUp, PieChart, Info, ArrowUpRight, DollarSign, Users, History, Lock } from "lucide-react";
 
 export default function GovernancePage() {
   return (
@@ -18,31 +18,26 @@ export default function GovernancePage() {
 
       <main className="flex-1 max-w-2xl mx-auto w-full p-5 space-y-10 py-10">
         
-        {/* National Overview (Direction View) */}
+        {/* National Overview */}
         <section className="space-y-6">
           <div className="flex items-center justify-between">
             <h2 className="font-display font-bold text-lg">KONEKT NATIONAL</h2>
-            <Badge className="bg-primary/10 text-primary border-primary/20">Rapport Août 2026</Badge>
-          </div>
-          
-          <div className="grid grid-cols-2 gap-4">
-            <StatCard label="Membres" value="8,742" icon={Users} color="text-cyan" />
-            <StatCard label="Activité" value="78%" icon={TrendingUp} color="text-orange" />
+            <Badge className="bg-primary/10 text-primary border-primary/20 font-mono">RAPPORT AOÛT 2026</Badge>
           </div>
 
           <Card className="glass-card p-6 rounded-[2.5rem] border-primary/20 bg-gradient-to-br from-primary/5 to-transparent space-y-6">
             <div className="flex justify-between items-center">
               <div>
-                <p className="text-[10px] font-mono text-muted uppercase tracking-widest mb-1">Total Adhésions</p>
-                <p className="text-3xl font-display font-bold text-primary">87,420 $</p>
+                <p className="text-[10px] font-mono text-muted uppercase tracking-widest mb-1 font-bold">Total Adhésions</p>
+                <p className="text-4xl font-display font-bold text-primary">87,420 $</p>
               </div>
-              <div className="w-12 h-12 rounded-2xl bg-primary/10 flex items-center justify-center text-primary">
-                <DollarSign className="w-6 h-6" />
+              <div className="w-14 h-14 rounded-[1.5rem] bg-primary/10 flex items-center justify-center text-primary border border-primary/20">
+                <DollarSign className="w-7 h-7" />
               </div>
             </div>
             
-            <div className="space-y-3">
-              <p className="text-[10px] font-mono text-muted uppercase tracking-widest">Répartition des dépenses</p>
+            <div className="space-y-4">
+              <p className="text-[10px] font-mono text-muted uppercase tracking-widest font-bold">Répartition stratégique</p>
               <FinanceLine label="Services Membres (40%)" value="34,968 $" color="bg-cyan" percentage={40} />
               <FinanceLine label="Projets & Incubation (30%)" value="26,226 $" color="bg-orange" percentage={30} />
               <FinanceLine label="Technologie (20%)" value="17,484 $" color="bg-gold" percentage={20} />
@@ -51,50 +46,50 @@ export default function GovernancePage() {
           </Card>
         </section>
 
-        {/* Official Announcements */}
+        {/* Audit Log (Rule #7 & #22) */}
         <section className="space-y-4">
           <div className="flex items-center justify-between">
-            <h3 className="font-mono text-[10px] uppercase tracking-widest text-muted">Annonces Officielles</h3>
-            <button className="text-[10px] font-bold text-cyan">VOIR ARCHIVES</button>
+            <h3 className="font-mono text-[10px] uppercase tracking-widest text-muted font-bold">Journal d'Audit (Actions Critiques)</h3>
+            <History className="w-4 h-4 text-muted" />
           </div>
           
-          <div className="space-y-4">
-            <AnnouncementItem 
-              title="Audit financier T3 disponible" 
-              date="Hier · National" 
-              type="RAPPORT"
+          <div className="space-y-3">
+            <AuditItem 
+              actor="Admin National" 
+              action="Publication Rapport Financier T3" 
+              time="Aujourd'hui · 09:15"
+              scope="National"
             />
-            <AnnouncementItem 
-              title="Nouvelle procédure de leadership" 
-              date="20 Août · Programmes" 
-              type="INFO"
+            <AuditItem 
+              actor="Coordinateur Zone #07" 
+              action="Promotion : Leader Cellule #034" 
+              time="Hier · 14:20"
+              scope="Zone"
+            />
+            <AuditItem 
+              actor="Système KONEKT" 
+              action="Suspension membre (Défaut paiement)" 
+              time="25 Août · 00:00"
+              scope="Automatique"
             />
           </div>
         </section>
 
-        {/* Governance Vision */}
-        <div className="glass-card p-6 rounded-[2.5rem] border-border text-center space-y-4">
-          <Info className="w-6 h-6 text-muted mx-auto" />
-          <p className="text-sm text-muted italic leading-relaxed">
-            « La confiance est notre actif le plus précieux. Chaque cotisation est un investissement dans le futur de notre génération. »
-          </p>
-        </div>
+        {/* Security & Access (Rule #16) */}
+        <section className="glass-card p-6 rounded-[2.5rem] border-gold/20 flex items-start gap-4">
+          <div className="w-10 h-10 rounded-xl bg-gold/10 flex items-center justify-center text-gold flex-shrink-0">
+            <Lock className="w-5 h-5" />
+          </div>
+          <div>
+            <h4 className="text-sm font-bold text-gold mb-1">Multi-contrôle Financier</h4>
+            <p className="text-[11px] text-muted leading-relaxed">
+              Toute dépense > 500$ nécessite une triple validation : Demandeur → Validateur → Trésorerie. 
+              Aucune personne seule ne peut modifier les flux financiers de l'organisation.
+            </p>
+          </div>
+        </section>
       </main>
       <BottomNav />
-    </div>
-  );
-}
-
-function StatCard({ label, value, icon: Icon, color }: any) {
-  return (
-    <div className="glass-card p-5 rounded-[2rem] space-y-3 border-border/50">
-      <div className={`w-9 h-9 rounded-xl bg-surface-3 flex items-center justify-center ${color}`}>
-        <Icon className="w-5 h-5" />
-      </div>
-      <div>
-        <p className="text-xl font-display font-bold">{value}</p>
-        <p className="text-[10px] text-muted uppercase font-mono">{label}</p>
-      </div>
     </div>
   );
 }
@@ -103,29 +98,27 @@ function FinanceLine({ label, value, color, percentage }: any) {
   return (
     <div className="space-y-1.5">
       <div className="flex justify-between text-[11px] font-bold">
-        <span>{label}</span>
-        <span>{value}</span>
+        <span className="text-text">{label}</span>
+        <span className="text-primary font-mono">{value}</span>
       </div>
       <div className="h-1.5 w-full bg-surface-3 rounded-full overflow-hidden">
-        <div className={`h-full ${color}`} style={{ width: `${percentage}%` }} />
+        <div className={`h-full ${color} transition-all duration-1000`} style={{ width: `${percentage}%` }} />
       </div>
     </div>
   );
 }
 
-function AnnouncementItem({ title, date, type }: any) {
+function AuditItem({ actor, action, time, scope }: any) {
   return (
-    <button className="w-full flex items-center justify-between p-5 glass-card rounded-2xl border-border/40 hover:border-cyan/30 transition-all text-left group">
-      <div className="flex items-center gap-4">
-        <div className="w-10 h-10 rounded-xl bg-surface-3 flex items-center justify-center text-muted group-hover:text-cyan transition-colors">
-          <ShieldCheck className="w-5 h-5" />
-        </div>
-        <div>
-          <span className="block text-sm font-bold">{title}</span>
-          <span className="block text-[10px] text-muted font-medium">{date}</span>
-        </div>
+    <div className="p-4 glass-card rounded-2xl border-border/40 space-y-2">
+      <div className="flex justify-between items-start">
+        <span className="text-xs font-bold text-text">{action}</span>
+        <Badge variant="outline" className="text-[8px] font-mono border-border text-muted uppercase">{scope}</Badge>
       </div>
-      <Badge variant="outline" className="text-[9px] font-mono border-border text-muted group-hover:border-cyan group-hover:text-cyan">{type}</Badge>
-    </button>
+      <div className="flex justify-between items-center text-[10px] text-muted-2">
+        <span className="flex items-center gap-1"><Users className="w-3 h-3" /> {actor}</span>
+        <span className="font-mono">{time}</span>
+      </div>
+    </div>
   );
 }

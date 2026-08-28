@@ -42,13 +42,12 @@ export const MEMBER_STATUS = {
   CANCELLED: "cancelled"
 };
 
-export const OPPORTUNITY_TYPES = {
-  EMPLOI: "EMPLOI",
-  STAGE: "STAGE",
-  MISSION: "MISSION",
-  CONCOURS: "CONCOURS",
-  FINANCEMENT: "FINANCEMENT",
-  PARTENARIAT: "PARTENARIAT"
+export const OPPORTUNITY_STATUS = {
+  DRAFT: "draft",
+  PENDING_REVIEW: "pending_review",
+  APPROVED: "approved",
+  PUBLISHED: "published",
+  EXPIRED: "expired"
 };
 
 export const PROJECT_STATUS = {
@@ -58,4 +57,13 @@ export const PROJECT_STATUS = {
   SELECTIONNE: "SÉLECTIONNÉ",
   ACCOMPAGNE: "ACCOMPAGNÉ",
   LANCE: "LANCÉ"
+};
+
+export const ACTIVITY_TYPES = {
+  COURSE_COMPLETED: "course_completed",
+  EVENT_ATTENDED: "event_attended",
+  OPPORTUNITY_VIEWED: "opportunity_viewed",
+  PROJECT_CREATED: "project_created",
+  CELL_MEETING_ATTENDED: "cell_meeting_attended",
+  LEADERSHIP_ACTION: "leadership_action"
 };
