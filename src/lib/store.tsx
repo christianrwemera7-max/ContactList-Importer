@@ -43,7 +43,7 @@ interface KonektContextType {
 
 const KonektContext = createContext<KonektContextType | undefined>(undefined);
 
-const STORAGE_KEY = 'konekt_global_state_v3';
+const STORAGE_KEY = 'konekt_global_state_v4';
 
 export const KonektProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
   const [state, setState] = useState<AppState>({
@@ -114,6 +114,6 @@ export const useKonekt = () => {
   return context;
 };
 
-// Aliases de compatibilité
+// Aliases de compatibilité pour éviter les erreurs de build sur les anciennes pages
 export const useCompetition = useKonekt;
 export const CompetitionProvider = KonektProvider;
