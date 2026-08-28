@@ -1,27 +1,26 @@
-
 export const APP_NAME = "KONEKT";
 
 export const TIERS = {
   START: { 
     code: "START", 
-    name: "START", 
+    name: "KONEKT START", 
     price: 5, 
     color: "text-muted",
-    description: "Accès à la communauté et aux formations de base."
+    description: "Pour rejoindre la communauté et accéder aux bases."
   },
   PLUS: { 
     code: "PLUS", 
-    name: "PLUS", 
+    name: "KONEKT PLUS", 
     price: 10, 
     color: "text-cyan",
-    description: "Accès complet aux cellules et formations avancées."
+    description: "Le niveau principal pour le networking et les formations avancées."
   },
   PRO: { 
     code: "PRO", 
-    name: "PRO", 
+    name: "KONEKT PRO", 
     price: 20, 
     color: "text-orange",
-    description: "Accès au Project Lab et opportunités premium."
+    description: "Pour développer son activité avec le Project Lab et un accompagnement premium."
   }
 };
 
@@ -122,5 +121,13 @@ export const MEMBER_STATUS = {
   PAYMENT_LATE: "payment_late",
   SUSPENDED: "suspended",
   ALUMNI: "alumni",
-  CANCELLED: "cancelled"
+  DISABLED: "disabled"
 };
+
+export const OPPORTUNITY_TYPES = [
+  "EMPLOI", "STAGE", "MISSION", "FREELANCE", "CONCOURS", "FORMATION", "PARTENARIAT", "FINANCEMENT", "PROJET", "ÉVÉNEMENT"
+];
+
+export const PROJECT_STATUS = [
+  "IDÉE", "SOUMIS", "EN ÉVALUATION", "SÉLECTIONNÉ", "ACCOMPAGNEMENT", "DÉVELOPPEMENT", "ACTIF"
+];

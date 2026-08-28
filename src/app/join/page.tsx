@@ -1,4 +1,3 @@
-
 'use client';
 
 import { useState } from 'react';
@@ -6,30 +5,37 @@ import { useRouter } from 'next/navigation';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Badge } from '@/components/ui/badge';
-import { ArrowRight, ChevronLeft, Sparkles, Check, ShieldCheck, Zap, Rocket, Users, GraduationCap, Briefcase } from 'lucide-react';
+import { 
+  ArrowRight, 
+  ChevronLeft, 
+  Sparkles, 
+  Check, 
+  ShieldCheck, 
+  Zap, 
+  Rocket, 
+  Users, 
+  GraduationCap, 
+  Briefcase,
+  Target,
+  Globe
+} from 'lucide-react';
 import { Progress } from '@/components/ui/progress';
 
 export default function OnboardingPage() {
   const router = useRouter();
   const [step, setStep] = useState(1);
   const [formData, setFormData] = useState({
-    role: '',
+    firstName: '',
+    lastName: '',
+    email: '',
+    profession: '',
     objectives: [] as string[],
     skills: [] as string[],
     tier: ''
   });
 
-  const totalSteps = 5;
+  const totalSteps = 6;
   const progress = (step / totalSteps) * 100;
-
-  const roles = [
-    { id: 'student', label: 'Étudiant', icon: GraduationCap },
-    { id: 'entrepreneur', label: 'Entrepreneur', icon: Rocket },
-    { id: 'freelance', label: 'Freelance', icon: Briefcase },
-    { id: 'creator', label: 'Créateur', icon: Sparkles },
-    { id: 'pro', label: 'Professionnel', icon: ShieldCheck },
-    { id: 'seeker', label: 'Chercheur', icon: Users },
-  ];
 
   const next = () => setStep(s => Math.min(s + 1, totalSteps));
   const prev = () => setStep(s => Math.max(s - 1, 1));
@@ -39,8 +45,8 @@ export default function OnboardingPage() {
   };
 
   return (
-    <div className="min-h-screen flex flex-col connected-nodes">
-      <header className="p-6 flex items-center justify-between border-b border-border/50">
+    <div className="min-h-screen flex flex-col connected-nodes bg-ink">
+      <header className="p-6 flex items-center justify-between border-b border-border/50 sticky top-0 bg-ink/80 backdrop-blur-md z-50">
         <Button variant="ghost" size="sm" onClick={prev} disabled={step === 1} className="text-muted">
           <ChevronLeft className="w-4 h-4 mr-2" /> Retour
         </Button>
@@ -51,23 +57,45 @@ export default function OnboardingPage() {
       </header>
 
       <main className="flex-1 flex flex-col items-center justify-center p-6 max-w-lg mx-auto w-full">
+        {/* Step 1: Identity */}
         {step === 1 && (
-          <div className="space-y-8 animate-in fade-in slide-in-from-bottom-4">
+          <div className="space-y-8 w-full animate-in fade-in slide-in-from-bottom-4">
             <div className="text-center space-y-2">
-              <h1 className="text-3xl font-display font-bold">Bienvenue chez KONEKT</h1>
-              <p className="text-muted text-sm">Commençons par créer ton identité numérique.</p>
+              <h1 className="text-3xl font-display font-bold">Identité KONEKT</h1>
+              <p className="text-muted text-sm">Crée ton identité numérique unique.</p>
             </div>
             <div className="space-y-4">
-              <Input placeholder="Prénom" className="h-14 rounded-2xl bg-surface-2 border-border" />
-              <Input placeholder="Nom" className="h-14 rounded-2xl bg-surface-2 border-border" />
-              <Input placeholder="Email" type="email" className="h-14 rounded-2xl bg-surface-2 border-border" />
-              <Button onClick={next} className="w-full h-14 rounded-2xl bg-primary text-ink font-bold gap-2">
+              <Input 
+                placeholder="Prénom" 
+                className="h-14 rounded-2xl bg-surface-2 border-border"
+                value={formData.firstName}
+                onChange={e => setFormData({...formData, firstName: e.target.value})}
+              />
+              <Input 
+                placeholder="Nom" 
+                className="h-14 rounded-2xl bg-surface-2 border-border"
+                value={formData.lastName}
+                onChange={e => setFormData({...formData, lastName: e.target.value})}
+              />
+              <Input 
+                placeholder="Email" 
+                type="email" 
+                className="h-14 rounded-2xl bg-surface-2 border-border"
+                value={formData.email}
+                onChange={e => setFormData({...formData, email: e.target.value})}
+              />
+              <Button 
+                onClick={next} 
+                disabled={!formData.firstName || !formData.email}
+                className="w-full h-14 rounded-2xl bg-primary text-ink font-bold gap-2"
+              >
                 Continuer <ArrowRight className="w-4 h-4" />
               </Button>
             </div>
           </div>
         )}
 
+        {/* Step 2: Profession */}
         {step === 2 && (
           <div className="space-y-8 w-full animate-in fade-in slide-in-from-bottom-4">
             <div className="text-center space-y-2">
@@ -75,30 +103,69 @@ export default function OnboardingPage() {
               <p className="text-muted text-sm">Sélectionne ton profil principal.</p>
             </div>
             <div className="grid grid-cols-2 gap-4">
-              {roles.map(role => (
+              {[
+                { id: 'Étudiant', icon: GraduationCap },
+                { id: 'Entrepreneur', icon: Rocket },
+                { id: 'Freelance', icon: Briefcase },
+                { id: 'Créateur', icon: Sparkles },
+                { id: 'Professionnel', icon: ShieldCheck },
+                { id: 'Chercheur', icon: Users },
+              ].map(role => (
                 <button
                   key={role.id}
-                  onClick={() => { setFormData({ ...formData, role: role.id }); next(); }}
+                  onClick={() => { setFormData({ ...formData, profession: role.id }); next(); }}
                   className={`p-6 rounded-[2rem] border transition-all text-left space-y-3 group ${
-                    formData.role === role.id ? 'bg-primary/10 border-primary' : 'glass-card border-border hover:border-primary/50'
+                    formData.profession === role.id ? 'bg-primary/10 border-primary' : 'glass-card border-border hover:border-primary/50'
                   }`}
                 >
-                  <role.icon className={`w-6 h-6 ${formData.role === role.id ? 'text-primary' : 'text-muted group-hover:text-primary'}`} />
-                  <p className="font-bold text-sm">{role.label}</p>
+                  <role.icon className={`w-6 h-6 ${formData.profession === role.id ? 'text-primary' : 'text-muted group-hover:text-primary'}`} />
+                  <p className="font-bold text-sm">{role.id}</p>
                 </button>
               ))}
             </div>
           </div>
         )}
 
+        {/* Step 3: Skills */}
         {step === 3 && (
           <div className="space-y-8 w-full animate-in fade-in slide-in-from-bottom-4">
             <div className="text-center space-y-2">
-              <h1 className="text-3xl font-display font-bold">Tes objectifs ?</h1>
-              <p className="text-muted text-sm">Que souhaites-tu accomplir avec KONEKT ?</p>
+              <h1 className="text-3xl font-display font-bold">Tes Compétences</h1>
+              <p className="text-muted text-sm">Ce que tu apportes à la communauté.</p>
+            </div>
+            <div className="flex flex-wrap gap-2 justify-center">
+              {['Marketing', 'Finance', 'Design', 'Programmation', 'Droit', 'Vente', 'Communication', 'Agriculture', 'IA'].map(skill => (
+                <button
+                  key={skill}
+                  onClick={() => {
+                    const nextSkills = formData.skills.includes(skill) 
+                      ? formData.skills.filter(s => s !== skill)
+                      : [...formData.skills, skill];
+                    setFormData({ ...formData, skills: nextSkills });
+                  }}
+                  className={`px-6 py-3 rounded-2xl border text-sm font-bold transition-all ${
+                    formData.skills.includes(skill) ? 'bg-cyan text-ink border-cyan shadow-lg shadow-cyan/20' : 'glass-card border-border text-muted'
+                  }`}
+                >
+                  {skill}
+                </button>
+              ))}
+            </div>
+            <Button onClick={next} disabled={formData.skills.length === 0} className="w-full h-14 rounded-2xl bg-primary text-ink font-bold mt-4">
+              Continuer
+            </Button>
+          </div>
+        )}
+
+        {/* Step 4: Objectives */}
+        {step === 4 && (
+          <div className="space-y-8 w-full animate-in fade-in slide-in-from-bottom-4">
+            <div className="text-center space-y-2">
+              <h1 className="text-3xl font-display font-bold">Tes Objectifs</h1>
+              <p className="text-muted text-sm">Ce que tu recherches dans KONEKT.</p>
             </div>
             <div className="space-y-3">
-              {['Apprendre', 'Trouver des opportunités', 'Créer un projet', 'Rencontrer des collaborateurs', 'Devenir entrepreneur'].map(obj => (
+              {['Apprendre', 'Trouver des opportunités', 'Créer un projet', 'Trouver un associé', 'Mentorat'].map(obj => (
                 <button
                   key={obj}
                   onClick={() => {
@@ -108,7 +175,7 @@ export default function OnboardingPage() {
                     setFormData({ ...formData, objectives: nextObjs });
                   }}
                   className={`w-full p-5 rounded-2xl border text-left flex items-center justify-between transition-all ${
-                    formData.objectives.includes(obj) ? 'bg-cyan/10 border-cyan text-cyan' : 'glass-card border-border text-muted'
+                    formData.objectives.includes(obj) ? 'bg-primary/10 border-primary text-primary' : 'glass-card border-border text-muted'
                   }`}
                 >
                   <span className="text-sm font-bold">{obj}</span>
@@ -122,17 +189,18 @@ export default function OnboardingPage() {
           </div>
         )}
 
-        {step === 4 && (
+        {/* Step 5: Adhesion */}
+        {step === 5 && (
           <div className="space-y-8 w-full animate-in fade-in slide-in-from-bottom-4">
             <div className="text-center space-y-2">
-              <h1 className="text-3xl font-display font-bold">Choisis ton adhésion</h1>
-              <p className="text-muted text-sm">Le moteur de ton activation.</p>
+              <h1 className="text-3xl font-display font-bold">Niveau d'Adhésion</h1>
+              <p className="text-muted text-sm">L'argent donne accès aux services. L'engagement donne accès au leadership.</p>
             </div>
             <div className="space-y-4">
               <TierCard 
                 title="START" 
                 price="5$" 
-                benefits={['Accès communauté', 'Événements', 'Academy standard']}
+                benefits={['Accès communauté', 'Opportunités générales', 'Formations de base']}
                 selected={formData.tier === 'START'}
                 onSelect={() => setFormData({...formData, tier: 'START'})}
               />
@@ -146,8 +214,8 @@ export default function OnboardingPage() {
               />
               <TierCard 
                 title="PRO" 
-                price="25$" 
-                benefits={['Tout PLUS', 'Project Lab', 'Accès premium']}
+                price="20$" 
+                benefits={['Tout PLUS', 'Project Lab', 'Accès prioritaire']}
                 selected={formData.tier === 'PRO'}
                 onSelect={() => setFormData({...formData, tier: 'PRO'})}
               />
@@ -158,23 +226,29 @@ export default function OnboardingPage() {
           </div>
         )}
 
-        {step === 5 && (
-          <div className="text-center space-y-8 animate-in zoom-in-95 duration-500">
+        {/* Step 6: Activation */}
+        {step === 6 && (
+          <div className="text-center space-y-8 animate-in zoom-in-95 duration-500 w-full">
             <div className="w-24 h-24 rounded-[2.5rem] bg-cyan/10 border border-cyan/30 flex items-center justify-center mx-auto text-cyan animate-bounce">
               <Check className="w-12 h-12" strokeWidth={3} />
             </div>
             <div className="space-y-4">
-              <h1 className="text-4xl font-display font-bold">Bienvenue, Christian !</h1>
+              <h1 className="text-4xl font-display font-bold">Bienvenue, {formData.firstName} !</h1>
               <p className="text-muted leading-relaxed">
-                Tu as été affecté à la cellule <b className="text-text">Cocody #032</b>.<br/>
-                Ta Leader <b className="text-text">Awa</b> t'attend pour ta première rencontre.
+                Ton identité KONEKT est active. Tu as été affecté à la cellule <b className="text-text">Kinshasa Centre #014</b>.<br/>
+                Ton Leader <b className="text-text">Sarah</b> t'attend.
               </p>
             </div>
-            <div className="glass-card p-6 rounded-[2rem] text-left border-cyan/20">
-              <p className="text-[10px] font-mono text-muted uppercase tracking-widest mb-4">Ta première mission</p>
-              <h3 className="font-bold mb-2">Rencontre de cellule</h3>
-              <div className="flex items-center gap-2 text-sm text-cyan">
-                <Check className="w-4 h-4" /> Samedi 30 Août · 15h00
+            <div className="grid grid-cols-2 gap-4">
+              <div className="glass-card p-5 rounded-[2rem] text-left border-cyan/20">
+                <p className="text-[10px] font-mono text-muted uppercase tracking-widest mb-2">Cellule</p>
+                <h3 className="font-bold text-sm">Entrepreneurs Kinshasa</h3>
+                <p className="text-[10px] text-cyan mt-1">Rencontre Samedi 15h</p>
+              </div>
+              <div className="glass-card p-5 rounded-[2rem] text-left border-orange/20">
+                <p className="text-[10px] font-mono text-muted uppercase tracking-widest mb-2">Première Mission</p>
+                <h3 className="font-bold text-sm">Compléter mon ID</h3>
+                <p className="text-[10px] text-orange mt-1">+10 Points</p>
               </div>
             </div>
             <Button onClick={complete} size="lg" className="w-full h-16 rounded-[2rem] bg-primary text-ink font-bold text-lg">
@@ -192,7 +266,7 @@ function TierCard({ title, price, benefits, selected, onSelect, featured }: any)
     <button
       onClick={onSelect}
       className={`w-full p-6 rounded-[2.5rem] border text-left relative transition-all ${
-        selected ? 'bg-surface-3 border-primary shadow-xl' : 'glass-card border-border hover:border-primary/30'
+        selected ? 'bg-surface-3 border-primary shadow-xl scale-[1.02]' : 'glass-card border-border hover:border-primary/30'
       }`}
     >
       {featured && <Badge className="absolute -top-3 right-8 bg-primary text-ink font-bold">RECOMMANDÉ</Badge>}

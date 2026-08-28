@@ -1,4 +1,3 @@
-
 'use client';
 
 import { AppSidebar } from "@/components/layout/AppSidebar";
@@ -17,101 +16,133 @@ import {
   Plus, 
   TrendingUp,
   MapPin,
-  Building
+  Building,
+  Target,
+  Code,
+  Briefcase
 } from "lucide-react";
 import { ROLES } from "@/lib/constants";
 
 export default function ProfilePage() {
-  // Mock User Role for UI demonstration
-  const userRole = ROLES.LEADER;
-  const userScope = "Cellule Cocody #032";
+  // Mock User pour la démonstration de la règle n°10.4 (KONEKT ID)
+  const user = {
+    name: "Christian Rwemera",
+    profession: "Entrepreneur numérique",
+    tier: "PLUS",
+    role: "LEADER",
+    cell: "Kinshasa Centre #014",
+    score: 850,
+    activityIndex: "92%",
+    coursesCount: 12,
+    skills: ["Marketing Digital", "Droit des Affaires", "IA Prompting", "Gestion Projet"],
+    objectives: ["Associés", "Clients", "Mentorat"],
+    badges: ["🏆 Actif", "📚 Apprenant", "🤝 Collaborateur"]
+  };
 
   return (
     <div className="flex flex-col min-h-screen pb-24 md:pb-0 bg-ink">
       <header className="px-5 py-6 border-b border-border/50 sticky top-0 bg-ink/80 backdrop-blur-md z-40 flex justify-between items-center">
-        <h1 className="font-display font-bold text-xl tracking-tight">KONEKT ID</h1>
-        <button className="w-9 h-9 flex items-center justify-center rounded-xl bg-surface-2 border border-border">
-          <Settings className="w-4 h-4 text-muted-2" />
+        <h1 className="font-display font-bold text-xl tracking-tight uppercase">KONEKT ID</h1>
+        <button className="w-10 h-10 flex items-center justify-center rounded-xl bg-surface-2 border border-border group hover:border-cyan/50 transition-colors">
+          <Settings className="w-5 h-5 text-muted-2 group-hover:text-cyan" />
         </button>
       </header>
 
-      <main className="flex-1 max-w-2xl mx-auto w-full p-5 space-y-10 py-10">
+      <main className="flex-1 max-w-2xl mx-auto w-full p-5 space-y-10 py-8">
         
-        {/* KONEKT ID Card - Professional View */}
+        {/* KONEKT ID Card (Règle n°10.4) */}
         <section className="flex flex-col items-center text-center">
-          <div className="w-28 h-28 rounded-[2.5rem] p-1 bg-gradient-to-tr from-cyan via-orange to-gold mb-6 shadow-2xl shadow-orange/10 relative">
-            <div className="w-full h-full rounded-[2.3rem] bg-surface-3 flex items-center justify-center font-display font-bold text-4xl text-text border-4 border-ink">
-              JK
+          <div className="w-32 h-32 rounded-[3rem] p-[3px] bg-gradient-to-tr from-cyan via-orange to-gold mb-6 shadow-2xl shadow-orange/10 relative group">
+            <div className="w-full h-full rounded-[2.85rem] bg-surface-3 flex items-center justify-center font-display font-bold text-4xl text-text border-4 border-ink overflow-hidden">
+              CR
             </div>
-            <div className="absolute -bottom-2 -right-2 w-10 h-10 bg-gold rounded-2xl flex items-center justify-center border-4 border-ink text-ink shadow-lg">
-              <ShieldCheck className="w-5 h-5" />
+            <div className="absolute -bottom-2 -right-2 w-11 h-11 bg-gold rounded-2xl flex items-center justify-center border-4 border-ink text-ink shadow-lg group-hover:scale-110 transition-transform">
+              <ShieldCheck className="w-6 h-6" />
             </div>
           </div>
           
           <div className="space-y-1">
-            <h1 className="font-display font-bold text-2xl">Junior K.</h1>
-            <div className="flex items-center justify-center gap-2 text-cyan font-bold text-xs uppercase tracking-wider">
-              <Building className="w-3.5 h-3.5" /> {userRole.replace('_', ' ')} · {userScope}
+            <h1 className="font-display font-bold text-3xl tracking-tight">{user.name}</h1>
+            <div className="flex items-center justify-center gap-2 text-cyan font-black text-[10px] uppercase tracking-[0.2em]">
+              <Building className="w-3.5 h-3.5" /> {user.role} · {user.cell}
+            </div>
+            <p className="text-muted text-sm mt-2">{user.profession}</p>
+          </div>
+
+          <div className="flex gap-3 mt-8 mb-10">
+            <Badge className="bg-orange/10 text-orange border-orange/30 px-4 py-1.5 font-mono text-[10px] tracking-wider">TIER: {user.tier}</Badge>
+            <Badge variant="outline" className="border-border text-muted-2 px-4 py-1.5 font-mono text-[10px] tracking-wider">ID: 8742-014</Badge>
+          </div>
+
+          <div className="flex gap-3 w-full max-w-[340px]">
+            <Button className="flex-1 bg-surface-2 border border-border hover:bg-surface-3 gap-2 text-xs rounded-2xl h-12 transition-all font-bold">
+              <Share2 className="w-4 h-4" /> Partager ID
+            </Button>
+            <Button className="flex-1 bg-orange text-ink font-black gap-2 text-xs rounded-2xl h-12 shadow-lg shadow-orange/20 hover:scale-[1.02] transition-transform uppercase tracking-wider">
+              Modifier
+            </Button>
+          </div>
+        </section>
+
+        {/* Stats de progression (Règle n°10.12) */}
+        <section className="grid grid-cols-3 gap-4">
+          <StatCard value={user.score} label="KONEKT SCORE" color="text-gold" />
+          <StatCard value={user.activityIndex} label="ENGAGEMENT" color="text-cyan" />
+          <StatCard value={user.coursesCount} label="APPRENTISSAGE" color="text-orange" />
+        </section>
+
+        {/* Matrice de compétences (Règle n°10.3) */}
+        <section className="space-y-6">
+          <div className="flex items-center justify-between">
+            <h3 className="font-mono text-[10px] uppercase tracking-[0.2em] text-muted-2 font-black">Mon Profil Professionnel</h3>
+            <button className="w-8 h-8 rounded-xl bg-surface-2 flex items-center justify-center text-muted-2 hover:text-cyan border border-border"><Plus className="w-4 h-4" /></button>
+          </div>
+          
+          <div className="space-y-4">
+            <div className="glass-card p-6 rounded-[2.5rem] space-y-4 border-white/5">
+              <div className="flex items-center gap-2 text-[10px] font-mono text-cyan uppercase tracking-widest mb-2">
+                <Code className="w-3.5 h-3.5" /> Compétences
+              </div>
+              <div className="flex flex-wrap gap-2">
+                {user.skills.map(s => <SkillBadge key={s} label={s} />)}
+              </div>
+            </div>
+
+            <div className="glass-card p-6 rounded-[2.5rem] space-y-4 border-white/5">
+              <div className="flex items-center gap-2 text-[10px] font-mono text-orange uppercase tracking-widest mb-2">
+                <Target className="w-3.5 h-3.5" /> Objectifs de recherche
+              </div>
+              <div className="flex flex-wrap gap-2">
+                {user.objectives.map(o => (
+                  <span key={o} className="px-4 py-2 rounded-2xl bg-orange/5 border border-orange/20 text-[11px] font-bold text-orange/80">
+                    Recherche {o}
+                  </span>
+                ))}
+              </div>
             </div>
           </div>
-
-          <div className="flex gap-2 mt-6 mb-8">
-            <Badge className="bg-orange/10 text-orange border-orange/30 px-3 py-1 font-mono text-[9px]">TIER : PLUS</Badge>
-            <Badge variant="outline" className="border-border text-muted-2 px-3 py-1 font-mono text-[9px]">ID: 8742-032</Badge>
-          </div>
-
-          <div className="flex gap-3 w-full max-w-[320px]">
-            <Button className="flex-1 bg-surface-2 border border-border hover:bg-surface-3 gap-2 text-xs rounded-2xl h-11 transition-all">
-              <Share2 className="w-3.5 h-3.5" /> Partager ID
-            </Button>
-            <Button className="flex-1 bg-orange text-ink font-bold gap-2 text-xs rounded-2xl h-11 shadow-lg shadow-orange/20">
-              Modifier Profil
-            </Button>
-          </div>
         </section>
 
-        {/* KONEKT SCORE & Activity Index */}
-        <section className="grid grid-cols-3 gap-4">
-          <StatCard value="850" label="KONEKT SCORE" color="text-gold" />
-          <StatCard value="92%" label="INDICE ACTIVITÉ" color="text-cyan" />
-          <StatCard value="12" label="FORMATIONS" color="text-orange" />
-        </section>
-
-        {/* Path to Leadership - Rule #13 */}
-        <section className="space-y-6">
-          <h3 className="font-mono text-[10px] uppercase tracking-widest text-muted-2 font-bold">Mon Chemin de Leadership</h3>
+        {/* Chemin de Leadership (Règle n°10.2) */}
+        <section className="space-y-8">
+          <h3 className="font-mono text-[10px] uppercase tracking-[0.2em] text-muted-2 font-black">Chemin de Leadership</h3>
           <div className="relative flex justify-between px-4">
-            <div className="absolute top-[18px] left-8 right-8 h-[1px] bg-surface-3 z-0" />
+            <div className="absolute top-[20px] left-8 right-8 h-[2px] bg-surface-3 z-0" />
             <PathStep label="Membre" status="done" />
             <PathStep label="Leader" status="active" />
-            <PathStep label="Coord. Zone" status="locked" />
+            <PathStep label="Coordinateur" status="locked" />
             <PathStep label="Régional" status="locked" />
             <PathStep label="National" status="locked" />
           </div>
         </section>
 
-        {/* Professional Metadata */}
-        <div className="space-y-8">
-          <section className="space-y-4">
-            <div className="flex items-center justify-between">
-              <h3 className="font-mono text-[10px] uppercase tracking-widest text-muted-2 font-bold">Mes Compétences (KONEKT Skills)</h3>
-              <button className="w-7 h-7 rounded-xl bg-surface-2 flex items-center justify-center text-muted-2 hover:text-cyan border border-border"><Plus className="w-3.5 h-3.5" /></button>
-            </div>
-            <div className="flex flex-wrap gap-2">
-              <SkillBadge label="Marketing Digital" />
-              <SkillBadge label="Gestion de Projet" />
-              <SkillBadge label="IA Prompting" />
-              <SkillBadge label="Design UI/UX" />
-            </div>
-          </section>
-        </div>
-
-        {/* Account Settings */}
-        <section className="space-y-2 pt-6">
-          <p className="font-mono text-[10px] uppercase tracking-widest text-muted-2 font-bold mb-4">Paramètres du Compte</p>
-          <MenuItem icon={CreditCard} label="Mon adhésion — PLUS" meta="Renouvellement le 15 sept." color="text-cyan" />
-          <MenuItem icon={TrendingUp} label="Transparence financière" meta="Consulter les rapports T3" color="text-primary" href="/governance" />
-          <MenuItem icon={Award} label="Mes Certifications" meta="4 badges actifs" color="text-gold" />
+        {/* Paramètres & Adhésion (Règle n°10.16) */}
+        <section className="space-y-3 pt-4 pb-10">
+          <p className="font-mono text-[10px] uppercase tracking-[0.2em] text-muted-2 font-black mb-4">Compte & Adhésion</p>
+          <MenuItem icon={CreditCard} label="Abonnement KONEKT PLUS" meta="Renouvellement le 15 sept. (10$)" color="text-cyan" />
+          <MenuItem icon={TrendingUp} label="Transparence financière" meta="Consulter les rapports nationaux" color="text-primary" href="/governance" />
+          <MenuItem icon={Award} label="Mes Badges & Certificats" meta={`${user.badges.length} actifs dans KONEKT`} color="text-gold" />
+          <MenuItem icon={Briefcase} label="Mes Candidatures" meta="3 opportunités en cours" color="text-orange" />
         </section>
       </main>
       <BottomNav />
@@ -121,9 +152,9 @@ export default function ProfilePage() {
 
 function StatCard({ value, label, color }: any) {
   return (
-    <Card className="glass-card p-5 text-center rounded-[2rem] border-white/5 hover:border-white/10 transition-all">
-      <p className={`font-display font-bold text-2xl ${color}`}>{value}</p>
-      <p className="text-[9px] text-muted-2 uppercase font-mono mt-2 tracking-widest leading-none">{label}</p>
+    <Card className="glass-card p-6 text-center rounded-[2.5rem] border-white/5 hover:border-cyan/20 transition-all group">
+      <p className={`font-display font-bold text-2xl ${color} group-hover:scale-110 transition-transform`}>{value}</p>
+      <p className="text-[9px] text-muted-2 uppercase font-mono mt-2 tracking-[0.2em] leading-none font-black">{label}</p>
     </Card>
   );
 }
@@ -140,11 +171,11 @@ function PathStep({ label, status }: { label: string, status: 'done' | 'active' 
   return (
     <div className="flex flex-col items-center gap-4 z-10 w-16">
       <div className={`
-        w-9 h-9 rounded-full border-2 flex items-center justify-center transition-all duration-500
-        ${status === 'done' ? 'bg-cyan border-cyan text-ink shadow-[0_0_15px_rgba(51,230,200,0.2)]' : status === 'active' ? 'bg-orange border-orange text-ink shadow-[0_0_20px_rgba(255,107,53,0.4)]' : 'bg-surface-3 border-border text-muted-2'}
+        w-10 h-10 rounded-full border-2 flex items-center justify-center transition-all duration-700
+        ${status === 'done' ? 'bg-cyan border-cyan text-ink shadow-[0_0_20px_rgba(51,230,200,0.3)]' : status === 'active' ? 'bg-orange border-orange text-ink shadow-[0_0_25px_rgba(255,107,53,0.5)] scale-110' : 'bg-surface-3 border-border text-muted-2'}
       `}>
         {status === 'done' && <ShieldCheck className="w-5 h-5" />}
-        {status === 'active' && <div className="w-2 h-2 rounded-full bg-ink animate-pulse" />}
+        {status === 'active' && <div className="w-2.5 h-2.5 rounded-full bg-ink animate-pulse" />}
       </div>
       <span className={`text-[8px] text-center font-black uppercase tracking-widest leading-tight ${status === 'locked' ? 'text-muted-2' : 'text-text'}`}>
         {label}
@@ -155,22 +186,22 @@ function PathStep({ label, status }: { label: string, status: 'done' | 'active' 
 
 function MenuItem({ icon: Icon, label, meta, color, href }: any) {
   const content = (
-    <div className="w-full flex items-center justify-between p-5 glass-card rounded-2xl border-border/40 hover:border-cyan/30 transition-all group mb-2">
-      <div className="flex items-center gap-4">
-        <div className={`w-10 h-10 rounded-xl bg-surface-3 flex items-center justify-center text-muted-2 group-hover:${color} transition-colors`}>
+    <div className="w-full flex items-center justify-between p-5 glass-card rounded-[2rem] border-border/40 hover:border-cyan/30 transition-all group mb-1">
+      <div className="flex items-center gap-5">
+        <div className={`w-11 h-11 rounded-2xl bg-surface-3 flex items-center justify-center text-muted-2 group-hover:${color} transition-colors border border-border/50 shadow-inner`}>
           <Icon className="w-5 h-5" />
         </div>
         <div className="text-left">
-          <span className="block text-sm font-bold text-text">{label}</span>
-          <span className="block text-[10px] text-muted-2 font-medium">{meta}</span>
+          <span className="block text-sm font-bold text-text mb-0.5">{label}</span>
+          <span className="block text-[10px] text-muted-2 font-mono uppercase tracking-wider">{meta}</span>
         </div>
       </div>
-      <ChevronRight className="w-4 h-4 text-muted-2 group-hover:text-cyan group-hover:translate-x-1 transition-all" />
+      <ChevronRight className="w-5 h-5 text-muted-2 group-hover:text-cyan group-hover:translate-x-1 transition-all" />
     </div>
   );
 
   if (href) {
-    return <a href={href}>{content}</a>;
+    return <Link href={href} className="block">{content}</Link>;
   }
-  return <button className="w-full">{content}</button>;
+  return <button className="w-full block">{content}</button>;
 }
