@@ -9,8 +9,13 @@ import { Card } from "@/components/ui/card";
 import { Briefcase, Zap, Clock, MapPin, Search, PlusCircle, ArrowUpRight } from "lucide-react";
 import { Tabs, TabsList, TabsTrigger, TabsContent } from "@/components/ui/tabs";
 import { Input } from "@/components/ui/input";
+import { useSearchParams } from "next/navigation";
+import { Suspense } from "react";
 
-export default function OpportunitiesPage() {
+function OpportunitiesContent() {
+  const searchParams = useSearchParams();
+  const defaultTab = searchParams.get('tab') || 'jobs';
+
   return (
     <div className="flex flex-col min-h-screen pb-24 md:pb-0 connected-nodes">
       <AppSidebar />
@@ -23,7 +28,7 @@ export default function OpportunitiesPage() {
       </header>
 
       <main className="flex-1 max-w-2xl mx-auto w-full p-5 space-y-8">
-        <Tabs defaultValue="jobs" className="w-full">
+        <Tabs defaultValue={defaultTab} className="w-full">
           <TabsList className="w-full bg-surface-2 p-1 rounded-2xl mb-8">
             <TabsTrigger value="jobs" className="flex-1 rounded-xl data-[state=active]:bg-primary data-[state=active]:text-ink">Jobs / Stages</TabsTrigger>
             <TabsTrigger value="missions" className="flex-1 rounded-xl data-[state=active]:bg-primary data-[state=active]:text-ink">Missions</TabsTrigger>
@@ -80,6 +85,14 @@ export default function OpportunitiesPage() {
       </main>
       <BottomNav />
     </div>
+  );
+}
+
+export default function OpportunitiesPage() {
+  return (
+    <Suspense fallback={<div>Chargement...</div>}>
+      <OpportunitiesContent />
+    </Suspense>
   );
 }
 
