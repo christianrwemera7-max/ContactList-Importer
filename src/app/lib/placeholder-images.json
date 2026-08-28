@@ -1,0 +1,29 @@
+
+{
+  "placeholderImages": [
+    {
+      "id": "hero-vision",
+      "description": "Une équipe de jeunes professionnels collaborant dans un espace moderne",
+      "imageUrl": "https://picsum.photos/seed/konekt1/1200/800",
+      "imageHint": "collaboration leadership"
+    },
+    {
+      "id": "academy-cover",
+      "description": "Étudiant utilisant une tablette pour apprendre",
+      "imageUrl": "https://picsum.photos/seed/konekt2/800/600",
+      "imageHint": "education technology"
+    },
+    {
+      "id": "project-lab",
+      "description": "Lancement d'un projet innovant",
+      "imageUrl": "https://picsum.photos/seed/konekt3/800/600",
+      "imageHint": "startup innovation"
+    },
+    {
+      "id": "community-meeting",
+      "description": "Réunion d'une cellule KONEKT",
+      "imageUrl": "https://picsum.photos/seed/konekt4/800/600",
+      "imageHint": "community meeting"
+    }
+  ]
+}
