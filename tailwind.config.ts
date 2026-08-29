@@ -16,15 +16,16 @@ export default {
         mono: ['IBM Plex Mono', 'monospace'],
       },
       colors: {
-        ink: '#0A0E19',
-        surface: '#131A2B',
+        ink: '#04070F',
+        surface: '#0A0F1D',
         orange: {
-          DEFAULT: '#FF6B35',
-          dim: '#7A3A24',
+          DEFAULT: '#FF6B00',
+          dim: '#7A3400',
         },
-        cyan: {
-          DEFAULT: '#33E6C8',
-          dim: '#1B4A45',
+        blue: {
+          DEFAULT: '#2563EB',
+          dim: '#1E3A8A',
+          electric: '#3B82F6',
         },
         gold: '#FFC857',
         background: 'hsl(var(--background))',
@@ -45,8 +46,8 @@ export default {
       },
       borderRadius: {
         lg: 'var(--radius)',
-        md: '14px',
-        sm: '10px',
+        md: '16px',
+        sm: '12px',
       },
     },
   },

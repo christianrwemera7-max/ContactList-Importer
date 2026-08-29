@@ -7,13 +7,13 @@
   :root {
     --background: 222 47% 4%;
     --foreground: 210 40% 98%;
-    --card: 222 47% 7%;
+    --card: 222 47% 6%;
     --card-foreground: 210 40% 98%;
-    --popover: 222 47% 7%;
+    --popover: 222 47% 6%;
     --popover-foreground: 210 40% 98%;
     --primary: 25 100% 50%;
     --primary-foreground: 222 47% 4%;
-    --secondary: 217 91% 60%;
+    --secondary: 210 100% 50%;
     --secondary-foreground: 210 40% 98%;
     --muted: 215 25% 65%;
     --muted-foreground: 215 20% 65%;
@@ -43,10 +43,6 @@ body {
 
 .glass-card:hover {
   @apply border-primary/30 bg-card/80;
-}
-
-.konekt-ring {
-  background: conic-gradient(hsl(var(--accent)), hsl(var(--primary)), hsl(var(--accent)));
 }
 
 .connected-nodes::before {

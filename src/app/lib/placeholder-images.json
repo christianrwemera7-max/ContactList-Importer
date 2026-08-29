@@ -3,27 +3,27 @@
   "placeholderImages": [
     {
       "id": "hero-vision",
-      "description": "Une équipe de jeunes professionnels collaborant dans un espace moderne",
+      "description": "Entrepreneur travaillant dans un espace moderne à Kinshasa",
       "imageUrl": "https://picsum.photos/seed/konekt1/1200/800",
-      "imageHint": "collaboration leadership"
+      "imageHint": "entrepreneur modern"
     },
     {
-      "id": "academy-cover",
-      "description": "Étudiant utilisant une tablette pour apprendre",
+      "id": "cell-meeting",
+      "description": "Groupe de 20 personnes collaborant activement",
       "imageUrl": "https://picsum.photos/seed/konekt2/800/600",
-      "imageHint": "education technology"
+      "imageHint": "community business"
     },
     {
-      "id": "project-lab",
-      "description": "Lancement d'un projet innovant",
+      "id": "project-pitch",
+      "description": "Pitch d'un projet technologique innovant",
       "imageUrl": "https://picsum.photos/seed/konekt3/800/600",
-      "imageHint": "startup innovation"
+      "imageHint": "startup pitch"
     },
     {
-      "id": "community-meeting",
-      "description": "Réunion d'une cellule KONEKT",
+      "id": "academy-course",
+      "description": "Formation professionnelle en finance PME",
       "imageUrl": "https://picsum.photos/seed/konekt4/800/600",
-      "imageHint": "community meeting"
+      "imageHint": "education professional"
     }
   ]
 }
