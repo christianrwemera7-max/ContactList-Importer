@@ -1,14 +1,58 @@
 
 'use client';
 
-import { Bell, Zap, Rocket, GraduationCap, ArrowRight, Briefcase, TrendingUp, Sparkles } from 'lucide-react';
-import { Button } from '@/components/ui/button';
+import { useMemo } from 'react';
+import { Compass, Search, Bell, Heart, MessageCircle, Share2, MapPin, Clock } from 'lucide-react';
+import { HexFrame } from '@/components/ui/HexFrame';
 import { Badge } from '@/components/ui/badge';
-import { BottomNav } from '@/components/layout/BottomNav';
-import { EngagementStats } from '@/components/dashboard/EngagementStats';
-import Link from 'next/link';
-import { useKonekt } from '@/lib/store';
 import { AppSidebar } from '@/components/layout/AppSidebar';
+import { BottomNav } from '@/components/layout/BottomNav';
+import { useKonekt } from '@/lib/store';
+
+const OPPORTUNITIES = [
+  {
+    id: 1,
+    author: "Cellule Kin-Sud",
+    tier: "PRO",
+    initials: "KS",
+    time: "Il y a 2h",
+    type: "Financement",
+    title: "Micro-crédit rotatif pour 8 porteurs de projet",
+    body: "La cellule ouvre un tour de financement participatif interne pour soutenir 8 membres en phase de lancement. Ticket moyen visé : 250$.",
+    tags: ["Financement", "Agro", "Cellule"],
+    likes: 34,
+    comments: 12,
+    zone: "Zone Sud — Gombe",
+  },
+  {
+    id: 2,
+    author: "Fatou D.",
+    tier: "PLUS",
+    initials: "FD",
+    time: "Il y a 5h",
+    type: "Marché",
+    title: "Appel d'offres municipal — fournitures scolaires",
+    body: "La mairie de Limete lance un appel d'offres pour l'équipement de 6 écoles. Cherche 2-3 membres KONEKT pour groupement.",
+    tags: ["Appel d'offres", "Éducation"],
+    likes: 51,
+    comments: 19,
+    zone: "Zone Centre — Limete",
+  },
+  {
+    id: 3,
+    author: "Pôle Numérique",
+    tier: "PRO",
+    initials: "PN",
+    time: "Hier",
+    type: "Formation",
+    title: "Session gratuite : comptabilité simplifiée pour TPE",
+    body: "3 places restantes pour la session du pôle national. Priorité aux membres START.",
+    tags: ["Formation", "Gestion", "Pôle national"],
+    likes: 28,
+    comments: 6,
+    zone: "Direction nationale",
+  },
+];
 
 export default function Dashboard() {
   const { state } = useKonekt();
@@ -17,160 +61,85 @@ export default function Dashboard() {
   if (!user) return null;
 
   return (
-    <div className="flex flex-col min-h-screen pb-24 md:pb-0 bg-ink connected-nodes">
+    <div className="flex min-h-screen bg-ink">
       <AppSidebar />
       
-      <header className="px-5 py-6 flex items-center justify-between sticky top-0 bg-ink/80 backdrop-blur-md z-40 border-b border-white/5">
-        <div className="flex flex-col">
-          <h1 className="font-display font-bold text-xl tracking-tight text-white">FLUX DE VALEUR</h1>
-          <p className="text-[9px] font-mono text-muted uppercase tracking-[0.2em] font-black">Activation KONEKT ID · Kinshasa</p>
-        </div>
-        <div className="flex gap-3">
-          <button className="w-10 h-10 flex items-center justify-center rounded-xl bg-surface border border-white/5 text-muted hover:text-orange transition-colors relative">
-            <Bell className="w-5 h-5" />
-            <div className="absolute top-2 right-2 w-2 h-2 bg-orange rounded-full border-2 border-ink" />
+      <main className="flex-1 md:ml-72 flex flex-col min-w-0">
+        <header className="sticky top-0 z-40 flex items-center justify-between px-6 py-4 bg-ink/80 backdrop-blur-md border-b border-line">
+          <div className="flex-1 max-w-lg flex items-center gap-3 bg-surface border border-line rounded-xl px-4 py-2 text-muted">
+            <Search size={16} />
+            <input 
+              placeholder="Chercher une opportunité, une cellule..." 
+              className="bg-transparent border-none outline-none text-sm w-full text-text"
+            />
+          </div>
+          <button className="ml-4 w-10 h-10 flex items-center justify-center rounded-xl bg-surface border border-line text-text hover:bg-surface-2 transition-colors">
+            <Bell size={18} />
           </button>
-          <Link href="/profile" className="w-10 h-10 rounded-xl bg-gradient-to-tr from-orange to-blue-electric p-[1.5px] hover:rotate-6 transition-transform">
-            <div className="w-full h-full rounded-[10px] bg-surface flex items-center justify-center font-display font-bold text-xs text-white">
-              {user.name.split(' ').map(n => n[0]).join('')}
-            </div>
-          </Link>
+        </header>
+
+        <div className="p-6 max-w-4xl mx-auto w-full space-y-8 pb-28 md:pb-12">
+          <section className="space-y-2">
+            <h1 className="font-display font-bold text-2xl">Feed opportunités</h1>
+            <p className="text-muted text-sm">Financements, appels d'offres et formations remontés par les cellules.</p>
+          </section>
+
+          <div className="space-y-6">
+            {OPPORTUNITIES.map((o) => (
+              <article key={o.id} className="bg-surface border border-line rounded-[2rem] p-6 space-y-4 hover:border-teal/30 transition-all">
+                <div className="flex items-center gap-4">
+                  <HexFrame size={42} color={o.tier === 'PRO' ? '#E8A83C' : '#35C29B'}>{o.initials}</HexFrame>
+                  <div className="flex-1 min-w-0">
+                    <div className="flex items-center gap-2">
+                      <strong className="text-sm font-bold">{o.author}</strong>
+                      <Badge variant="outline" className={`text-[9px] font-bold border-${o.tier === 'PRO' ? 'gold' : 'teal'} text-${o.tier === 'PRO' ? 'gold' : 'teal'} uppercase`}>
+                        {o.tier}
+                      </Badge>
+                    </div>
+                    <div className="flex items-center gap-3 text-[11px] text-muted mt-1">
+                      <span className="flex items-center gap-1"><MapPin size={12} /> {o.zone}</span>
+                      <span className="flex items-center gap-1"><Clock size={12} /> {o.time}</span>
+                    </div>
+                  </div>
+                  <span className="bg-gold-dim border border-gold/30 text-gold text-[10px] font-bold px-3 py-1 rounded-full uppercase tracking-wider">
+                    {o.type}
+                  </span>
+                </div>
+
+                <h3 className="font-display font-bold text-lg leading-tight">{o.title}</h3>
+                <p className="text-sm text-text/80 leading-relaxed">{o.body}</p>
+                
+                <div className="flex flex-wrap gap-2">
+                  {o.tags.map(t => (
+                    <span key={t} className="text-[11px] text-muted bg-surface-2 border border-line px-3 py-1 rounded-lg">
+                      {t}
+                    </span>
+                  ))}
+                </div>
+
+                <div className="flex items-center justify-between pt-4 border-t border-line">
+                  <div className="flex items-center gap-4">
+                    <button className="flex items-center gap-2 text-xs text-muted hover:text-text transition-colors">
+                      <Heart size={16} /> {o.likes}
+                    </button>
+                    <button className="flex items-center gap-2 text-xs text-muted hover:text-text transition-colors">
+                      <MessageCircle size={16} /> {o.comments}
+                    </button>
+                    <button className="text-muted hover:text-text transition-colors">
+                      <Share2 size={16} />
+                    </button>
+                  </div>
+                  <button className="k-cta text-xs py-2 px-4">
+                    Je suis intéressé·e
+                  </button>
+                </div>
+              </article>
+            ))}
+          </div>
         </div>
-      </header>
-
-      <main className="md:ml-72 flex-1 px-5 space-y-8 max-w-2xl mx-auto w-full py-8">
-        
-        {/* Engagement Matrix */}
-        <EngagementStats />
-
-        {/* Quick Launchpad */}
-        <section className="grid grid-cols-2 gap-4">
-          <ActionCard 
-            icon={Rocket} 
-            label="Project Lab" 
-            meta="3 besoins ouverts" 
-            color="orange" 
-            href="/opportunities?tab=projects" 
-          />
-          <ActionCard 
-            icon={GraduationCap} 
-            label="Academy" 
-            meta="72% complété" 
-            color="blue-electric" 
-            href="/academy" 
-          />
-        </section>
-
-        {/* AI Assistant Hook */}
-        <div className="glass-card p-6 rounded-[2.5rem] border-orange/20 bg-gradient-to-br from-orange/5 to-transparent flex items-start gap-4">
-          <div className="w-10 h-10 rounded-xl bg-orange/10 flex items-center justify-center text-orange flex-shrink-0">
-            <Sparkles className="w-5 h-5" />
-          </div>
-          <div className="space-y-2">
-            <h4 className="text-sm font-bold text-white">Prêt pour votre prochaine étape ?</h4>
-            <p className="text-[11px] text-muted leading-relaxed">
-              L'IA KONEKT a analysé votre profil. Vous devriez contacter <b>Sarah M.</b> de votre cellule pour votre projet AgroTech.
-            </p>
-            <button className="text-[10px] text-orange font-black uppercase tracking-widest hover:underline">Voir les recommandations</button>
-          </div>
-        </div>
-
-        {/* The Flow Content */}
-        <section className="space-y-6">
-          <div className="flex items-center justify-between">
-            <h3 className="font-mono text-[10px] uppercase tracking-[0.2em] text-muted font-black flex items-center gap-2">
-              <Zap className="w-3 h-3 text-orange" /> Flux Prioritaire
-            </h3>
-            <div className="flex gap-3">
-              <button className="text-[10px] font-bold text-orange uppercase tracking-widest border-b-2 border-orange pb-1">Pour moi</button>
-              <button className="text-[10px] font-bold text-muted uppercase tracking-widest pb-1">Cellule</button>
-            </div>
-          </div>
-
-          <div className="space-y-4">
-            <FlowItem 
-              type="opportunity" 
-              title="Mission : Consultant Stratégie" 
-              meta="Fintech Hub · Gombe" 
-              tag="PRO · 48H D'AVANCE"
-              content="Recherche d'un expert pour le déploiement d'une solution de paiement mobile."
-              color="orange"
-              icon={Briefcase}
-              cta="Postuler"
-            />
-            
-            <FlowItem 
-              type="project" 
-              title="Projet : E-Logistique RDC" 
-              meta="Project Lab · Cellule Limete" 
-              tag="RECHERCHE ASSOCIÉS"
-              content="Nous cherchons 1 CTO et 1 responsable logistique pour lancer la phase pilote."
-              color="blue-electric"
-              icon={Rocket}
-              cta="Rejoindre"
-            />
-
-            <FlowItem 
-              type="learning" 
-              title="Workshop : Fiscalité PME" 
-              meta="Academy · Expert DGI" 
-              tag="MARDI 18H"
-              content="Session exclusive sur la gestion des taxes pour les startups kimoises."
-              color="gold"
-              icon={GraduationCap}
-              cta="S'inscrire"
-            />
-          </div>
-        </section>
       </main>
 
       <BottomNav />
     </div>
-  );
-}
-
-function ActionCard({ icon: Icon, label, meta, color, href }: any) {
-  const colorClass = color === 'orange' ? 'text-orange bg-orange/10 border-orange/20' : 'text-blue-electric bg-blue-electric/10 border-blue-electric/20';
-  
-  return (
-    <Link href={href} className={`glass-card p-5 rounded-[2rem] border hover:border-orange/40 transition-all group flex flex-col justify-between h-full bg-surface/50`}>
-      <div className={`w-12 h-12 rounded-2xl flex items-center justify-center mb-4 group-hover:scale-110 transition-transform ${colorClass}`}>
-        <Icon className="w-6 h-6" />
-      </div>
-      <div>
-        <p className="font-display font-bold text-sm text-white mb-1">{label}</p>
-        <p className="text-[9px] text-muted font-mono uppercase font-black">{meta}</p>
-      </div>
-    </Link>
-  );
-}
-
-function FlowItem({ title, meta, tag, content, color, icon: Icon, cta }: any) {
-  const borderColor = color === 'orange' ? 'border-orange' : color === 'blue-electric' ? 'border-blue-electric' : 'border-gold';
-  const iconBg = color === 'orange' ? 'bg-orange/10 text-orange' : color === 'blue-electric' ? 'bg-blue-electric/10 text-blue-electric' : 'bg-gold/10 text-gold';
-
-  return (
-    <article className={`glass-card p-6 rounded-[2.5rem] space-y-4 border-l-4 ${borderColor} hover:translate-x-1 transition-all cursor-pointer bg-surface/40`}>
-      <div className="flex items-center justify-between">
-        <div className="flex items-center gap-3">
-          <div className={`w-10 h-10 rounded-xl flex items-center justify-center border border-white/5 ${iconBg}`}>
-            <Icon className="w-5 h-5" />
-          </div>
-          <div>
-            <p className="text-[9px] text-muted font-black uppercase font-mono tracking-widest">{meta}</p>
-            <Badge className={`bg-white/5 text-white border-white/10 text-[8px] font-mono py-0 h-4 mt-1`}>{tag}</Badge>
-          </div>
-        </div>
-      </div>
-      <div className="space-y-2">
-        <h3 className="font-display font-semibold text-base text-white tracking-tight leading-tight">{title}</h3>
-        <p className="text-[11px] text-muted leading-relaxed line-clamp-2">{content}</p>
-      </div>
-      <div className="pt-2 border-t border-white/5 flex justify-between items-center">
-        <Button size="sm" variant="ghost" className={`text-[10px] h-8 px-0 hover:bg-transparent text-white font-black uppercase tracking-[0.2em] gap-2`}>
-          {cta} <ArrowRight className="w-3.5 h-3.5 text-orange" />
-        </Button>
-      </div>
-    </article>
   );
 }

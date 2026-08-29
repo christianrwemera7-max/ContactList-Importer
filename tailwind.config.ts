@@ -16,18 +16,14 @@ export default {
         mono: ['IBM Plex Mono', 'monospace'],
       },
       colors: {
-        ink: '#04070F',
-        surface: '#0A0F1D',
-        orange: {
-          DEFAULT: '#FF6B00',
-          dim: '#7A3400',
-        },
-        blue: {
-          DEFAULT: '#2563EB',
-          dim: '#1E3A8A',
-          electric: '#3B82F6',
-        },
-        gold: '#FFC857',
+        ink: '#0D1210',
+        surface: '#141B18',
+        'surface-2': '#1C2620',
+        line: '#263229',
+        gold: '#E8A83C',
+        teal: '#35C29B',
+        'teal-dim': 'rgba(53,194,155,0.1)',
+        'gold-dim': 'rgba(232,168,60,0.1)',
         background: 'hsl(var(--background))',
         foreground: 'hsl(var(--foreground))',
         card: {
@@ -49,6 +45,9 @@ export default {
         md: '16px',
         sm: '12px',
       },
+      backgroundImage: {
+        'k-gradient': 'radial-gradient(circle at 15% 8%, rgba(53,194,155,0.06), transparent 40%), radial-gradient(circle at 85% 92%, rgba(232,168,60,0.05), transparent 40%)',
+      }
     },
   },
   plugins: [require('tailwindcss-animate')],
