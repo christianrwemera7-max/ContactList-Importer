@@ -1,4 +1,3 @@
-
 import type { Config } from 'tailwindcss';
 
 export default {
@@ -16,14 +15,18 @@ export default {
         mono: ['IBM Plex Mono', 'monospace'],
       },
       colors: {
-        ink: '#0D1210',
-        surface: '#141B18',
-        'surface-2': '#1C2620',
-        line: '#263229',
-        gold: '#E8A83C',
-        teal: '#35C29B',
-        'teal-dim': 'rgba(53,194,155,0.1)',
-        'gold-dim': 'rgba(232,168,60,0.1)',
+        ink: 'hsl(var(--background))',
+        surface: 'hsl(var(--card))',
+        'surface-2': 'hsl(var(--muted))',
+        orange: {
+          DEFAULT: 'hsl(var(--primary))',
+          foreground: 'hsl(var(--primary-foreground))',
+        },
+        blue: {
+          DEFAULT: 'hsl(var(--accent))',
+          foreground: 'hsl(var(--accent-foreground))',
+          electric: 'hsl(217, 91%, 60%)',
+        },
         background: 'hsl(var(--background))',
         foreground: 'hsl(var(--foreground))',
         card: {
@@ -45,9 +48,6 @@ export default {
         md: '16px',
         sm: '12px',
       },
-      backgroundImage: {
-        'k-gradient': 'radial-gradient(circle at 15% 8%, rgba(53,194,155,0.06), transparent 40%), radial-gradient(circle at 85% 92%, rgba(232,168,60,0.05), transparent 40%)',
-      }
     },
   },
   plugins: [require('tailwindcss-animate')],

@@ -1,4 +1,3 @@
-
 "use client"
 
 import React, { createContext, useContext, useState, useEffect } from 'react';
@@ -10,79 +9,120 @@ import React, { createContext, useContext, useState, useEffect } from 'react';
 
 export interface KonektMember {
   uid: string;
-  name: string;
-  tier: 'START' | 'PLUS' | 'PRO';
-  role: string;
-  cellId: string;
+  prenom: string;
+  nom: string;
+  email: string;
+  telephone: string;
+  zone: string;
+  ville: string;
+  palier: 'START' | 'PLUS' | 'PRO';
+  secteur: string;
+  projetEnCours: boolean;
+  projetDesc?: string;
+  celluleId: string;
   score: number;
-  skills: string[];
-  objectives: string[];
   status: 'active' | 'suspended' | 'pending';
+  joinedAt: string;
 }
 
 export interface CellInfo {
   id: string;
-  name: string;
-  memberCount: number;
-  activityRate: number;
-  leaderName: string;
+  zone: string;
+  membres: number;
 }
 
 interface AppState {
   currentUser: KonektMember | null;
   currentCell: CellInfo | null;
-  notifications: any[];
   isLoading: boolean;
 }
 
 interface KonektContextType {
   state: AppState;
+  register: (data: Partial<KonektMember>) => Promise<{ membre: KonektMember; cellule: CellInfo }>;
+  logout: () => void;
   updateScore: (points: number) => void;
-  setMember: (member: KonektMember) => void;
 }
 
 const KonektContext = createContext<KonektContextType | undefined>(undefined);
 
-const STORAGE_KEY = 'konekt_global_state_v5';
+const STORAGE_KEY = 'konekt_global_state_v7';
 
 export const KonektProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
   const [state, setState] = useState<AppState>({
-    currentUser: {
-      uid: "mem-001",
-      name: "Christian Rwemera",
-      tier: "PLUS",
-      role: "LEADER",
-      cellId: "cell-032",
-      score: 850,
-      skills: ["Marketing Digital", "Droit des Affaires", "IA & Prompting"],
-      objectives: ["Trouver des Associés", "Mentorat"],
-      status: "active"
-    },
-    currentCell: {
-      id: "cell-032",
-      name: "Cocody #032",
-      memberCount: 18,
-      activityRate: 92,
-      leaderName: "Awa K."
-    },
-    notifications: [],
-    isLoading: false,
+    currentUser: null,
+    currentCell: null,
+    isLoading: true,
   });
 
   useEffect(() => {
     const saved = localStorage.getItem(STORAGE_KEY);
     if (saved) {
       try {
-        setState(JSON.parse(saved));
+        setState({ ...JSON.parse(saved), isLoading: false });
       } catch (e) {
-        console.error("Failed to load KONEKT state", e);
+        setState(prev => ({ ...prev, isLoading: false }));
       }
+    } else {
+      setState(prev => ({ ...prev, isLoading: false }));
     }
   }, []);
 
   useEffect(() => {
-    localStorage.setItem(STORAGE_KEY, JSON.stringify(state));
+    if (!state.isLoading) {
+      localStorage.setItem(STORAGE_KEY, JSON.stringify(state));
+    }
   }, [state]);
+
+  const assignCellule = async (zone: string): Promise<CellInfo> => {
+    const cellsKey = 'konekt:cellules';
+    const savedCells = localStorage.getItem(cellsKey);
+    let cellules: CellInfo[] = savedCells ? JSON.parse(savedCells) : [];
+
+    let cible = cellules.find(c => c.zone === zone && c.membres < 20);
+    if (!cible) {
+      const numero = cellules.filter(c => c.zone === zone).length + 1;
+      cible = { id: `${zone.replace("Zone ", "")}-${numero}`, zone, membres: 0 };
+      cellules.push(cible);
+    }
+    cible.membres += 1;
+    localStorage.setItem(cellsKey, JSON.stringify(cellules));
+    return cible;
+  };
+
+  const register = async (data: Partial<KonektMember>) => {
+    const cellule = await assignCellule(data.zone || 'Zone Sud');
+    const newMember: KonektMember = {
+      uid: `mbr_${Date.now()}`,
+      prenom: data.prenom || '',
+      nom: data.nom || '',
+      email: data.email || '',
+      telephone: data.telephone || '',
+      zone: data.zone || 'Zone Sud',
+      ville: data.ville || '',
+      palier: data.palier || 'START',
+      secteur: data.secteur || '',
+      projetEnCours: data.projetEnCours || false,
+      projetDesc: data.projetDesc || '',
+      celluleId: cellule.id,
+      score: 100,
+      status: 'active',
+      joinedAt: new Date().toISOString(),
+    };
+
+    setState(prev => ({
+      ...prev,
+      currentUser: newMember,
+      currentCell: cellule
+    }));
+
+    return { membre: newMember, cellule };
+  };
+
+  const logout = () => {
+    setState({ currentUser: null, currentCell: null, isLoading: false });
+    localStorage.removeItem(STORAGE_KEY);
+  };
 
   const updateScore = (points: number) => {
     setState(prev => {
@@ -97,12 +137,8 @@ export const KonektProvider: React.FC<{ children: React.ReactNode }> = ({ childr
     });
   };
 
-  const setMember = (member: KonektMember) => {
-    setState(prev => ({ ...prev, currentUser: member }));
-  };
-
   return (
-    <KonektContext.Provider value={{ state, updateScore, setMember }}>
+    <KonektContext.Provider value={{ state, register, logout, updateScore }}>
       {children}
     </KonektContext.Provider>
   );

@@ -1,264 +1,293 @@
+"use client"
 
-'use client';
+import React, { useState } from "react";
+import { useRouter } from "next/navigation";
+import {
+  Wallet,
+  Users,
+  Rocket,
+  MapPin,
+  Check,
+  Loader2,
+  ChevronLeft,
+  ChevronRight,
+  Eye,
+  EyeOff,
+  Smartphone,
+  CreditCard,
+  Landmark,
+  ShieldCheck,
+  ArrowRight
+} from "lucide-react";
+import { useKonekt } from "@/lib/store";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { Progress } from "@/components/ui/progress";
+import { Badge } from "@/components/ui/badge";
 
-import { useState } from 'react';
-import { useRouter } from 'next/navigation';
-import { Button } from '@/components/ui/button';
-import { Input } from '@/components/ui/input';
-import { Badge } from '@/components/ui/badge';
-import { 
-  ArrowRight, 
-  ChevronLeft, 
-  Sparkles, 
-  Check, 
-  ShieldCheck, 
-  Rocket, 
-  Users, 
-  GraduationCap, 
-  Briefcase
-} from 'lucide-react';
-import { Progress } from '@/components/ui/progress';
+const ZONES = ["Zone Sud", "Zone Centre", "Zone Nord", "Zone Est", "Zone Ouest"];
+
+const PALIERS = [
+  {
+    id: "START",
+    prix: "5 $ / mois",
+    color: "text-muted",
+    icon: Wallet,
+    desc: "Adhésion de base : accès au feed, à la bibliothèque et à l'espace personnel.",
+  },
+  {
+    id: "PLUS",
+    prix: "10 $ / mois",
+    color: "text-teal",
+    icon: Users,
+    desc: "Accès au Match et à l'espace projet, priorité sur les formations de cellule.",
+  },
+  {
+    id: "PRO",
+    prix: "20 $ / mois",
+    color: "text-gold",
+    icon: Rocket,
+    desc: "Accompagnement renforcé, visibilité prioritaire dans le feed et le Match.",
+  },
+];
+
+const SECTEURS = [
+  "Agroalimentaire",
+  "Mode & Artisanat",
+  "Numérique / Tech",
+  "Logistique",
+  "Commerce",
+  "Éducation & Formation",
+  "Services",
+  "Autre",
+];
+
+const PAIEMENTS = [
+  { id: "mobile", label: "Mobile Money", icon: Smartphone },
+  { id: "carte", label: "Carte bancaire", icon: CreditCard },
+  { id: "virement", label: "Virement", icon: Landmark },
+];
+
+const STEPS = ["Identité", "Localisation", "Palier", "Profil", "Paiement", "Confirmation"];
 
 export default function OnboardingPage() {
   const router = useRouter();
-  const [step, setStep] = useState(1);
-  const [formData, setFormData] = useState({
-    firstName: '',
-    lastName: '',
-    email: '',
-    profession: '',
-    objectives: [] as string[],
-    skills: [] as string[],
-    tier: ''
+  const { register } = useKonekt();
+  const [step, setStep] = useState(0);
+  const [showPwd, setShowPwd] = useState(false);
+  const [submitting, setSubmitting] = useState(false);
+  const [result, setResult] = useState<any>(null);
+  
+  const [form, setForm] = useState<any>({
+    prenom: "",
+    nom: "",
+    telephone: "",
+    email: "",
+    motDePasse: "",
+    confirmation: "",
+    zone: "",
+    ville: "",
+    palier: "",
+    secteur: "",
+    projetEnCours: false,
+    projetDesc: "",
+    modePaiement: "",
   });
 
-  const totalSteps = 6;
-  const progress = (step / totalSteps) * 100;
+  const [errors, setErrors] = useState<any>({});
 
-  const next = () => setStep(s => Math.min(s + 1, totalSteps));
-  const prev = () => setStep(s => Math.max(s - 1, 1));
+  const progress = ((step + 1) / STEPS.length) * 100;
 
-  const complete = () => {
-    router.push('/dashboard');
+  const setVal = (key: string, val: any) => {
+    setForm((f: any) => ({ ...f, [key]: val }));
+  };
+
+  const validate = () => {
+    const e: any = {};
+    if (step === 0) {
+      if (!form.prenom) e.prenom = "Champ requis";
+      if (!form.email || !form.email.includes("@")) e.email = "Email invalide";
+      if (form.motDePasse.length < 6) e.motDePasse = "6 caractères min.";
+    }
+    if (step === 1 && !form.zone) e.zone = "Choisissez une zone";
+    if (step === 2 && !form.palier) e.palier = "Choisissez un palier";
+    if (step === 3 && !form.secteur) e.secteur = "Choisissez un secteur";
+    if (step === 4 && !form.modePaiement) e.modePaiement = "Requis";
+
+    setErrors(e);
+    return Object.keys(e).length === 0;
+  };
+
+  const handleNext = async () => {
+    if (!validate()) return;
+    if (step === 4) {
+      setSubmitting(true);
+      try {
+        const res = await register(form);
+        setResult(res);
+        setStep(5);
+      } catch (err) {
+        console.error(err);
+      } finally {
+        setSubmitting(false);
+      }
+    } else {
+      setStep(s => s + 1);
+    }
   };
 
   return (
-    <div className="min-h-screen flex flex-col connected-nodes bg-ink selection:bg-orange selection:text-ink">
-      <header className="p-6 flex items-center justify-between border-b border-white/5 sticky top-0 bg-ink/80 backdrop-blur-md z-50">
-        <Button variant="ghost" size="sm" onClick={prev} disabled={step === 1} className="text-muted hover:text-white">
-          <ChevronLeft className="w-4 h-4 mr-2" /> Retour
-        </Button>
-        <div className="w-32">
-          <Progress value={progress} className="h-1.5 bg-surface-3" indicatorClassName="bg-orange" />
-        </div>
-        <div className="w-20 text-[10px] font-mono text-muted text-right font-black tracking-widest uppercase">ÉTAPE {step}</div>
-      </header>
-
-      <main className="flex-1 flex flex-col items-center justify-center p-6 max-w-lg mx-auto w-full py-20">
-        {/* Step 1: Vision Awareness */}
-        {step === 1 && (
-          <div className="space-y-10 w-full animate-in fade-in slide-in-from-bottom-4">
-            <div className="text-center space-y-4">
-              <div className="w-16 h-16 rounded-[2rem] bg-orange/10 border border-orange/20 flex items-center justify-center text-orange mx-auto">
-                <ShieldCheck className="w-8 h-8" />
-              </div>
-              <h1 className="text-4xl font-display font-bold text-white tracking-tighter">Votre ID KONEKT</h1>
-              <p className="text-muted text-sm leading-relaxed max-w-[280px] mx-auto">
-                L'identité numérique unique qui certifie votre appartenance au réseau et votre score de valeur.
-              </p>
-            </div>
-            <div className="space-y-4">
-              <div className="grid grid-cols-2 gap-4">
-                <Input 
-                  placeholder="Prénom" 
-                  className="h-14 rounded-2xl bg-surface-2 border-white/5 text-white focus:border-orange/50 transition-all"
-                  value={formData.firstName}
-                  onChange={e => setFormData({...formData, firstName: e.target.value})}
-                />
-                <Input 
-                  placeholder="Nom" 
-                  className="h-14 rounded-2xl bg-surface-2 border-white/5 text-white focus:border-orange/50 transition-all"
-                  value={formData.lastName}
-                  onChange={e => setFormData({...formData, lastName: e.target.value})}
-                />
-              </div>
-              <Input 
-                placeholder="Email professionnel" 
-                type="email" 
-                className="h-14 rounded-2xl bg-surface-2 border-white/5 text-white focus:border-orange/50 transition-all"
-                value={formData.email}
-                onChange={e => setFormData({...formData, email: e.target.value})}
-              />
-              <Button 
-                onClick={next} 
-                disabled={!formData.firstName || !formData.email}
-                className="w-full h-14 rounded-2xl bg-orange text-ink font-bold gap-2 text-lg"
-              >
-                Commencer <ArrowRight className="w-4 h-4" />
-              </Button>
-            </div>
+    <div className="min-h-screen bg-ink flex flex-col items-center justify-center p-6 pb-24 md:pb-6">
+      <div className="w-full max-w-xl space-y-8 animate-in fade-in slide-in-from-bottom-4 duration-700">
+        
+        <header className="flex flex-col items-center text-center space-y-4 mb-10">
+          <div className="w-16 h-16 k-hex-clip bg-orange flex items-center justify-center font-display font-bold text-ink text-3xl">K</div>
+          <h1 className="text-3xl font-display font-bold text-white tracking-tighter">Votre ID KONEKT</h1>
+          <div className="w-full max-w-xs space-y-2">
+            <Progress value={progress} className="h-1.5 bg-surface-2" indicatorClassName="bg-orange" />
+            <p className="text-[10px] font-mono text-muted uppercase tracking-[0.3em]">Étape {step + 1} : {STEPS[step]}</p>
           </div>
-        )}
+        </header>
 
-        {/* Step 2: Role Selection */}
-        {step === 2 && (
-          <div className="space-y-8 w-full animate-in fade-in slide-in-from-bottom-4">
-            <div className="text-center space-y-2">
-              <h1 className="text-3xl font-display font-bold text-white">Votre Profil</h1>
-              <p className="text-muted text-sm">Ceci nous aide à vous placer dans la bonne Cellule.</p>
+        <main className="glass-card p-8 rounded-[2.5rem] border-white/5 space-y-6">
+          
+          {step === 0 && (
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+              <div className="space-y-2">
+                <p className="text-[10px] font-mono text-muted uppercase tracking-widest px-1">Prénom</p>
+                <Input value={form.prenom} onChange={e => setVal('prenom', e.target.value)} placeholder="Aïcha" className="bg-surface-2 border-white/5 h-12 rounded-2xl" />
+                {errors.prenom && <p className="text-[10px] text-orange px-1">{errors.prenom}</p>}
+              </div>
+              <div className="space-y-2">
+                <p className="text-[10px] font-mono text-muted uppercase tracking-widest px-1">Nom</p>
+                <Input value={form.nom} onChange={e => setVal('nom', e.target.value)} placeholder="Bamba" className="bg-surface-2 border-white/5 h-12 rounded-2xl" />
+              </div>
+              <div className="space-y-2 md:col-span-2">
+                <p className="text-[10px] font-mono text-muted uppercase tracking-widest px-1">Email Professionnel</p>
+                <Input type="email" value={form.email} onChange={e => setVal('email', e.target.value)} placeholder="aicha@konekt.id" className="bg-surface-2 border-white/5 h-12 rounded-2xl" />
+              </div>
+              <div className="space-y-2 md:col-span-2">
+                <p className="text-[10px] font-mono text-muted uppercase tracking-widest px-1">Mot de passe</p>
+                <div className="relative">
+                  <Input type={showPwd ? "text" : "password"} value={form.motDePasse} onChange={e => setVal('motDePasse', e.target.value)} className="bg-surface-2 border-white/5 h-12 rounded-2xl pr-10" />
+                  <button onClick={() => setShowPwd(!showPwd)} className="absolute right-3 top-1/2 -translate-y-1/2 text-muted">
+                    {showPwd ? <EyeOff size={16} /> : <Eye size={16} />}
+                  </button>
+                </div>
+              </div>
             </div>
-            <div className="grid grid-cols-2 gap-4">
-              {[
-                { id: 'Entrepreneur', icon: Rocket, label: 'Lancer & Bâtir' },
-                { id: 'Professionnel', icon: ShieldCheck, label: 'Expert Métier' },
-                { id: 'Freelance', icon: Briefcase, label: 'Services Tech' },
-                { id: 'Étudiant', icon: GraduationCap, label: 'Apprentissage' },
-                { id: 'Créateur', icon: Sparkles, label: 'Média & Art' },
-                { id: 'Chercheur', icon: Users, label: 'Pôle Social' },
-              ].map(role => (
-                <button
-                  key={role.id}
-                  onClick={() => { setFormData({ ...formData, profession: role.id }); next(); }}
-                  className={`p-6 rounded-[2rem] border transition-all text-left space-y-3 group ${
-                    formData.profession === role.id ? 'bg-orange/10 border-orange' : 'glass-card border-white/5 hover:border-orange/50'
-                  }`}
-                >
-                  <role.icon className={`w-6 h-6 ${formData.profession === role.id ? 'text-orange' : 'text-muted group-hover:text-orange'}`} />
-                  <div>
-                    <p className="font-bold text-sm text-white">{role.id}</p>
-                    <p className="text-[10px] text-muted-2 uppercase tracking-widest font-mono mt-1">{role.label}</p>
+          )}
+
+          {step === 1 && (
+            <div className="space-y-6">
+              <div className="space-y-4">
+                <p className="text-[10px] font-mono text-muted uppercase tracking-widest">Choisir ma Zone</p>
+                <div className="flex flex-wrap gap-2">
+                  {ZONES.map(z => (
+                    <button key={z} onClick={() => setVal('zone', z)} className={`px-4 py-2 rounded-xl border text-xs font-bold transition-all ${form.zone === z ? 'bg-orange border-orange text-ink' : 'glass-card border-white/5 text-muted hover:border-orange/50'}`}>
+                      {z}
+                    </button>
+                  ))}
+                </div>
+              </div>
+              <div className="space-y-2">
+                <p className="text-[10px] font-mono text-muted uppercase tracking-widest">Ville / Quartier</p>
+                <Input value={form.ville} onChange={e => setVal('ville', e.target.value)} placeholder="Gombe, Kinshasa" className="bg-surface-2 border-white/5 h-12 rounded-2xl" />
+              </div>
+            </div>
+          )}
+
+          {step === 2 && (
+            <div className="grid gap-3">
+              {PALIERS.map(p => (
+                <button key={p.id} onClick={() => setVal('palier', p.id)} className={`flex items-start gap-4 p-5 rounded-[2rem] border text-left transition-all ${form.palier === p.id ? 'bg-surface-2 border-orange scale-[1.02]' : 'glass-card border-white/5'}`}>
+                  <div className={`w-10 h-10 rounded-xl bg-surface-3 flex items-center justify-center ${p.color}`}>
+                    <p.icon size={20} />
+                  </div>
+                  <div className="flex-1">
+                    <div className="flex justify-between items-center mb-1">
+                      <span className="font-display font-bold text-white">{p.id}</span>
+                      <span className={`font-mono text-[10px] font-bold ${p.color}`}>{p.prix}</span>
+                    </div>
+                    <p className="text-[10px] text-muted leading-relaxed">{p.desc}</p>
                   </div>
                 </button>
               ))}
             </div>
-          </div>
-        )}
+          )}
 
-        {/* Step 5: Tiers (Crucial Vision Part) */}
-        {step === 5 && (
-          <div className="space-y-8 w-full animate-in fade-in slide-in-from-bottom-4">
-            <div className="text-center space-y-2">
-              <h1 className="text-3xl font-display font-bold text-white">Adhésion Annuelle</h1>
-              <p className="text-muted text-sm leading-relaxed max-w-[320px] mx-auto">
-                L'argent finance les ressources. L'engagement finance votre leadership. Choisissez votre point d'entrée.
-              </p>
+          {step === 3 && (
+            <div className="space-y-6">
+              <div className="space-y-4">
+                <p className="text-[10px] font-mono text-muted uppercase tracking-widest">Secteur Principal</p>
+                <div className="grid grid-cols-2 gap-2">
+                  {SECTEURS.map(s => (
+                    <button key={s} onClick={() => setVal('secteur', s)} className={`px-4 py-3 rounded-2xl border text-[10px] font-black uppercase tracking-wider transition-all ${form.secteur === s ? 'bg-orange border-orange text-ink' : 'glass-card border-white/5 text-muted'}`}>
+                      {s}
+                    </button>
+                  ))}
+                </div>
+              </div>
             </div>
-            <div className="space-y-4">
-              <TierCard 
-                title="START" 
-                price="5$" 
-                benefits={['Accès Cellule de proximité', 'Academy (Base)', 'Événements Networking']}
-                selected={formData.tier === 'START'}
-                onSelect={() => setFormData({...formData, tier: 'START'})}
-              />
-              <TierCard 
-                title="PLUS" 
-                price="10$" 
-                benefits={['Tout START', 'Mentorat collectif', 'Accès Opportunités 48h avant']}
-                selected={formData.tier === 'PLUS'}
-                onSelect={() => setFormData({...formData, tier: 'PLUS'})}
-                featured
-              />
-              <TierCard 
-                title="PRO" 
-                price="20$" 
-                benefits={['Tout PLUS', 'Incubation Project Lab', 'Moteur KONEKT MATCH Pro']}
-                selected={formData.tier === 'PRO'}
-                onSelect={() => setFormData({...formData, tier: 'PRO'})}
-              />
-              <Button onClick={next} disabled={!formData.tier} className="w-full h-14 mt-4 rounded-2xl bg-orange text-ink font-bold text-lg">
-                Confirmer mon adhésion
+          )}
+
+          {step === 4 && (
+            <div className="space-y-6">
+              <div className="space-y-4">
+                <p className="text-[10px] font-mono text-muted uppercase tracking-widest">Mode de paiement</p>
+                <div className="grid grid-cols-3 gap-3">
+                  {PAIEMENTS.map(p => (
+                    <button key={p.id} onClick={() => setVal('modePaiement', p.id)} className={`flex flex-col items-center gap-3 p-4 rounded-2xl border transition-all ${form.modePaiement === p.id ? 'bg-orange/10 border-orange text-orange' : 'glass-card border-white/5 text-muted'}`}>
+                      <p.icon size={20} />
+                      <span className="text-[9px] font-bold uppercase">{p.label}</span>
+                    </button>
+                  ))}
+                </div>
+              </div>
+              <div className="p-4 bg-surface-2 rounded-2xl border border-white/5 space-y-2">
+                <div className="flex justify-between text-[11px]"><span className="text-muted">Palier</span><span className="text-white font-bold">{form.palier}</span></div>
+                <div className="flex justify-between text-[11px]"><span className="text-muted">Zone</span><span className="text-white font-bold">{form.zone}</span></div>
+              </div>
+            </div>
+          )}
+
+          {step === 5 && result && (
+            <div className="text-center space-y-6 py-6 animate-in zoom-in-95">
+              <div className="w-20 h-20 k-hex-clip bg-teal flex items-center justify-center text-ink mx-auto">
+                <Check size={40} />
+              </div>
+              <div className="space-y-2">
+                <h2 className="text-3xl font-display font-bold text-white">Félicitations !</h2>
+                <p className="text-sm text-muted">Bienvenue, {result.membre.prenom}. Votre ID KONEKT est actif.</p>
+              </div>
+              <div className="bg-surface-2 p-6 rounded-[2rem] border border-white/5 space-y-4 text-left">
+                <div className="flex justify-between items-center pb-4 border-b border-white/5">
+                  <span className="text-[10px] font-mono text-muted uppercase">Cellule Assignée</span>
+                  <span className="font-display font-bold text-teal text-xl">#{result.cellule.id}</span>
+                </div>
+                <div className="space-y-1">
+                  <p className="text-[10px] font-mono text-muted uppercase">Impact Immédiat</p>
+                  <p className="text-xs text-white">Vous êtes le <span className="text-orange font-bold">{result.cellule.membres}ème membre</span> de cette cellule. Votre leader local vous contactera sous 24h.</p>
+                </div>
+              </div>
+              <Button onClick={() => router.push('/dashboard')} className="w-full h-14 rounded-2xl bg-orange text-ink font-bold text-lg">Entrer dans le réseau</Button>
+            </div>
+          )}
+
+          {step < 5 && (
+            <div className="flex gap-4 pt-4">
+              <Button variant="ghost" onClick={() => setStep(step - 1)} disabled={step === 0} className="flex-1 h-14 rounded-2xl text-muted hover:text-white border border-white/5">
+                <ChevronLeft className="mr-2" size={18} /> Retour
+              </Button>
+              <Button onClick={handleNext} disabled={submitting} className="flex-[2] h-14 rounded-2xl bg-orange text-ink font-bold hover:bg-orange/90 shadow-xl shadow-orange/20">
+                {submitting ? <Loader2 className="animate-spin" /> : step === 4 ? "Confirmer mon ID" : "Continuer"}
+                {step < 4 && <ChevronRight className="ml-2" size={18} />}
               </Button>
             </div>
-          </div>
-        )}
+          )}
 
-        {/* Step 6: Success */}
-        {step === 6 && (
-          <div className="text-center space-y-10 animate-in zoom-in-95 duration-500 w-full">
-            <div className="relative mx-auto w-32 h-32">
-              <div className="absolute inset-0 bg-orange/20 blur-2xl rounded-full" />
-              <div className="w-full h-full rounded-[2.5rem] bg-orange/10 border border-orange/30 flex items-center justify-center text-orange relative z-10">
-                <Check className="w-16 h-16" strokeWidth={3} />
-              </div>
-            </div>
-            <div className="space-y-4">
-              <h1 className="text-4xl font-display font-bold text-white tracking-tighter">Bienvenue, {formData.firstName} !</h1>
-              <p className="text-muted leading-relaxed text-sm">
-                Votre ID KONEKT <b className="text-white">8742-014</b> est actif.<br/>
-                Affectation : <b className="text-white">Cellule Gombe #014</b>.<br/>
-                Votre Leader vous contactera sous 24h.
-              </p>
-            </div>
-            <div className="grid grid-cols-2 gap-4">
-              <div className="glass-card p-5 rounded-[2rem] text-left border-blue-electric/20">
-                <p className="text-[9px] font-mono text-muted uppercase tracking-widest mb-2 font-black">Prochaine Étape</p>
-                <h3 className="font-bold text-xs text-white">Compléter mon ID</h3>
-                <p className="text-[10px] text-blue-electric mt-1 font-bold">+50 Points</p>
-              </div>
-              <div className="glass-card p-5 rounded-[2rem] text-left border-orange/20">
-                <p className="text-[9px] font-mono text-muted uppercase tracking-widest mb-2 font-black">Adhésion</p>
-                <h3 className="font-bold text-xs text-white">KONEKT {formData.tier}</h3>
-                <p className="text-[10px] text-orange mt-1 font-bold">Actif jusqu'en 2027</p>
-              </div>
-            </div>
-            <Button onClick={complete} size="lg" className="w-full h-16 rounded-[2rem] bg-orange text-ink font-bold text-xl shadow-xl shadow-orange/20">
-              Entrer dans le Flow
-            </Button>
-          </div>
-        )}
-
-        {/* Other steps simplified for brevity but functional */}
-        {step === 3 && (
-           <div className="space-y-8 w-full animate-in fade-in slide-in-from-bottom-4 text-center">
-             <h1 className="text-3xl font-display font-bold text-white">Vos Talents</h1>
-             <div className="flex flex-wrap gap-2 justify-center">
-               {['Tech', 'Finance', 'Design', 'Vente', 'Agriculture', 'Logistique'].map(s => (
-                 <button key={s} onClick={() => next()} className="px-6 py-3 rounded-2xl glass-card border-white/5 text-muted hover:border-orange text-sm font-bold">{s}</button>
-               ))}
-             </div>
-           </div>
-        )}
-        {step === 4 && (
-           <div className="space-y-8 w-full animate-in fade-in slide-in-from-bottom-4 text-center">
-             <h1 className="text-3xl font-display font-bold text-white">Vos Objectifs</h1>
-             <div className="space-y-3">
-               {['Trouver un associé', 'Apprendre', 'Financer mon projet'].map(o => (
-                 <button key={o} onClick={() => next()} className="w-full p-5 rounded-2xl glass-card border-white/5 text-muted hover:border-orange text-sm font-bold">{o}</button>
-               ))}
-             </div>
-           </div>
-        )}
-      </main>
-    </div>
-  );
-}
-
-function TierCard({ title, price, benefits, selected, onSelect, featured }: any) {
-  return (
-    <button
-      onClick={onSelect}
-      className={`w-full p-6 rounded-[2.5rem] border text-left relative transition-all duration-500 ${
-        selected ? 'bg-surface border-orange shadow-2xl scale-[1.02]' : 'glass-card border-white/5 hover:border-orange/30'
-      }`}
-    >
-      {featured && <Badge className="absolute -top-3 right-8 bg-orange text-ink font-black text-[10px] px-3 py-1">RECOMMANDÉ</Badge>}
-      <div className="flex justify-between items-center mb-4">
-        <div>
-          <h3 className="text-xl font-display font-bold text-white">{title}</h3>
-          <p className="text-2xl font-display font-bold text-orange">{price}<span className="text-xs text-muted font-normal">/an</span></p>
-        </div>
-        <div className={`w-6 h-6 rounded-full border-2 flex items-center justify-center ${selected ? 'border-orange bg-orange text-ink' : 'border-white/10'}`}>
-          {selected && <Check className="w-4 h-4" strokeWidth={3} />}
-        </div>
+        </main>
       </div>
-      <ul className="space-y-2">
-        {benefits.map((b: string) => (
-          <li key={b} className="text-[11px] text-muted flex items-center gap-2 font-medium">
-            <div className="w-1 h-1 rounded-full bg-orange" /> {b}
-          </li>
-        ))}
-      </ul>
-    </button>
+    </div>
   );
 }

@@ -1,42 +1,37 @@
-
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
 @layer base {
   :root {
-    --background: 156 12% 6%;
-    --foreground: 120 10% 95%;
-    --card: 156 15% 9%;
-    --card-foreground: 120 10% 95%;
-    --popover: 156 15% 9%;
-    --popover-foreground: 120 10% 95%;
-    --primary: 156 60% 48%;
-    --primary-foreground: 156 12% 6%;
-    --secondary: 40 80% 57%;
-    --secondary-foreground: 156 12% 6%;
-    --muted: 156 10% 60%;
-    --muted-foreground: 156 10% 50%;
-    --accent: 40 80% 57%;
-    --accent-foreground: 156 12% 6%;
+    --background: 222 47% 4%;
+    --foreground: 210 40% 98%;
+    --card: 222 47% 6%;
+    --card-foreground: 210 40% 98%;
+    --popover: 222 47% 6%;
+    --popover-foreground: 210 40% 98%;
+    --primary: 24 100% 50%;
+    --primary-foreground: 222 47% 4%;
+    --secondary: 217 91% 60%;
+    --secondary-foreground: 210 40% 98%;
+    --muted: 217 10% 60%;
+    --muted-foreground: 217 10% 50%;
+    --accent: 217 91% 60%;
+    --accent-foreground: 210 40% 98%;
     --destructive: 0 84.2% 60.2%;
     --destructive-foreground: 210 40% 98%;
-    --border: 156 15% 18%;
-    --input: 156 15% 18%;
-    --ring: 40 80% 57%;
+    --border: 217 20% 15%;
+    --input: 217 20% 15%;
+    --ring: 24 100% 50%;
     --radius: 20px;
   }
 }
 
 body {
-  @apply bg-ink text-foreground font-sans min-h-screen antialiased selection:bg-gold selection:text-ink;
-  background-image: theme('backgroundImage.k-gradient');
+  @apply bg-background text-foreground font-sans min-h-screen antialiased selection:bg-primary selection:text-primary-foreground;
+  background-image: radial-gradient(circle at 15% 8%, rgba(37, 99, 235, 0.08), transparent 40%),
+    radial-gradient(circle at 85% 92%, rgba(255, 107, 0, 0.07), transparent 40%);
   background-attachment: fixed;
-}
-
-.k-card-glass {
-  @apply bg-surface/60 backdrop-blur-xl border border-line/40 shadow-2xl transition-all duration-300;
-  box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.5);
 }
 
 .k-hex-clip {
@@ -53,9 +48,12 @@ body {
 
 @layer components {
   .k-badge {
-    @apply inline-flex items-center gap-1.5 font-display text-[10px] font-bold tracking-wider uppercase border rounded-md px-2 py-0.5;
+    @apply inline-flex items-center gap-1.5 font-display text-[10px] font-bold tracking-wider uppercase border rounded-md px-2 py-0.5 border-primary/30 text-primary;
   }
   .k-cta {
-    @apply flex items-center justify-center gap-2 bg-gold text-ink font-bold py-2.5 px-5 rounded-xl hover:brightness-110 transition-all active:scale-95;
+    @apply flex items-center justify-center gap-2 bg-primary text-primary-foreground font-bold py-2.5 px-5 rounded-xl hover:brightness-110 transition-all active:scale-95 shadow-lg shadow-primary/10;
+  }
+  .glass-card {
+    @apply bg-card/60 backdrop-blur-xl border border-border/50 shadow-2xl transition-all duration-300;
   }
 }
