@@ -48,7 +48,7 @@ export function AppSidebar() {
           <div className="relative z-10 space-y-4">
             <div className="flex justify-between items-center">
               <span className="text-[10px] font-mono text-muted uppercase tracking-widest">KONEKT Score</span>
-              <span className="text-sm font-bold text-gold">850</span>
+              <span className="text-sm font-bold text-orange">850</span>
             </div>
             <div className="h-1.5 w-full bg-surface-3 rounded-full overflow-hidden">
               <div className="h-full bg-primary w-[75%]" />
@@ -68,11 +68,11 @@ export function AppSidebar() {
               className={cn(
                 "flex items-center gap-4 px-5 py-3.5 rounded-2xl text-sm font-bold transition-all group",
                 isActive 
-                  ? "bg-primary/10 text-primary border border-primary/20" 
+                  ? "bg-blue/10 text-blue-bright border border-blue/20" 
                   : "text-muted hover:bg-surface-2 hover:text-text"
               )}
             >
-              <item.icon className={cn("w-5 h-5 transition-colors", isActive ? "text-primary" : "text-muted group-hover:text-text")} />
+              <item.icon className={cn("w-5 h-5 transition-colors", isActive ? "text-blue-bright" : "text-muted group-hover:text-text")} />
               {item.name}
             </Link>
           );
@@ -84,7 +84,7 @@ export function AppSidebar() {
           href="/profile"
           className="flex items-center gap-4 px-5 py-4 rounded-2xl text-sm font-bold text-muted hover:bg-surface-2 hover:text-text transition-all"
         >
-          <div className="w-8 h-8 rounded-lg bg-surface-3 flex items-center justify-center font-display text-xs border border-border">JK</div>
+          <div className="w-8 h-8 rounded-lg bg-surface-3 flex items-center justify-center font-display text-xs border border-border text-blue-bright">JK</div>
           Mon KONEKT ID
         </Link>
         <button className="w-full flex items-center gap-4 px-5 py-3.5 rounded-2xl text-sm font-bold text-destructive hover:bg-destructive/5 transition-colors text-left">
@@ -99,12 +99,12 @@ export function AppSidebar() {
 function KonektLogo() {
   return (
     <svg width="28" height="28" viewBox="0 0 34 34" fill="none">
-      <circle cx="8" cy="8" r="3.4" fill="hsl(var(--accent))"/>
-      <circle cx="8" cy="26" r="3.4" fill="hsl(var(--accent))"/>
-      <circle cx="26" cy="17" r="3.6" fill="hsl(var(--primary))"/>
-      <line x1="8" y1="8" x2="26" y2="17" stroke="hsl(var(--border))" strokeWidth="1.6"/>
-      <line x1="8" y1="26" x2="26" y2="17" stroke="hsl(var(--border))" strokeWidth="1.6"/>
-      <line x1="8" y1="8" x2="8" y2="26" stroke="hsl(var(--border))" strokeWidth="1.6"/>
+      <circle cx="8" cy="8" r="3.4" fill="#3B82F6"/>
+      <circle cx="8" cy="26" r="3.4" fill="#3B82F6"/>
+      <circle cx="26" cy="17" r="3.6" fill="#FF6B00"/>
+      <line x1="8" y1="8" x2="26" y2="17" stroke="#1E3A8A" strokeWidth="1.6"/>
+      <line x1="8" y1="26" x2="26" y2="17" stroke="#1E3A8A" strokeWidth="1.6"/>
+      <line x1="8" y1="8" x2="8" y2="26" stroke="#1E3A8A" strokeWidth="1.6"/>
     </svg>
   );
 }

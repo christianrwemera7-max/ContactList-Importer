@@ -5,40 +5,40 @@
 
 @layer base {
   :root {
-    --background: 222 47% 7%;
+    --background: 222 47% 4%;
     --foreground: 210 40% 98%;
-    --card: 222 47% 11%;
+    --card: 222 47% 7%;
     --card-foreground: 210 40% 98%;
-    --popover: 222 47% 11%;
+    --popover: 222 47% 7%;
     --popover-foreground: 210 40% 98%;
-    --primary: 15 100% 61%;
-    --primary-foreground: 222 47% 7%;
-    --secondary: 222 30% 18%;
+    --primary: 25 100% 50%;
+    --primary-foreground: 222 47% 4%;
+    --secondary: 217 91% 60%;
     --secondary-foreground: 210 40% 98%;
-    --muted: 226 21% 63%;
-    --muted-foreground: 226 21% 63%;
-    --accent: 171 77% 55%;
-    --accent-foreground: 222 47% 7%;
+    --muted: 215 25% 65%;
+    --muted-foreground: 215 20% 65%;
+    --accent: 210 100% 50%;
+    --accent-foreground: 210 40% 98%;
     --destructive: 0 84.2% 60.2%;
     --destructive-foreground: 210 40% 98%;
-    --border: 226 35% 25%;
-    --input: 226 35% 25%;
-    --ring: 15 100% 61%;
-    --radius: 22px;
+    --border: 222 35% 15%;
+    --input: 222 35% 15%;
+    --ring: 25 100% 50%;
+    --radius: 24px;
   }
 }
 
 body {
   @apply bg-background text-foreground font-sans min-h-screen antialiased selection:bg-primary selection:text-ink;
   background: 
-    radial-gradient(1200px 600px at 15% -10%, rgba(255,107,53,0.12), transparent 60%),
-    radial-gradient(1000px 500px at 90% 10%, rgba(51,230,200,0.10), transparent 55%),
+    radial-gradient(1200px 600px at 15% -10%, rgba(255, 107, 53, 0.08), transparent 60%),
+    radial-gradient(1000px 500px at 90% 10%, rgba(37, 99, 235, 0.12), transparent 55%),
     hsl(var(--background));
 }
 
 .glass-card {
   @apply bg-card/60 backdrop-blur-xl border border-border/40 shadow-2xl transition-all duration-300;
-  box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.4);
+  box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.5);
 }
 
 .glass-card:hover {
@@ -49,17 +49,13 @@ body {
   background: conic-gradient(hsl(var(--accent)), hsl(var(--primary)), hsl(var(--accent)));
 }
 
-.leader-ring {
-  background: conic-gradient(hsl(var(--primary)), hsl(var(--gold)), hsl(var(--primary)));
-}
-
 .connected-nodes::before {
   content: '';
   position: absolute;
   inset: 0;
   background-image: radial-gradient(circle, hsl(var(--border)) 1px, transparent 1px);
   background-size: 24px 24px;
-  opacity: 0.15;
+  opacity: 0.1;
   pointer-events: none;
 }
 
