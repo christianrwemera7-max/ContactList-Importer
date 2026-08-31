@@ -14,7 +14,7 @@
     --primary-foreground: 210 40% 98%;
     --secondary: 45 93% 47%; /* Jaune Or */
     --secondary-foreground: 222 47% 4%;
-    --muted: 217 10% 20%;
+    --muted: 217 20% 12%;
     --muted-foreground: 217 10% 60%;
     --accent: 45 93% 47%; /* Jaune Or */
     --accent-foreground: 222 47% 4%;
@@ -23,16 +23,12 @@
     --border: 217 20% 15%;
     --input: 217 20% 15%;
     --ring: 217 91% 60%;
-    --radius: 20px;
+    --radius: 24px;
   }
 }
 
 body {
-  @apply bg-background text-foreground font-sans min-h-screen antialiased;
-}
-
-::selection {
-  @apply bg-primary/30 text-foreground;
+  @apply bg-background text-foreground font-sans min-h-screen antialiased selection:bg-primary/30;
 }
 
 @layer components {
@@ -42,8 +38,8 @@ body {
   .k-cta {
     @apply flex items-center justify-center gap-2 bg-primary text-primary-foreground font-bold py-2.5 px-5 rounded-xl hover:brightness-110 transition-all active:scale-95 shadow-lg shadow-primary/20;
   }
-  .k-cta-secondary {
-    @apply flex items-center justify-center gap-2 bg-secondary text-secondary-foreground font-bold py-2.5 px-5 rounded-xl hover:brightness-110 transition-all active:scale-95 shadow-lg shadow-secondary/20;
+  .k-cta-gold {
+    @apply flex items-center justify-center gap-2 bg-accent text-accent-foreground font-bold py-2.5 px-5 rounded-xl hover:brightness-110 transition-all active:scale-95 shadow-lg shadow-accent/20;
   }
 }
 
@@ -55,4 +51,14 @@ body {
   background-image: 
     radial-gradient(circle at 2px 2px, rgba(59, 130, 246, 0.05) 1px, transparent 0);
   background-size: 40px 40px;
+}
+
+::-webkit-scrollbar {
+  width: 6px;
+}
+::-webkit-scrollbar-track {
+  @apply bg-background;
+}
+::-webkit-scrollbar-thumb {
+  @apply bg-muted rounded-full;
 }

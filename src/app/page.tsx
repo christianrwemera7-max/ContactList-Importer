@@ -7,7 +7,7 @@ import { ArrowRight, Sparkles, Network } from 'lucide-react';
 
 export default function LandingPage() {
   return (
-    <div className="min-h-screen relative overflow-hidden bg-background text-foreground">
+    <div className="min-h-screen relative overflow-hidden bg-background text-foreground selection:bg-primary/30">
       {/* Immersive Background */}
       <div className="absolute inset-0 z-0">
         <Image 
