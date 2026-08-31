@@ -4,19 +4,19 @@
 
 @layer base {
   :root {
-    --background: 222 47% 4%;
-    --foreground: 210 40% 98%;
+    --background: 222 47% 4%; /* Bleu Noir Profond */
+    --foreground: 210 40% 98%; /* Blanc */
     --card: 222 47% 6%;
     --card-foreground: 210 40% 98%;
     --popover: 222 47% 6%;
     --popover-foreground: 210 40% 98%;
-    --primary: 24 100% 50%;
+    --primary: 24 100% 50%; /* Orange Vibrant */
     --primary-foreground: 222 47% 4%;
-    --secondary: 217 91% 60%;
+    --secondary: 217 91% 60%; /* Bleu Électrique */
     --secondary-foreground: 210 40% 98%;
-    --muted: 217 10% 60%;
-    --muted-foreground: 217 10% 50%;
-    --accent: 217 91% 60%;
+    --muted: 217 10% 20%;
+    --muted-foreground: 217 10% 60%;
+    --accent: 217 91% 60%; /* Bleu Électrique */
     --accent-foreground: 210 40% 98%;
     --destructive: 0 84.2% 60.2%;
     --destructive-foreground: 210 40% 98%;
@@ -28,32 +28,22 @@
 }
 
 body {
-  @apply bg-background text-foreground font-sans min-h-screen antialiased selection:bg-primary selection:text-primary-foreground;
-  background-image: radial-gradient(circle at 15% 8%, rgba(37, 99, 235, 0.08), transparent 40%),
-    radial-gradient(circle at 85% 92%, rgba(255, 107, 0, 0.07), transparent 40%);
-  background-attachment: fixed;
+  @apply bg-background text-foreground font-sans min-h-screen antialiased;
 }
 
-.k-hex-clip {
-  clip-path: polygon(50% 0%, 95% 25%, 95% 75%, 50% 100%, 5% 75%, 5% 25%);
-}
-
-.no-scrollbar::-webkit-scrollbar {
-  display: none;
-}
-.no-scrollbar {
-  -ms-overflow-style: none;
-  scrollbar-width: none;
+::selection {
+  @apply bg-accent text-background;
 }
 
 @layer components {
-  .k-badge {
-    @apply inline-flex items-center gap-1.5 font-display text-[10px] font-bold tracking-wider uppercase border rounded-md px-2 py-0.5 border-primary/30 text-primary;
+  .glass-card {
+    @apply bg-card/40 backdrop-blur-2xl border border-white/10 shadow-2xl transition-all duration-300;
   }
   .k-cta {
     @apply flex items-center justify-center gap-2 bg-primary text-primary-foreground font-bold py-2.5 px-5 rounded-xl hover:brightness-110 transition-all active:scale-95 shadow-lg shadow-primary/10;
   }
-  .glass-card {
-    @apply bg-card/60 backdrop-blur-xl border border-border/50 shadow-2xl transition-all duration-300;
-  }
+}
+
+.k-hex-clip {
+  clip-path: polygon(50% 0%, 95% 25%, 95% 75%, 50% 100%, 5% 75%, 5% 25%);
 }

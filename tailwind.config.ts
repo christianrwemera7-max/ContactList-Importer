@@ -25,7 +25,10 @@ export default {
         blue: {
           DEFAULT: 'hsl(var(--accent))',
           foreground: 'hsl(var(--accent-foreground))',
-          electric: 'hsl(217, 91%, 60%)',
+        },
+        cyan: {
+          DEFAULT: 'hsl(var(--accent))',
+          foreground: 'hsl(var(--accent-foreground))',
         },
         background: 'hsl(var(--background))',
         foreground: 'hsl(var(--foreground))',
