@@ -13,7 +13,6 @@ import {
   Share2, 
   MapPin, 
   Clock, 
-  TrendingUp, 
   Sparkles,
   Zap
 } from 'lucide-react';
@@ -33,6 +32,7 @@ const OPPORTUNITIES = [
     likes: 34,
     comments: 12,
     zone: "Zone Centre — Gombe",
+    color: "#E8A83C"
   },
   {
     id: 2,
@@ -47,6 +47,7 @@ const OPPORTUNITIES = [
     likes: 51,
     comments: 19,
     zone: "Zone Centre — Limete",
+    color: "#3B82F6"
   },
   {
     id: 3,
@@ -61,6 +62,7 @@ const OPPORTUNITIES = [
     likes: 28,
     comments: 6,
     zone: "Direction nationale",
+    color: "#E8A83C"
   },
 ];
 
@@ -100,12 +102,12 @@ export default function Dashboard() {
           
           <section className="space-y-4">
              <div className="flex items-center gap-3">
-               <div className="w-10 h-10 k-hex-clip bg-orange/10 border border-orange/20 flex items-center justify-center text-orange">
+               <div className="w-10 h-10 k-hex-clip bg-primary/10 border border-primary/20 flex items-center justify-center text-primary">
                  <Zap className="w-5 h-5" />
                </div>
                <div>
                  <h2 className="text-[10px] font-mono text-muted uppercase tracking-[0.3em] font-black">Mon Statut</h2>
-                 <p className="text-xl font-display font-bold text-white">Christian Rwemera <span className="text-orange">· ID {user.uid.slice(-4)}</span></p>
+                 <p className="text-xl font-display font-bold text-white">{user.prenom} {user.nom} <span className="text-primary">· ID {user.uid.slice(-4)}</span></p>
                </div>
              </div>
              <EngagementStats />
@@ -116,7 +118,7 @@ export default function Dashboard() {
               <h1 className="font-display font-bold text-2xl text-white">Feed Opportunités</h1>
               <div className="flex gap-2">
                 {['Tout', 'Finances', 'Jobs', 'Mentor'].map(f => (
-                  <button key={f} className={`px-4 py-1.5 rounded-xl text-[10px] font-bold uppercase tracking-widest border transition-all ${f === 'Tout' ? 'bg-orange border-orange text-ink' : 'glass-card border-white/5 text-muted hover:border-orange/50'}`}>
+                  <button key={f} className={`px-4 py-1.5 rounded-xl text-[10px] font-bold uppercase tracking-widest border transition-all ${f === 'Tout' ? 'bg-primary border-primary text-white' : 'glass-card border-white/5 text-muted hover:border-primary/50'}`}>
                     {f}
                   </button>
                 ))}
@@ -125,13 +127,13 @@ export default function Dashboard() {
 
             <div className="space-y-6">
               {OPPORTUNITIES.map((o) => (
-                <article key={o.id} className="glass-card border-white/5 rounded-[2.5rem] p-8 space-y-6 hover:border-orange/30 transition-all group">
+                <article key={o.id} className="glass-card border-white/5 rounded-[2.5rem] p-8 space-y-6 hover:border-primary/30 transition-all group">
                   <div className="flex items-center gap-4">
-                    <HexFrame size={46} color={o.tier === 'PRO' ? '#E8A83C' : '#35C29B'}>{o.initials}</HexFrame>
+                    <HexFrame size={46} color={o.color}>{o.initials}</HexFrame>
                     <div className="flex-1 min-w-0">
                       <div className="flex items-center gap-2">
                         <strong className="text-sm font-bold text-white">{o.author}</strong>
-                        <Badge variant="outline" className={`text-[9px] font-bold border-${o.tier === 'PRO' ? 'gold' : 'teal'} text-${o.tier === 'PRO' ? 'gold' : 'teal'} uppercase`}>
+                        <Badge variant="outline" className={`text-[9px] font-bold border-white/10 text-muted uppercase`}>
                           {o.tier}
                         </Badge>
                       </div>
@@ -140,13 +142,13 @@ export default function Dashboard() {
                         <span className="flex items-center gap-1"><Clock size={12} /> {o.time}</span>
                       </div>
                     </div>
-                    <span className="bg-orange/10 border border-orange/20 text-orange text-[9px] font-black px-3 py-1.5 rounded-xl uppercase tracking-widest">
+                    <span className="bg-primary/10 border border-primary/20 text-primary text-[9px] font-black px-3 py-1.5 rounded-xl uppercase tracking-widest">
                       {o.type}
                     </span>
                   </div>
 
                   <div className="space-y-3">
-                    <h3 className="font-display font-bold text-xl text-white group-hover:text-orange transition-colors">{o.title}</h3>
+                    <h3 className="font-display font-bold text-xl text-white group-hover:text-primary transition-colors">{o.title}</h3>
                     <p className="text-sm text-muted leading-relaxed">{o.body}</p>
                   </div>
                   
@@ -170,7 +172,7 @@ export default function Dashboard() {
                         <Share2 size={16} />
                       </button>
                     </div>
-                    <button className="k-cta h-11 text-xs px-6 shadow-lg shadow-orange/10">
+                    <button className="k-cta h-11 text-xs px-6 shadow-lg shadow-primary/10">
                       Je suis intéressé·e
                     </button>
                   </div>

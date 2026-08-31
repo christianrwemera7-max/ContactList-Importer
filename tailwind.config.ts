@@ -18,18 +18,15 @@ export default {
         ink: 'hsl(var(--background))',
         surface: 'hsl(var(--card))',
         'surface-2': 'hsl(var(--muted))',
-        orange: {
+        blue: {
           DEFAULT: 'hsl(var(--primary))',
           foreground: 'hsl(var(--primary-foreground))',
         },
-        blue: {
+        yellow: {
           DEFAULT: 'hsl(var(--accent))',
           foreground: 'hsl(var(--accent-foreground))',
         },
-        cyan: {
-          DEFAULT: 'hsl(var(--accent))',
-          foreground: 'hsl(var(--accent-foreground))',
-        },
+        gold: 'hsl(var(--accent))',
         background: 'hsl(var(--background))',
         foreground: 'hsl(var(--foreground))',
         card: {

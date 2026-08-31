@@ -10,19 +10,19 @@
     --card-foreground: 210 40% 98%;
     --popover: 222 47% 6%;
     --popover-foreground: 210 40% 98%;
-    --primary: 24 100% 50%; /* Orange Vibrant */
-    --primary-foreground: 222 47% 4%;
-    --secondary: 217 91% 60%; /* Bleu Électrique */
-    --secondary-foreground: 210 40% 98%;
+    --primary: 217 91% 60%; /* Bleu Électrique */
+    --primary-foreground: 210 40% 98%;
+    --secondary: 45 93% 47%; /* Jaune Or */
+    --secondary-foreground: 222 47% 4%;
     --muted: 217 10% 20%;
     --muted-foreground: 217 10% 60%;
-    --accent: 217 91% 60%; /* Bleu Électrique */
-    --accent-foreground: 210 40% 98%;
+    --accent: 45 93% 47%; /* Jaune Or */
+    --accent-foreground: 222 47% 4%;
     --destructive: 0 84.2% 60.2%;
     --destructive-foreground: 210 40% 98%;
     --border: 217 20% 15%;
     --input: 217 20% 15%;
-    --ring: 24 100% 50%;
+    --ring: 217 91% 60%;
     --radius: 20px;
   }
 }
@@ -32,7 +32,7 @@ body {
 }
 
 ::selection {
-  @apply bg-accent text-background;
+  @apply bg-primary/30 text-foreground;
 }
 
 @layer components {
@@ -40,10 +40,19 @@ body {
     @apply bg-card/40 backdrop-blur-2xl border border-white/10 shadow-2xl transition-all duration-300;
   }
   .k-cta {
-    @apply flex items-center justify-center gap-2 bg-primary text-primary-foreground font-bold py-2.5 px-5 rounded-xl hover:brightness-110 transition-all active:scale-95 shadow-lg shadow-primary/10;
+    @apply flex items-center justify-center gap-2 bg-primary text-primary-foreground font-bold py-2.5 px-5 rounded-xl hover:brightness-110 transition-all active:scale-95 shadow-lg shadow-primary/20;
+  }
+  .k-cta-secondary {
+    @apply flex items-center justify-center gap-2 bg-secondary text-secondary-foreground font-bold py-2.5 px-5 rounded-xl hover:brightness-110 transition-all active:scale-95 shadow-lg shadow-secondary/20;
   }
 }
 
 .k-hex-clip {
   clip-path: polygon(50% 0%, 95% 25%, 95% 75%, 50% 100%, 5% 75%, 5% 25%);
+}
+
+.connected-nodes {
+  background-image: 
+    radial-gradient(circle at 2px 2px, rgba(59, 130, 246, 0.05) 1px, transparent 0);
+  background-size: 40px 40px;
 }

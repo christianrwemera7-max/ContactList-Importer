@@ -12,14 +12,14 @@ export const TIERS = {
     code: "PLUS", 
     name: "KONEKT PLUS", 
     price: 10, 
-    color: "text-cyan",
+    color: "text-primary",
     description: "Le niveau principal pour le networking et les formations avancées."
   },
   PRO: { 
     code: "PRO", 
     name: "KONEKT PRO", 
     price: 20, 
-    color: "text-orange",
+    color: "text-accent",
     description: "Pour développer son activité avec le Project Lab et un accompagnement premium."
   }
 };
@@ -123,11 +123,3 @@ export const MEMBER_STATUS = {
   ALUMNI: "alumni",
   DISABLED: "disabled"
 };
-
-export const OPPORTUNITY_TYPES = [
-  "EMPLOI", "STAGE", "MISSION", "FREELANCE", "CONCOURS", "FORMATION", "PARTENARIAT", "FINANCEMENT", "PROJET", "ÉVÉNEMENT"
-];
-
-export const PROJECT_STATUS = [
-  "IDÉE", "SOUMIS", "EN ÉVALUATION", "SÉLECTIONNÉ", "ACCOMPAGNEMENT", "DÉVELOPPEMENT", "ACTIF"
-];
