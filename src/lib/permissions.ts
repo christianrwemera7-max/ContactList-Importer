@@ -1,4 +1,3 @@
-
 /**
  * @fileOverview Système de gestion des permissions KONEKT (Rôle + Permission + Scope)
  */
