@@ -1,21 +1,22 @@
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
 @layer base {
   :root {
-    --background: 222 47% 2%; /* Bleu Noir encore plus profond */
-    --foreground: 210 40% 98%; /* Blanc pur */
+    --background: 222 47% 2%; /* Bleu Noir Profond */
+    --foreground: 210 40% 98%; /* Blanc Pur */
     --card: 222 47% 4%;
     --card-foreground: 210 40% 98%;
     --popover: 222 47% 4%;
     --popover-foreground: 210 40% 98%;
     --primary: 217 91% 60%; /* Bleu Électrique */
     --primary-foreground: 210 40% 98%;
-    --secondary: 45 93% 55%; /* Jaune Or plus vif pour lisibilité */
+    --secondary: 45 93% 55%; /* Jaune Or */
     --secondary-foreground: 222 47% 2%;
     --muted: 222 47% 8%;
-    --muted-foreground: 217 20% 70%; /* Gris-bleu plus clair pour lisibilité */
+    --muted-foreground: 217 20% 70%; /* Gris-Bleu Clair */
     --accent: 45 93% 55%; /* Jaune Or */
     --accent-foreground: 222 47% 2%;
     --destructive: 0 84.2% 60.2%;
