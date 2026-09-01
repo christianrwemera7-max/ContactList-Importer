@@ -16,14 +16,11 @@ import {
   Smartphone,
   CreditCard,
   Landmark,
-  ShieldCheck,
-  ArrowRight
 } from "lucide-react";
 import { useKonekt } from "@/lib/store";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Progress } from "@/components/ui/progress";
-import { Badge } from "@/components/ui/badge";
 
 const ZONES = ["Zone Sud", "Zone Centre", "Zone Nord", "Zone Est", "Zone Ouest"];
 
@@ -31,14 +28,14 @@ const PALIERS = [
   {
     id: "START",
     prix: "5 $ / mois",
-    color: "text-muted",
+    color: "text-muted-2",
     icon: Wallet,
     desc: "Adhésion de base : accès au feed, à la bibliothèque et à l'espace personnel.",
   },
   {
     id: "PLUS",
     prix: "10 $ / mois",
-    color: "text-teal",
+    color: "text-primary",
     icon: Users,
     desc: "Accès au Match et à l'espace projet, priorité sur les formations de cellule.",
   },
@@ -141,11 +138,11 @@ export default function OnboardingPage() {
       <div className="w-full max-w-xl space-y-8 animate-in fade-in slide-in-from-bottom-4 duration-700">
         
         <header className="flex flex-col items-center text-center space-y-4 mb-10">
-          <div className="w-16 h-16 k-hex-clip bg-orange flex items-center justify-center font-display font-bold text-ink text-3xl">K</div>
+          <div className="w-16 h-16 k-hex-clip bg-primary flex items-center justify-center font-display font-bold text-white text-3xl shadow-xl shadow-primary/20">K</div>
           <h1 className="text-3xl font-display font-bold text-white tracking-tighter">Votre ID KONEKT</h1>
           <div className="w-full max-w-xs space-y-2">
-            <Progress value={progress} className="h-1.5 bg-surface-2" indicatorClassName="bg-orange" />
-            <p className="text-[10px] font-mono text-muted uppercase tracking-[0.3em]">Étape {step + 1} : {STEPS[step]}</p>
+            <Progress value={progress} className="h-1.5 bg-surface-2" indicatorClassName="bg-primary" />
+            <p className="text-[10px] font-mono text-muted-2 uppercase tracking-[0.3em] font-bold">Étape {step + 1} : {STEPS[step]}</p>
           </div>
         </header>
 
@@ -154,23 +151,23 @@ export default function OnboardingPage() {
           {step === 0 && (
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
               <div className="space-y-2">
-                <p className="text-[10px] font-mono text-muted uppercase tracking-widest px-1">Prénom</p>
-                <Input value={form.prenom} onChange={e => setVal('prenom', e.target.value)} placeholder="Aïcha" className="bg-surface-2 border-white/5 h-12 rounded-2xl" />
-                {errors.prenom && <p className="text-[10px] text-orange px-1">{errors.prenom}</p>}
+                <p className="text-[10px] font-mono text-muted-2 uppercase tracking-widest px-1 font-bold">Prénom</p>
+                <Input value={form.prenom} onChange={e => setVal('prenom', e.target.value)} placeholder="Aïcha" className="bg-surface-2 border-white/5 h-12 rounded-2xl text-white placeholder:text-muted-2" />
+                {errors.prenom && <p className="text-[10px] text-destructive px-1">{errors.prenom}</p>}
               </div>
               <div className="space-y-2">
-                <p className="text-[10px] font-mono text-muted uppercase tracking-widest px-1">Nom</p>
-                <Input value={form.nom} onChange={e => setVal('nom', e.target.value)} placeholder="Bamba" className="bg-surface-2 border-white/5 h-12 rounded-2xl" />
+                <p className="text-[10px] font-mono text-muted-2 uppercase tracking-widest px-1 font-bold">Nom</p>
+                <Input value={form.nom} onChange={e => setVal('nom', e.target.value)} placeholder="Bamba" className="bg-surface-2 border-white/5 h-12 rounded-2xl text-white placeholder:text-muted-2" />
               </div>
               <div className="space-y-2 md:col-span-2">
-                <p className="text-[10px] font-mono text-muted uppercase tracking-widest px-1">Email Professionnel</p>
-                <Input type="email" value={form.email} onChange={e => setVal('email', e.target.value)} placeholder="aicha@konekt.id" className="bg-surface-2 border-white/5 h-12 rounded-2xl" />
+                <p className="text-[10px] font-mono text-muted-2 uppercase tracking-widest px-1 font-bold">Email Professionnel</p>
+                <Input type="email" value={form.email} onChange={e => setVal('email', e.target.value)} placeholder="aicha@konekt.id" className="bg-surface-2 border-white/5 h-12 rounded-2xl text-white placeholder:text-muted-2" />
               </div>
               <div className="space-y-2 md:col-span-2">
-                <p className="text-[10px] font-mono text-muted uppercase tracking-widest px-1">Mot de passe</p>
+                <p className="text-[10px] font-mono text-muted-2 uppercase tracking-widest px-1 font-bold">Mot de passe</p>
                 <div className="relative">
-                  <Input type={showPwd ? "text" : "password"} value={form.motDePasse} onChange={e => setVal('motDePasse', e.target.value)} className="bg-surface-2 border-white/5 h-12 rounded-2xl pr-10" />
-                  <button onClick={() => setShowPwd(!showPwd)} className="absolute right-3 top-1/2 -translate-y-1/2 text-muted">
+                  <Input type={showPwd ? "text" : "password"} value={form.motDePasse} onChange={e => setVal('motDePasse', e.target.value)} className="bg-surface-2 border-white/5 h-12 rounded-2xl pr-10 text-white" />
+                  <button onClick={() => setShowPwd(!showPwd)} className="absolute right-3 top-1/2 -translate-y-1/2 text-muted-2 hover:text-white transition-colors">
                     {showPwd ? <EyeOff size={16} /> : <Eye size={16} />}
                   </button>
                 </div>
@@ -181,18 +178,18 @@ export default function OnboardingPage() {
           {step === 1 && (
             <div className="space-y-6">
               <div className="space-y-4">
-                <p className="text-[10px] font-mono text-muted uppercase tracking-widest">Choisir ma Zone</p>
+                <p className="text-[10px] font-mono text-muted-2 uppercase tracking-widest font-bold">Choisir ma Zone</p>
                 <div className="flex flex-wrap gap-2">
                   {ZONES.map(z => (
-                    <button key={z} onClick={() => setVal('zone', z)} className={`px-4 py-2 rounded-xl border text-xs font-bold transition-all ${form.zone === z ? 'bg-orange border-orange text-ink' : 'glass-card border-white/5 text-muted hover:border-orange/50'}`}>
+                    <button key={z} onClick={() => setVal('zone', z)} className={`px-4 py-2 rounded-xl border text-xs font-bold transition-all ${form.zone === z ? 'bg-primary border-primary text-white' : 'bg-surface-2 border-white/5 text-muted-2 hover:text-white hover:border-primary/50'}`}>
                       {z}
                     </button>
                   ))}
                 </div>
               </div>
               <div className="space-y-2">
-                <p className="text-[10px] font-mono text-muted uppercase tracking-widest">Ville / Quartier</p>
-                <Input value={form.ville} onChange={e => setVal('ville', e.target.value)} placeholder="Gombe, Kinshasa" className="bg-surface-2 border-white/5 h-12 rounded-2xl" />
+                <p className="text-[10px] font-mono text-muted-2 uppercase tracking-widest font-bold">Ville / Quartier</p>
+                <Input value={form.ville} onChange={setVal.bind(null, 'ville')} placeholder="Kinshasa" className="bg-surface-2 border-white/5 h-12 rounded-2xl text-white" />
               </div>
             </div>
           )}
@@ -200,8 +197,8 @@ export default function OnboardingPage() {
           {step === 2 && (
             <div className="grid gap-3">
               {PALIERS.map(p => (
-                <button key={p.id} onClick={() => setVal('palier', p.id)} className={`flex items-start gap-4 p-5 rounded-[2rem] border text-left transition-all ${form.palier === p.id ? 'bg-surface-2 border-orange scale-[1.02]' : 'glass-card border-white/5'}`}>
-                  <div className={`w-10 h-10 rounded-xl bg-surface-3 flex items-center justify-center ${p.color}`}>
+                <button key={p.id} onClick={() => setVal('palier', p.id)} className={`flex items-start gap-4 p-5 rounded-[2rem] border text-left transition-all ${form.palier === p.id ? 'bg-surface-3 border-primary scale-[1.02]' : 'bg-surface-2 border-white/5 hover:border-primary/30'}`}>
+                  <div className={`w-10 h-10 rounded-xl bg-ink flex items-center justify-center ${p.color}`}>
                     <p.icon size={20} />
                   </div>
                   <div className="flex-1">
@@ -209,7 +206,7 @@ export default function OnboardingPage() {
                       <span className="font-display font-bold text-white">{p.id}</span>
                       <span className={`font-mono text-[10px] font-bold ${p.color}`}>{p.prix}</span>
                     </div>
-                    <p className="text-[10px] text-muted leading-relaxed">{p.desc}</p>
+                    <p className="text-[10px] text-muted-2 leading-relaxed font-medium">{p.desc}</p>
                   </div>
                 </button>
               ))}
@@ -219,10 +216,10 @@ export default function OnboardingPage() {
           {step === 3 && (
             <div className="space-y-6">
               <div className="space-y-4">
-                <p className="text-[10px] font-mono text-muted uppercase tracking-widest">Secteur Principal</p>
+                <p className="text-[10px] font-mono text-muted-2 uppercase tracking-widest font-bold">Secteur Principal</p>
                 <div className="grid grid-cols-2 gap-2">
                   {SECTEURS.map(s => (
-                    <button key={s} onClick={() => setVal('secteur', s)} className={`px-4 py-3 rounded-2xl border text-[10px] font-black uppercase tracking-wider transition-all ${form.secteur === s ? 'bg-orange border-orange text-ink' : 'glass-card border-white/5 text-muted'}`}>
+                    <button key={s} onClick={() => setVal('secteur', s)} className={`px-4 py-3 rounded-2xl border text-[10px] font-black uppercase tracking-wider transition-all ${form.secteur === s ? 'bg-primary border-primary text-white' : 'bg-surface-2 border-white/5 text-muted-2 hover:text-white'}`}>
                       {s}
                     </button>
                   ))}
@@ -234,52 +231,48 @@ export default function OnboardingPage() {
           {step === 4 && (
             <div className="space-y-6">
               <div className="space-y-4">
-                <p className="text-[10px] font-mono text-muted uppercase tracking-widest">Mode de paiement</p>
+                <p className="text-[10px] font-mono text-muted-2 uppercase tracking-widest font-bold">Mode de paiement</p>
                 <div className="grid grid-cols-3 gap-3">
                   {PAIEMENTS.map(p => (
-                    <button key={p.id} onClick={() => setVal('modePaiement', p.id)} className={`flex flex-col items-center gap-3 p-4 rounded-2xl border transition-all ${form.modePaiement === p.id ? 'bg-orange/10 border-orange text-orange' : 'glass-card border-white/5 text-muted'}`}>
+                    <button key={p.id} onClick={() => setVal('modePaiement', p.id)} className={`flex flex-col items-center gap-3 p-4 rounded-2xl border transition-all ${form.modePaiement === p.id ? 'bg-primary/10 border-primary text-primary' : 'bg-surface-2 border-white/5 text-muted-2 hover:text-white'}`}>
                       <p.icon size={20} />
                       <span className="text-[9px] font-bold uppercase">{p.label}</span>
                     </button>
                   ))}
                 </div>
               </div>
-              <div className="p-4 bg-surface-2 rounded-2xl border border-white/5 space-y-2">
-                <div className="flex justify-between text-[11px]"><span className="text-muted">Palier</span><span className="text-white font-bold">{form.palier}</span></div>
-                <div className="flex justify-between text-[11px]"><span className="text-muted">Zone</span><span className="text-white font-bold">{form.zone}</span></div>
-              </div>
             </div>
           )}
 
           {step === 5 && result && (
             <div className="text-center space-y-6 py-6 animate-in zoom-in-95">
-              <div className="w-20 h-20 k-hex-clip bg-teal flex items-center justify-center text-ink mx-auto">
+              <div className="w-20 h-20 k-hex-clip bg-primary flex items-center justify-center text-white mx-auto shadow-xl shadow-primary/20">
                 <Check size={40} />
               </div>
               <div className="space-y-2">
                 <h2 className="text-3xl font-display font-bold text-white">Félicitations !</h2>
-                <p className="text-sm text-muted">Bienvenue, {result.membre.prenom}. Votre ID KONEKT est actif.</p>
+                <p className="text-sm text-muted-2">Bienvenue, {result.membre.prenom}. Votre ID KONEKT est actif.</p>
               </div>
-              <div className="bg-surface-2 p-6 rounded-[2rem] border border-white/5 space-y-4 text-left">
+              <div className="bg-surface-3 p-6 rounded-[2rem] border border-white/5 space-y-4 text-left">
                 <div className="flex justify-between items-center pb-4 border-b border-white/5">
-                  <span className="text-[10px] font-mono text-muted uppercase">Cellule Assignée</span>
-                  <span className="font-display font-bold text-teal text-xl">#{result.cellule.id}</span>
+                  <span className="text-[10px] font-mono text-muted-2 uppercase font-bold">Cellule Assignée</span>
+                  <span className="font-display font-bold text-gold text-xl">#{result.cellule.id}</span>
                 </div>
                 <div className="space-y-1">
-                  <p className="text-[10px] font-mono text-muted uppercase">Impact Immédiat</p>
-                  <p className="text-xs text-white">Vous êtes le <span className="text-orange font-bold">{result.cellule.membres}ème membre</span> de cette cellule. Votre leader local vous contactera sous 24h.</p>
+                  <p className="text-[10px] font-mono text-muted-2 uppercase font-bold">Impact Immédiat</p>
+                  <p className="text-xs text-white leading-relaxed">Vous êtes le <span className="text-primary font-bold">{result.cellule.membres}ème membre</span> de cette cellule. Votre leader local vous contactera sous 24h.</p>
                 </div>
               </div>
-              <Button onClick={() => router.push('/dashboard')} className="w-full h-14 rounded-2xl bg-orange text-ink font-bold text-lg">Entrer dans le réseau</Button>
+              <Button onClick={() => router.push('/dashboard')} className="w-full h-14 rounded-2xl bg-primary text-white font-bold text-lg hover:bg-primary/90 transition-all shadow-xl shadow-primary/20">Entrer dans le réseau</Button>
             </div>
           )}
 
           {step < 5 && (
             <div className="flex gap-4 pt-4">
-              <Button variant="ghost" onClick={() => setStep(step - 1)} disabled={step === 0} className="flex-1 h-14 rounded-2xl text-muted hover:text-white border border-white/5">
+              <Button variant="ghost" onClick={() => setStep(step - 1)} disabled={step === 0} className="flex-1 h-14 rounded-2xl text-muted-2 hover:text-white border border-white/5 hover:bg-surface-2">
                 <ChevronLeft className="mr-2" size={18} /> Retour
               </Button>
-              <Button onClick={handleNext} disabled={submitting} className="flex-[2] h-14 rounded-2xl bg-orange text-ink font-bold hover:bg-orange/90 shadow-xl shadow-orange/20">
+              <Button onClick={handleNext} disabled={submitting} className="flex-[2] h-14 rounded-2xl bg-primary text-white font-bold hover:bg-primary/90 shadow-xl shadow-primary/20 transition-all">
                 {submitting ? <Loader2 className="animate-spin" /> : step === 4 ? "Confirmer mon ID" : "Continuer"}
                 {step < 4 && <ChevronRight className="ml-2" size={18} />}
               </Button>
