@@ -56,7 +56,6 @@ export default {
         ring: 'hsl(var(--ring))',
         gold: 'hsl(45 93% 55%)',
         blue: 'hsl(217 91% 60%)',
-        cyan: 'hsl(180 100% 50%)',
       },
       borderRadius: {
         lg: 'var(--radius)',

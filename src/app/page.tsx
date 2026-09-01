@@ -31,7 +31,7 @@ export default function LandingPage() {
           </div>
           <div className="flex items-center gap-4">
             <Button asChild variant="ghost" className="text-white hover:text-primary font-bold">
-              <Link href="/join">Se connecter</Link>
+              <Link href="/login">Se connecter</Link>
             </Button>
             <Button asChild className="rounded-xl font-bold px-6 bg-primary text-white hover:bg-primary/90 shadow-xl shadow-primary/20">
               <Link href="/join">Rejoindre</Link>
@@ -40,7 +40,7 @@ export default function LandingPage() {
         </div>
       </nav>
 
-      {/* Hero Content - Clean and Powerful */}
+      {/* Hero Content - Simple & Powerful */}
       <section className="relative z-10 pt-44 pb-32 px-6 flex flex-col items-center justify-center min-h-screen text-center">
         <div className="max-w-4xl mx-auto space-y-12">
           
@@ -49,7 +49,7 @@ export default function LandingPage() {
           </div>
 
           <div className="space-y-6">
-            <h1 className="text-5xl md:text-8xl font-display font-bold tracking-tighter leading-tight text-white animate-in fade-in slide-in-from-bottom-6 duration-1000 delay-200">
+            <h1 className="text-5xl md:text-8xl font-display font-bold tracking-tighter leading-tight text-white animate-in fade-in slide-in-from-bottom-6 duration-1000 delay-200 uppercase">
               LIBÉRER VOTRE <br />
               <span className="text-primary italic">POTENTIEL</span>.
             </h1>
@@ -61,7 +61,7 @@ export default function LandingPage() {
           <div className="flex flex-col sm:flex-row justify-center gap-6 pt-10 animate-in fade-in slide-in-from-bottom-10 duration-1000 delay-700">
             <Button asChild size="lg" className="h-16 px-12 rounded-2xl text-lg font-bold bg-primary text-white hover:bg-primary/90 shadow-2xl shadow-primary/30 transition-all">
               <Link href="/join" className="flex items-center">
-                Rejoindre le réseau <ArrowRight className="ml-3 w-5 h-5" />
+                S'inscrire <ArrowRight className="ml-3 w-5 h-5" />
               </Link>
             </Button>
             
