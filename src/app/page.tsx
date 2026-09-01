@@ -1,4 +1,3 @@
-
 'use client';
 
 import Link from 'next/link';
@@ -9,20 +8,19 @@ import { ArrowRight, Sparkles } from 'lucide-react';
 export default function LandingPage() {
   return (
     <div className="min-h-screen relative overflow-hidden bg-background text-foreground selection:bg-primary/10">
-      {/* Immersive Background - Light Neuro Connection */}
+      {/* Background - Neuro Connection Light Theme */}
       <div className="absolute inset-0 z-0">
         <Image 
           src="https://picsum.photos/seed/neuro-light/1920/1080" 
-          alt="KONEKT Neuro Connections" 
+          alt="KONEKT Vision" 
           fill 
           className="object-cover opacity-10 grayscale brightness-110"
           priority
-          data-ai-hint="neural network light"
+          data-ai-hint="neural network bright"
         />
-        <div className="absolute inset-0 bg-gradient-to-b from-white/80 via-white/40 to-white" />
+        <div className="absolute inset-0 bg-gradient-to-b from-white/90 via-white/40 to-white" />
       </div>
 
-      {/* Navigation - Minimalist Light */}
       <nav className="fixed top-0 w-full z-50 bg-white/60 backdrop-blur-xl border-b border-border">
         <div className="max-w-7xl mx-auto px-6 h-20 flex items-center justify-between">
           <div className="flex items-center gap-2">
@@ -40,7 +38,6 @@ export default function LandingPage() {
         </div>
       </nav>
 
-      {/* Hero Content - Clean & Powerful */}
       <section className="relative z-10 pt-44 pb-32 px-6 flex flex-col items-center justify-center min-h-screen text-center">
         <div className="max-w-4xl mx-auto space-y-12">
           
@@ -61,7 +58,7 @@ export default function LandingPage() {
           <div className="flex flex-col sm:flex-row justify-center gap-6 pt-10 animate-in fade-in slide-in-from-bottom-10 duration-1000 delay-700">
             <Button asChild size="lg" className="h-16 px-12 rounded-2xl text-lg font-bold bg-primary text-white hover:bg-primary/90 shadow-lg shadow-primary/20 transition-all uppercase tracking-widest">
               <Link href="/join" className="flex items-center">
-                S'inscrire <ArrowRight className="ml-3 w-5 h-5" />
+                Rejoindre <ArrowRight className="ml-3 w-5 h-5" />
               </Link>
             </Button>
             

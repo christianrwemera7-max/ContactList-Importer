@@ -12,9 +12,8 @@ import {
   MessageCircle, 
   MapPin, 
   Clock, 
-  Zap,
-  TrendingUp,
-  User
+  User,
+  ArrowRight
 } from 'lucide-react';
 import Link from 'next/link';
 
@@ -60,11 +59,11 @@ export default function Dashboard() {
       <div className="min-h-screen bg-background flex flex-col items-center justify-center p-6 text-center space-y-8 connected-nodes">
         <div className="w-20 h-20 k-hex-clip bg-primary flex items-center justify-center font-display font-bold text-white text-4xl shadow-xl shadow-primary/20">K</div>
         <div className="space-y-4">
-          <h1 className="text-4xl font-display font-bold text-foreground uppercase tracking-tighter">Bienvenue sur KONEKT</h1>
-          <p className="text-muted-foreground max-w-sm mx-auto">Rejoignez une cellule pour accéder à l'écosystème entrepreneurial et libérer votre potentiel.</p>
+          <h1 className="text-4xl font-display font-bold text-foreground uppercase tracking-tighter">Accès KONEKT ID</h1>
+          <p className="text-muted-foreground max-w-sm mx-auto">Veuillez vous connecter ou rejoindre le réseau pour accéder à l'écosystème.</p>
         </div>
         <div className="flex gap-4">
-          <Link href="/join" className="k-cta">S'inscrire</Link>
+          <Link href="/join" className="k-cta">Rejoindre</Link>
           <Link href="/login" className="k-cta bg-muted text-foreground hover:bg-muted/80 shadow-none border border-border">Se connecter</Link>
         </div>
       </div>
@@ -98,24 +97,28 @@ export default function Dashboard() {
                  <User className="w-5 h-5" />
                </div>
                <div>
-                 <h2 className="text-[10px] font-mono text-muted-foreground uppercase tracking-[0.3em] font-black">Mon Statut</h2>
-                 <p className="text-xl font-display font-bold text-foreground">{user.prenom} {user.nom} <span className="text-primary">· ID {user.uid.slice(-4)}</span></p>
+                 <h2 className="text-[10px] font-mono text-muted-foreground uppercase tracking-[0.3em] font-black">Mon KONEKT ID</h2>
+                 <p className="text-xl font-display font-bold text-foreground">{user.prenom} {user.nom} <span className="text-primary font-mono ml-2">#{user.uid.slice(-4)}</span></p>
                </div>
              </div>
              <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
                <StatusCard label="Cellule" value={user.celluleId} />
                <StatusCard label="Palier" value={user.palier} color="text-primary" />
                <StatusCard label="Secteur" value={user.secteur} />
-               <StatusCard label="Réseau" value="ACTIF" color="text-secondary" />
+               <StatusCard label="Réseau" value="ACTIF" color="text-gold" />
              </div>
           </section>
 
           {/* Feed */}
           <section className="space-y-6">
-            <h1 className="font-display font-bold text-2xl text-foreground tracking-tighter uppercase">Feed Opportunités</h1>
+            <div className="flex items-center justify-between">
+              <h1 className="font-display font-bold text-2xl text-foreground tracking-tighter uppercase">Feed Opportunités</h1>
+              <Link href="/explorer" className="text-[10px] font-bold text-primary uppercase tracking-widest hover:underline">Voir tout</Link>
+            </div>
+            
             <div className="space-y-6">
               {OPPORTUNITIES.map((o) => (
-                <article key={o.id} className="glass-card rounded-[2.5rem] p-8 space-y-6 group">
+                <article key={o.id} className="glass-card rounded-[2.5rem] p-8 space-y-6 group hover:border-primary/20 transition-all">
                   <div className="flex items-center gap-4">
                     <HexFrame size={46} color={o.color}>{o.initials}</HexFrame>
                     <div className="flex-1 min-w-0">
@@ -154,8 +157,8 @@ export default function Dashboard() {
                         <MessageCircle size={16} /> {o.comments}
                       </button>
                     </div>
-                    <button className="k-cta h-11 text-xs px-6">
-                      Plus d'infos
+                    <button className="text-[10px] font-black text-primary uppercase tracking-widest flex items-center gap-2 hover:translate-x-1 transition-transform">
+                      Plus d'infos <ArrowRight size={14} />
                     </button>
                   </div>
                 </article>
@@ -172,7 +175,7 @@ export default function Dashboard() {
 
 function StatusCard({ label, value, color = "text-foreground" }: any) {
   return (
-    <div className="glass-card p-6 rounded-[2rem] border-border bg-white">
+    <div className="glass-card p-6 rounded-[2rem] border-border bg-white shadow-sm">
       <p className="text-[9px] font-mono text-muted-foreground uppercase tracking-widest font-black mb-1">{label}</p>
       <p className={`text-lg font-bold truncate ${color}`}>{value}</p>
     </div>

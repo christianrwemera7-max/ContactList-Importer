@@ -39,6 +39,9 @@ export default {
         ring: 'hsl(217 91% 60%)',
         gold: 'hsl(45 93% 55%)',
         blue: 'hsl(217 91% 60%)',
+        ink: '#FFFFFF', // Thème blanc
+        surface: '#F8FAFC',
+        line: '#E2E8F0',
       },
       borderRadius: {
         lg: 'var(--radius)',

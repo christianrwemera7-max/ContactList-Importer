@@ -12,7 +12,9 @@ import {
   ShieldCheck, 
   Target, 
   Briefcase,
-  Sparkles
+  Sparkles,
+  Search,
+  BookOpen
 } from 'lucide-react';
 
 export default function VisionPage() {
@@ -21,12 +23,12 @@ export default function VisionPage() {
       {/* Background avec Neuro-connections - Version Claire */}
       <div className="absolute inset-0 z-0">
         <Image 
-          src="https://picsum.photos/seed/neuro-light/1920/1080" 
+          src="https://picsum.photos/seed/neuro-vision/1920/1080" 
           alt="Neuro Connections Vision" 
           fill 
           className="object-cover opacity-5 grayscale brightness-110"
           priority
-          data-ai-hint="neural network light"
+          data-ai-hint="neural network bridge"
         />
         <div className="absolute inset-0 bg-gradient-to-b from-white/90 via-white/60 to-white" />
       </div>
@@ -49,18 +51,26 @@ export default function VisionPage() {
       </nav>
 
       <main className="relative z-10 pt-32 pb-20 px-6 max-w-4xl mx-auto space-y-32">
-        {/* Hero Section */}
+        {/* Manifeste Section */}
         <section className="text-center space-y-8 animate-in fade-in slide-in-from-bottom-6 duration-1000">
           <div className="inline-flex items-center gap-2 px-6 py-2 rounded-full bg-primary/5 text-primary border border-primary/10 text-[10px] font-black uppercase tracking-[0.4em]">
-            <Zap className="w-3.5 h-3.5" /> Manifeste KONEKT ID
+            <Zap className="w-3.5 h-3.5" /> Fondations de KONEKT
           </div>
           <h1 className="text-5xl md:text-7xl font-display font-bold tracking-tighter text-foreground leading-tight uppercase">
             Une génération <span className="text-primary italic">connectée</span> <br />
             pour construire demain.
           </h1>
-          <p className="text-xl md:text-2xl text-muted-foreground max-w-2xl mx-auto leading-relaxed font-medium italic">
-            "KONEKT n'est pas un simple réseau social. C'est une organisation économique et communautaire portée par sa propre génération."
-          </p>
+          <div className="max-w-2xl mx-auto space-y-6 text-left bg-white/50 backdrop-blur-sm p-8 rounded-[2.5rem] border border-border">
+             <h3 className="font-display font-bold text-xl uppercase tracking-tighter">Pourquoi KONEKT existe ?</h3>
+             <p className="text-muted-foreground leading-relaxed">
+               Une grande partie de la jeunesse possède des idées, des compétences et de l'énergie, mais ces ressources restent souvent isolées. Le problème n'est pas le manque de potentiel, mais le manque de connexion et de structuration.
+             </p>
+             <div className="flex flex-wrap gap-4">
+               <Badge variant="outline" className="border-primary/30 text-primary">CONNEXION</Badge>
+               <Badge variant="outline" className="border-gold/30 text-gold font-bold">VALEUR</Badge>
+               <Badge variant="outline" className="border-muted/30 text-muted-foreground">IMPACT</Badge>
+             </div>
+          </div>
         </section>
 
         {/* Vision & Mission */}
@@ -71,11 +81,36 @@ export default function VisionPage() {
           </div>
 
           <div className="grid gap-6">
-            <VisionBlock icon={Network} title="Connexion" desc="Créer des relations utiles entre les membres : personnes, compétences et opportunités." color="text-primary" />
-            <VisionBlock icon={Target} title="Éducation" desc="Accès aux connaissances pratiques : entrepreneuriat, numérique, finance, leadership." color="text-gold" />
-            <VisionBlock icon={Users} title="Collaboration" desc="Encourager les membres à construire ensemble plutôt qu'à travailler isolément." color="text-primary" />
-            <VisionBlock icon={Briefcase} title="Opportunités" desc="Faire circuler emplois, missions, stages et partenariats vérifiés." color="text-gold" />
-            <VisionBlock icon={ShieldCheck} title="Création de Valeur" desc="Développer des activités économiques durables pour l'organisation et ses membres." color="text-primary" />
+            <VisionBlock 
+              icon={Network} 
+              title="Connexion" 
+              desc="Créer des relations utiles entre les membres : personnes, compétences et opportunités." 
+              color="text-primary" 
+            />
+            <VisionBlock 
+              icon={BookOpen} 
+              title="Éducation" 
+              desc="Accès aux connaissances pratiques : entrepreneuriat, numérique, finance, leadership." 
+              color="text-gold" 
+            />
+            <VisionBlock 
+              icon={Users} 
+              title="Collaboration" 
+              desc="Encourager les membres à construire ensemble plutôt qu'à travailler isolément." 
+              color="text-primary" 
+            />
+            <VisionBlock 
+              icon={Briefcase} 
+              title="Opportunités" 
+              desc="Faire circuler emplois, missions, stages et partenariats vérifiés." 
+              color="text-gold" 
+            />
+            <VisionBlock 
+              icon={ShieldCheck} 
+              title="Création de Valeur" 
+              desc="Développer des activités économiques durables pour l'organisation et ses membres." 
+              color="text-primary" 
+            />
           </div>
         </section>
 
@@ -98,7 +133,7 @@ export default function VisionPage() {
             <h3 className="text-3xl font-display font-bold text-foreground uppercase tracking-tighter leading-tight">
               Prêt à rejoindre <br /> l'écosystème ?
             </h3>
-            <p className="text-muted-foreground text-sm font-medium">
+            <p className="text-muted-foreground text-sm font-medium leading-relaxed">
               Nous ne promettons pas la richesse immédiate, mais un environnement structuré pour construire votre avenir collectivement.
             </p>
             <Button asChild className="k-cta h-14 px-10 text-xs">
@@ -125,7 +160,7 @@ export default function VisionPage() {
 
 function VisionBlock({ icon: Icon, title, desc, color }: any) {
   return (
-    <div className="flex items-start gap-6 p-8 glass-card rounded-[2.5rem] border-border group hover:border-primary/20 transition-all">
+    <div className="flex items-start gap-6 p-8 glass-card rounded-[2.5rem] border-border group hover:border-primary/20 transition-all bg-white">
       <div className={`w-14 h-14 rounded-2xl bg-muted flex items-center justify-center ${color} border border-border group-hover:scale-110 transition-transform shadow-sm`}>
         <Icon className="w-6 h-6" />
       </div>
@@ -139,7 +174,7 @@ function VisionBlock({ icon: Icon, title, desc, color }: any) {
 
 function TierCard({ name, price, desc, color }: any) {
   return (
-    <div className={`glass-card p-8 rounded-[2.5rem] border ${color} space-y-4 hover:scale-105 transition-transform bg-white`}>
+    <div className={`glass-card p-8 rounded-[2.5rem] border ${color} space-y-4 hover:scale-105 transition-transform bg-white shadow-sm`}>
       <div className="space-y-1">
         <h4 className="text-xl font-display font-bold text-foreground">{name}</h4>
         <p className="text-primary font-mono text-sm font-black">{price}</p>
