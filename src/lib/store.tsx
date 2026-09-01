@@ -1,12 +1,6 @@
-
 "use client"
 
 import React, { createContext, useContext, useState, useEffect } from 'react';
-
-/**
- * @fileOverview Store centralisé pour KONEKT.
- * Gère l'état global du membre, de sa cellule et de sa progression.
- */
 
 export interface KonektMember {
   uid: string;
@@ -21,6 +15,7 @@ export interface KonektMember {
   projetEnCours: boolean;
   projetDesc?: string;
   celluleId: string;
+  role: 'member' | 'leader';
   status: 'active' | 'suspended' | 'pending';
   joinedAt: string;
 }
@@ -40,12 +35,13 @@ interface AppState {
 interface KonektContextType {
   state: AppState;
   register: (data: Partial<KonektMember>) => Promise<{ membre: KonektMember; cellule: CellInfo }>;
+  login: (email: string) => Promise<boolean>;
   logout: () => void;
 }
 
 const KonektContext = createContext<KonektContextType | undefined>(undefined);
 
-const STORAGE_KEY = 'konekt_global_state_v8';
+const STORAGE_KEY = 'konekt_global_state_v9';
 
 export const KonektProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
   const [state, setState] = useState<AppState>({
@@ -81,7 +77,7 @@ export const KonektProvider: React.FC<{ children: React.ReactNode }> = ({ childr
     let cible = cellules.find(c => c.zone === zone && c.membres < 20);
     if (!cible) {
       const numero = cellules.filter(c => c.zone === zone).length + 1;
-      cible = { id: `${zone.replace("Zone ", "")}-${numero}`, zone, membres: 0 };
+      cible = { id: `${zone.replace("Zone ", "").toUpperCase()}-${numero.toString().padStart(3, '0')}`, zone, membres: 0 };
       cellules.push(cible);
     }
     cible.membres += 1;
@@ -104,6 +100,7 @@ export const KonektProvider: React.FC<{ children: React.ReactNode }> = ({ childr
       projetEnCours: data.projetEnCours || false,
       projetDesc: data.projetDesc || '',
       celluleId: cellule.id,
+      role: 'member',
       status: 'active',
       joinedAt: new Date().toISOString(),
     };
@@ -117,13 +114,21 @@ export const KonektProvider: React.FC<{ children: React.ReactNode }> = ({ childr
     return { membre: newMember, cellule };
   };
 
+  const login = async (email: string) => {
+    // Dans un proto, on simule la récupération d'un utilisateur existant
+    if (state.currentUser && state.currentUser.email === email) {
+      return true;
+    }
+    return false;
+  };
+
   const logout = () => {
     setState({ currentUser: null, currentCell: null, isLoading: false });
     localStorage.removeItem(STORAGE_KEY);
   };
 
   return (
-    <KonektContext.Provider value={{ state, register, logout }}>
+    <KonektContext.Provider value={{ state, register, login, logout }}>
       {children}
     </KonektContext.Provider>
   );

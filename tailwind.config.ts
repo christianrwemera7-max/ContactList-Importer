@@ -1,4 +1,3 @@
-
 import type { Config } from 'tailwindcss';
 
 export default {
@@ -23,21 +22,21 @@ export default {
           foreground: 'hsl(var(--card-foreground))',
         },
         primary: {
-          DEFAULT: 'hsl(var(--primary))',
-          foreground: 'hsl(var(--primary-foreground))',
+          DEFAULT: 'hsl(217 91% 60%)', // Bleu Électrique
+          foreground: '#FFFFFF',
         },
         accent: {
-          DEFAULT: 'hsl(var(--accent))',
-          foreground: 'hsl(var(--accent-foreground))',
+          DEFAULT: 'hsl(45 93% 55%)', // Jaune Or
+          foreground: 'hsl(222 47% 12%)',
         },
         muted: {
-          DEFAULT: 'hsl(var(--muted))',
-          foreground: 'hsl(var(--muted-foreground))',
+          DEFAULT: 'hsl(217 20% 96%)',
+          foreground: 'hsl(217 20% 40%)',
         },
         'muted-2': 'hsl(217 20% 40%)',
-        border: 'hsl(var(--border))',
-        input: 'hsl(var(--input))',
-        ring: 'hsl(var(--ring))',
+        border: 'hsl(217 20% 90%)',
+        input: 'hsl(217 20% 90%)',
+        ring: 'hsl(217 91% 60%)',
         gold: 'hsl(45 93% 55%)',
         blue: 'hsl(217 91% 60%)',
       },

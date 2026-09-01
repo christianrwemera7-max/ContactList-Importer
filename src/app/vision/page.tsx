@@ -24,11 +24,11 @@ export default function VisionPage() {
           src="https://picsum.photos/seed/neuro-light/1920/1080" 
           alt="Neuro Connections Vision" 
           fill 
-          className="object-cover opacity-10 grayscale brightness-110"
+          className="object-cover opacity-5 grayscale brightness-110"
           priority
           data-ai-hint="neural network light"
         />
-        <div className="absolute inset-0 bg-gradient-to-b from-white/90 via-white/40 to-white" />
+        <div className="absolute inset-0 bg-gradient-to-b from-white/90 via-white/60 to-white" />
       </div>
 
       <nav className="fixed top-0 w-full z-50 border-b border-border bg-white/60 backdrop-blur-xl">
@@ -41,7 +41,7 @@ export default function VisionPage() {
             <Button asChild variant="ghost" className="hidden sm:flex text-foreground hover:text-primary font-bold uppercase tracking-widest text-[11px]">
               <Link href="/governance">Transparence</Link>
             </Button>
-            <Button asChild className="rounded-xl font-bold px-6 bg-primary text-white hover:bg-primary/90 shadow-xl shadow-primary/20 uppercase tracking-widest text-[11px]">
+            <Button asChild className="k-cta">
               <Link href="/join">REJOINDRE</Link>
             </Button>
           </div>
@@ -93,7 +93,6 @@ export default function VisionPage() {
           </div>
         </section>
 
-        {/* Conclusion simple */}
         <section className="text-center py-20 bg-primary/5 rounded-[3rem] border border-primary/10">
           <div className="max-w-2xl mx-auto space-y-8 px-8">
             <h3 className="text-3xl font-display font-bold text-foreground uppercase tracking-tighter leading-tight">
@@ -102,7 +101,7 @@ export default function VisionPage() {
             <p className="text-muted-foreground text-sm font-medium">
               Nous ne promettons pas la richesse immédiate, mais un environnement structuré pour construire votre avenir collectivement.
             </p>
-            <Button asChild size="lg" className="h-14 px-10 rounded-2xl bg-primary text-white font-bold shadow-xl shadow-primary/20 transition-all uppercase tracking-widest text-xs">
+            <Button asChild className="k-cta h-14 px-10 text-xs">
               <Link href="/join">Démarrer maintenant</Link>
             </Button>
           </div>
@@ -126,8 +125,8 @@ export default function VisionPage() {
 
 function VisionBlock({ icon: Icon, title, desc, color }: any) {
   return (
-    <div className="flex items-start gap-6 p-8 glass-card rounded-[2.5rem] border-border group hover:border-primary/20 hover:shadow-xl hover:shadow-primary/5 transition-all">
-      <div className={`w-14 h-14 rounded-2xl bg-background flex items-center justify-center ${color} border border-border group-hover:scale-110 transition-transform shadow-sm`}>
+    <div className="flex items-start gap-6 p-8 glass-card rounded-[2.5rem] border-border group hover:border-primary/20 transition-all">
+      <div className={`w-14 h-14 rounded-2xl bg-muted flex items-center justify-center ${color} border border-border group-hover:scale-110 transition-transform shadow-sm`}>
         <Icon className="w-6 h-6" />
       </div>
       <div className="space-y-1">
