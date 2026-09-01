@@ -56,8 +56,8 @@ export default function Dashboard() {
 
   if (!user) {
     return (
-      <div className="min-h-screen bg-ink flex flex-col items-center justify-center p-6 text-center space-y-6">
-        <h1 className="text-3xl font-display font-bold text-white uppercase tracking-tighter">Bienvenue sur KONEKT</h1>
+      <div className="min-h-screen bg-background flex flex-col items-center justify-center p-6 text-center space-y-6">
+        <h1 className="text-3xl font-display font-bold text-foreground uppercase tracking-tighter">Bienvenue sur KONEKT</h1>
         <p className="text-muted-foreground max-w-sm">Rejoignez une cellule pour accéder au réseau entrepreneurial.</p>
         <button onClick={() => window.location.href = '/join'} className="k-cta">S'inscrire maintenant</button>
       </div>
@@ -65,19 +65,19 @@ export default function Dashboard() {
   }
 
   return (
-    <div className="flex min-h-screen bg-ink connected-nodes">
+    <div className="flex min-h-screen bg-background connected-nodes">
       <AppSidebar />
       
       <main className="flex-1 md:ml-72 flex flex-col min-w-0">
-        <header className="sticky top-0 z-40 flex items-center justify-between px-6 py-4 bg-ink/80 backdrop-blur-md border-b border-white/5">
-          <div className="flex-1 max-w-lg flex items-center gap-3 bg-surface border border-white/5 rounded-2xl px-4 py-2 text-muted-foreground">
+        <header className="sticky top-0 z-40 flex items-center justify-between px-6 py-4 bg-white/80 backdrop-blur-md border-b border-border">
+          <div className="flex-1 max-w-lg flex items-center gap-3 bg-muted border border-border rounded-2xl px-4 py-2 text-muted-foreground">
             <Search size={16} />
             <input 
               placeholder="Chercher une opportunité..." 
-              className="bg-transparent border-none outline-none text-sm w-full text-white"
+              className="bg-transparent border-none outline-none text-sm w-full text-foreground"
             />
           </div>
-          <button className="ml-4 w-10 h-10 flex items-center justify-center rounded-2xl bg-surface border border-white/5 text-white hover:bg-surface-2 transition-colors">
+          <button className="ml-4 w-10 h-10 flex items-center justify-center rounded-2xl bg-white border border-border text-foreground hover:bg-muted transition-colors">
             <Bell size={18} />
           </button>
         </header>
@@ -91,23 +91,23 @@ export default function Dashboard() {
                </div>
                <div>
                  <h2 className="text-[10px] font-mono text-muted-foreground uppercase tracking-[0.3em] font-black">Mon Statut</h2>
-                 <p className="text-xl font-display font-bold text-white">{user.prenom} {user.nom} <span className="text-primary">· ID {user.uid.slice(-4)}</span></p>
+                 <p className="text-xl font-display font-bold text-foreground">{user.prenom} {user.nom} <span className="text-primary">· ID {user.uid.slice(-4)}</span></p>
                </div>
              </div>
              <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-               <div className="glass-card p-6 rounded-[2rem] border-white/5">
+               <div className="glass-card p-6 rounded-[2rem]">
                   <p className="text-[9px] font-mono text-muted-foreground uppercase tracking-widest font-black mb-1">Cellule</p>
-                  <p className="text-lg font-bold text-white">#{user.celluleId}</p>
+                  <p className="text-lg font-bold text-foreground">#{user.celluleId}</p>
                </div>
-               <div className="glass-card p-6 rounded-[2rem] border-white/5">
+               <div className="glass-card p-6 rounded-[2rem]">
                   <p className="text-[9px] font-mono text-muted-foreground uppercase tracking-widest font-black mb-1">Palier</p>
                   <p className="text-lg font-bold text-primary">{user.palier}</p>
                </div>
-               <div className="glass-card p-6 rounded-[2rem] border-white/5">
+               <div className="glass-card p-6 rounded-[2rem]">
                   <p className="text-[9px] font-mono text-muted-foreground uppercase tracking-widest font-black mb-1">Secteur</p>
-                  <p className="text-lg font-bold text-white truncate">{user.secteur}</p>
+                  <p className="text-lg font-bold text-foreground truncate">{user.secteur}</p>
                </div>
-               <div className="glass-card p-6 rounded-[2rem] border-white/5">
+               <div className="glass-card p-6 rounded-[2rem]">
                   <p className="text-[9px] font-mono text-muted-foreground uppercase tracking-widest font-black mb-1">Réseau</p>
                   <p className="text-lg font-bold text-secondary">ACTIF</p>
                </div>
@@ -115,19 +115,16 @@ export default function Dashboard() {
           </section>
 
           <section className="space-y-6">
-            <div className="flex items-center justify-between">
-              <h1 className="font-display font-bold text-2xl text-white tracking-tighter uppercase">Feed Opportunités</h1>
-            </div>
-
+            <h1 className="font-display font-bold text-2xl text-foreground tracking-tighter uppercase">Feed Opportunités</h1>
             <div className="space-y-6">
               {OPPORTUNITIES.map((o) => (
-                <article key={o.id} className="glass-card border-white/5 rounded-[2.5rem] p-8 space-y-6 hover:border-primary/30 transition-all group">
+                <article key={o.id} className="glass-card rounded-[2.5rem] p-8 space-y-6 hover:border-primary/30 transition-all group">
                   <div className="flex items-center gap-4">
                     <HexFrame size={46} color={o.color}>{o.initials}</HexFrame>
                     <div className="flex-1 min-w-0">
                       <div className="flex items-center gap-2">
-                        <strong className="text-sm font-bold text-white">{o.author}</strong>
-                        <Badge variant="outline" className={`text-[9px] font-bold border-white/10 text-muted-foreground uppercase`}>
+                        <strong className="text-sm font-bold text-foreground">{o.author}</strong>
+                        <Badge variant="outline" className={`text-[9px] font-bold border-border text-muted-foreground uppercase`}>
                           {o.tier}
                         </Badge>
                       </div>
@@ -139,24 +136,24 @@ export default function Dashboard() {
                   </div>
 
                   <div className="space-y-3">
-                    <h3 className="font-display font-bold text-xl text-white group-hover:text-primary transition-colors">{o.title}</h3>
+                    <h3 className="font-display font-bold text-xl text-foreground group-hover:text-primary transition-colors">{o.title}</h3>
                     <p className="text-sm text-muted-foreground leading-relaxed">{o.body}</p>
                   </div>
                   
                   <div className="flex flex-wrap gap-2">
                     {o.tags.map(t => (
-                      <span key={t} className="text-[10px] font-bold uppercase tracking-widest text-muted-foreground bg-surface-2 border border-white/5 px-4 py-1.5 rounded-xl">
+                      <span key={t} className="text-[10px] font-bold uppercase tracking-widest text-muted-foreground bg-muted border border-border px-4 py-1.5 rounded-xl">
                         {t}
                       </span>
                     ))}
                   </div>
 
-                  <div className="flex items-center justify-between pt-6 border-t border-white/5">
+                  <div className="flex items-center justify-between pt-6 border-t border-border">
                     <div className="flex items-center gap-4">
-                      <button className="flex items-center gap-2 text-xs text-muted-foreground hover:text-white transition-colors">
+                      <button className="flex items-center gap-2 text-xs text-muted-foreground hover:text-foreground transition-colors">
                         <Heart size={16} /> {o.likes}
                       </button>
-                      <button className="flex items-center gap-2 text-xs text-muted-foreground hover:text-white transition-colors">
+                      <button className="flex items-center gap-2 text-xs text-muted-foreground hover:text-foreground transition-colors">
                         <MessageCircle size={16} /> {o.comments}
                       </button>
                     </div>

@@ -5,42 +5,42 @@
 
 @layer base {
   :root {
-    --background: 222 47% 2%; /* Bleu Noir Profond */
-    --foreground: 210 40% 98%; /* Blanc Pur */
-    --card: 222 47% 4%;
-    --card-foreground: 210 40% 98%;
-    --popover: 222 47% 4%;
-    --popover-foreground: 210 40% 98%;
+    --background: 0 0% 100%; /* Blanc Pur */
+    --foreground: 222 47% 12%; /* Bleu Nuit Profond */
+    --card: 0 0% 98%;
+    --card-foreground: 222 47% 12%;
+    --popover: 0 0% 100%;
+    --popover-foreground: 222 47% 12%;
     --primary: 217 91% 60%; /* Bleu Électrique */
-    --primary-foreground: 210 40% 98%;
+    --primary-foreground: 0 0% 100%;
     --secondary: 45 93% 55%; /* Jaune Or */
-    --secondary-foreground: 222 47% 2%;
-    --muted: 217 20% 12%;
-    --muted-foreground: 217 20% 70%; /* Gris-Bleu Clair */
+    --secondary-foreground: 222 47% 12%;
+    --muted: 217 20% 96%;
+    --muted-foreground: 217 20% 40%;
     --accent: 45 93% 55%; /* Jaune Or */
-    --accent-foreground: 222 47% 2%;
+    --accent-foreground: 222 47% 12%;
     --destructive: 0 84.2% 60.2%;
-    --destructive-foreground: 210 40% 98%;
-    --border: 217 20% 12%;
-    --input: 217 20% 12%;
+    --destructive-foreground: 0 0% 100%;
+    --border: 217 20% 90%;
+    --input: 217 20% 90%;
     --ring: 217 91% 60%;
     --radius: 24px;
   }
 }
 
 body {
-  @apply bg-background text-foreground font-sans min-h-screen antialiased selection:bg-primary selection:text-white;
+  @apply bg-background text-foreground font-sans min-h-screen antialiased selection:bg-primary/20 selection:text-primary;
 }
 
 @layer components {
   .glass-card {
-    @apply bg-card/60 backdrop-blur-2xl border border-white/5 shadow-2xl transition-all duration-300;
+    @apply bg-white border border-border shadow-sm transition-all duration-300;
   }
   .k-cta {
-    @apply flex items-center justify-center gap-2 bg-primary text-primary-foreground font-bold py-3 px-6 rounded-xl hover:brightness-110 transition-all active:scale-95 shadow-lg shadow-primary/20;
+    @apply flex items-center justify-center gap-2 bg-primary text-primary-foreground font-bold py-3 px-6 rounded-xl hover:brightness-110 transition-all active:scale-95 shadow-md shadow-primary/10;
   }
   .k-cta-gold {
-    @apply flex items-center justify-center gap-2 bg-accent text-accent-foreground font-bold py-3 px-6 rounded-xl hover:brightness-110 transition-all active:scale-95 shadow-lg shadow-accent/20;
+    @apply flex items-center justify-center gap-2 bg-accent text-accent-foreground font-bold py-3 px-6 rounded-xl hover:brightness-110 transition-all active:scale-95 shadow-md shadow-accent/10;
   }
 }
 
@@ -50,7 +50,7 @@ body {
 
 .connected-nodes {
   background-image: 
-    radial-gradient(circle at 2px 2px, rgba(59, 130, 246, 0.03) 1px, transparent 0);
+    radial-gradient(circle at 2px 2px, rgba(59, 130, 246, 0.05) 1px, transparent 0);
   background-size: 40px 40px;
 }
 

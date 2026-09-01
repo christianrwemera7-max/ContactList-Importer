@@ -32,27 +32,27 @@ export function AppSidebar() {
   const user = state.currentUser;
 
   return (
-    <div className="hidden md:flex flex-col w-72 bg-ink border-r border-white/5 h-screen fixed left-0 top-0 z-50">
+    <div className="hidden md:flex flex-col w-72 bg-white border-r border-border h-screen fixed left-0 top-0 z-50 shadow-sm">
       <div className="p-8">
         <Link href="/" className="flex items-center gap-3 mb-10 group">
           <KonektLogo />
-          <h1 className="text-2xl font-display font-bold tracking-tighter text-white group-hover:text-primary transition-colors">
+          <h1 className="text-2xl font-display font-bold tracking-tighter text-primary group-hover:text-primary/80 transition-colors">
             KONEKT
           </h1>
         </Link>
 
         {user && (
-          <div className="bg-surface p-5 rounded-[2rem] border border-white/5 relative overflow-hidden group">
+          <div className="bg-muted p-5 rounded-[2rem] border border-border relative overflow-hidden group">
             <div className="absolute top-0 right-0 p-4 opacity-10 group-hover:rotate-12 transition-transform">
               <Zap className="w-12 h-12 text-primary" />
             </div>
             <div className="relative z-10 space-y-2">
-              <p className="text-[10px] font-mono text-muted uppercase tracking-[0.2em] font-black">
+              <p className="text-[10px] font-mono text-muted-foreground uppercase tracking-[0.2em] font-black">
                 {state.currentCell?.id ? `Cellule ${state.currentCell.id}` : 'Sans Cellule'}
               </p>
               <div className="flex items-center gap-2">
                  <div className="w-2 h-2 rounded-full bg-primary animate-pulse" />
-                 <span className="text-[11px] font-bold text-white uppercase tracking-widest">{user.palier} MEMBER</span>
+                 <span className="text-[11px] font-bold text-foreground uppercase tracking-widest">{user.palier} MEMBER</span>
               </div>
             </div>
           </div>
@@ -69,22 +69,22 @@ export function AppSidebar() {
               className={cn(
                 "flex items-center gap-4 px-5 py-3.5 rounded-2xl text-xs font-bold uppercase tracking-[0.15em] transition-all group",
                 isActive 
-                  ? "bg-primary/10 text-primary border border-primary/20" 
-                  : "text-muted hover:bg-surface/50 hover:text-white"
+                  ? "bg-primary text-white shadow-md shadow-primary/20" 
+                  : "text-muted-foreground hover:bg-muted hover:text-primary"
               )}
             >
-              <item.icon className={cn("w-4 h-4 transition-colors", isActive ? "text-primary" : "text-muted group-hover:text-white")} />
+              <item.icon className={cn("w-4 h-4 transition-colors", isActive ? "text-white" : "text-muted-foreground group-hover:text-primary")} />
               {item.name}
             </Link>
           );
         })}
       </nav>
 
-      <div className="p-6 border-t border-white/5 space-y-3">
+      <div className="p-6 border-t border-border space-y-3">
         {user && (
           <Link
             href="/profile"
-            className="flex items-center gap-4 px-5 py-3 rounded-2xl text-[10px] font-bold uppercase tracking-widest text-muted hover:bg-surface-2 hover:text-white transition-all"
+            className="flex items-center gap-4 px-5 py-3 rounded-2xl text-[10px] font-bold uppercase tracking-widest text-muted-foreground hover:bg-muted hover:text-primary transition-all"
           >
             <HexFrame size={32} color="#2563EB">
               {user.prenom[0]}
