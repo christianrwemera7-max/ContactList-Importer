@@ -1,4 +1,3 @@
-
 'use client';
 
 import { useKonekt } from '@/lib/store';
@@ -11,10 +10,10 @@ import {
   Bell, 
   Heart, 
   MessageCircle, 
-  Share2, 
   MapPin, 
   Clock, 
-  Zap
+  Zap,
+  TrendingUp
 } from 'lucide-react';
 
 const OPPORTUNITIES = [
@@ -57,6 +56,7 @@ export default function Dashboard() {
   if (!user) {
     return (
       <div className="min-h-screen bg-background flex flex-col items-center justify-center p-6 text-center space-y-6">
+        <div className="w-16 h-16 k-hex-clip bg-primary flex items-center justify-center font-display font-bold text-white text-3xl shadow-xl shadow-primary/20">K</div>
         <h1 className="text-3xl font-display font-bold text-foreground uppercase tracking-tighter">Bienvenue sur KONEKT</h1>
         <p className="text-muted-foreground max-w-sm">Rejoignez une cellule pour accéder au réseau entrepreneurial.</p>
         <button onClick={() => window.location.href = '/join'} className="k-cta">S'inscrire maintenant</button>
@@ -84,6 +84,7 @@ export default function Dashboard() {
 
         <div className="p-6 max-w-4xl mx-auto w-full space-y-8 pb-28 md:pb-12">
           
+          {/* Status Header */}
           <section className="space-y-4">
              <div className="flex items-center gap-3">
                <div className="w-10 h-10 k-hex-clip bg-primary/10 border border-primary/20 flex items-center justify-center text-primary">
@@ -95,30 +96,19 @@ export default function Dashboard() {
                </div>
              </div>
              <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-               <div className="glass-card p-6 rounded-[2rem]">
-                  <p className="text-[9px] font-mono text-muted-foreground uppercase tracking-widest font-black mb-1">Cellule</p>
-                  <p className="text-lg font-bold text-foreground">#{user.celluleId}</p>
-               </div>
-               <div className="glass-card p-6 rounded-[2rem]">
-                  <p className="text-[9px] font-mono text-muted-foreground uppercase tracking-widest font-black mb-1">Palier</p>
-                  <p className="text-lg font-bold text-primary">{user.palier}</p>
-               </div>
-               <div className="glass-card p-6 rounded-[2rem]">
-                  <p className="text-[9px] font-mono text-muted-foreground uppercase tracking-widest font-black mb-1">Secteur</p>
-                  <p className="text-lg font-bold text-foreground truncate">{user.secteur}</p>
-               </div>
-               <div className="glass-card p-6 rounded-[2rem]">
-                  <p className="text-[9px] font-mono text-muted-foreground uppercase tracking-widest font-black mb-1">Réseau</p>
-                  <p className="text-lg font-bold text-secondary">ACTIF</p>
-               </div>
+               <StatusCard label="Cellule" value={`#${user.celluleId}`} />
+               <StatusCard label="Palier" value={user.palier} color="text-primary" />
+               <StatusCard label="Secteur" value={user.secteur} />
+               <StatusCard label="Réseau" value="ACTIF" color="text-secondary" />
              </div>
           </section>
 
+          {/* Feed */}
           <section className="space-y-6">
             <h1 className="font-display font-bold text-2xl text-foreground tracking-tighter uppercase">Feed Opportunités</h1>
             <div className="space-y-6">
               {OPPORTUNITIES.map((o) => (
-                <article key={o.id} className="glass-card rounded-[2.5rem] p-8 space-y-6 hover:border-primary/30 transition-all group">
+                <article key={o.id} className="glass-card rounded-[2.5rem] p-8 space-y-6 hover:shadow-xl hover:shadow-primary/5 transition-all group">
                   <div className="flex items-center gap-4">
                     <HexFrame size={46} color={o.color}>{o.initials}</HexFrame>
                     <div className="flex-1 min-w-0">
@@ -169,6 +159,15 @@ export default function Dashboard() {
       </main>
 
       <BottomNav />
+    </div>
+  );
+}
+
+function StatusCard({ label, value, color = "text-foreground" }: any) {
+  return (
+    <div className="glass-card p-6 rounded-[2rem] border-border bg-white shadow-sm">
+      <p className="text-[9px] font-mono text-muted-foreground uppercase tracking-widest font-black mb-1">{label}</p>
+      <p className={`text-lg font-bold truncate ${color}`}>{value}</p>
     </div>
   );
 }
