@@ -1,3 +1,4 @@
+
 'use client';
 
 import { useKonekt } from '@/lib/store';
@@ -13,10 +14,8 @@ import {
   Share2, 
   MapPin, 
   Clock, 
-  Sparkles,
   Zap
 } from 'lucide-react';
-import { EngagementStats } from '@/components/dashboard/EngagementStats';
 
 const OPPORTUNITIES = [
   {
@@ -47,22 +46,7 @@ const OPPORTUNITIES = [
     likes: 51,
     comments: 19,
     zone: "Zone Centre — Limete",
-    color: "#3B82F6"
-  },
-  {
-    id: 3,
-    author: "Pôle Numérique",
-    tier: "PRO",
-    initials: "PN",
-    time: "Hier",
-    type: "Formation",
-    title: "Session gratuite : comptabilité simplifiée pour TPE",
-    body: "3 places restantes pour la session du pôle national. Priorité aux membres START.",
-    tags: ["Formation", "Gestion", "Pôle national"],
-    likes: 28,
-    comments: 6,
-    zone: "Direction nationale",
-    color: "#E8A83C"
+    color: "#2563EB"
   },
 ];
 
@@ -73,8 +57,8 @@ export default function Dashboard() {
   if (!user) {
     return (
       <div className="min-h-screen bg-ink flex flex-col items-center justify-center p-6 text-center space-y-6">
-        <h1 className="text-3xl font-display font-bold text-white">Bienvenue sur KONEKT</h1>
-        <p className="text-muted max-w-sm">Veuillez vous inscrire pour rejoindre une cellule et accéder au réseau entrepreneurial.</p>
+        <h1 className="text-3xl font-display font-bold text-white uppercase tracking-tighter">Bienvenue sur KONEKT</h1>
+        <p className="text-muted-foreground max-w-sm">Rejoignez une cellule pour accéder au réseau entrepreneurial.</p>
         <button onClick={() => window.location.href = '/join'} className="k-cta">S'inscrire maintenant</button>
       </div>
     );
@@ -86,10 +70,10 @@ export default function Dashboard() {
       
       <main className="flex-1 md:ml-72 flex flex-col min-w-0">
         <header className="sticky top-0 z-40 flex items-center justify-between px-6 py-4 bg-ink/80 backdrop-blur-md border-b border-white/5">
-          <div className="flex-1 max-w-lg flex items-center gap-3 bg-surface border border-white/5 rounded-2xl px-4 py-2 text-muted">
+          <div className="flex-1 max-w-lg flex items-center gap-3 bg-surface border border-white/5 rounded-2xl px-4 py-2 text-muted-foreground">
             <Search size={16} />
             <input 
-              placeholder="Chercher une opportunité, une cellule..." 
+              placeholder="Chercher une opportunité..." 
               className="bg-transparent border-none outline-none text-sm w-full text-white"
             />
           </div>
@@ -106,23 +90,33 @@ export default function Dashboard() {
                  <Zap className="w-5 h-5" />
                </div>
                <div>
-                 <h2 className="text-[10px] font-mono text-muted uppercase tracking-[0.3em] font-black">Mon Statut</h2>
+                 <h2 className="text-[10px] font-mono text-muted-foreground uppercase tracking-[0.3em] font-black">Mon Statut</h2>
                  <p className="text-xl font-display font-bold text-white">{user.prenom} {user.nom} <span className="text-primary">· ID {user.uid.slice(-4)}</span></p>
                </div>
              </div>
-             <EngagementStats />
+             <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+               <div className="glass-card p-6 rounded-[2rem] border-white/5">
+                  <p className="text-[9px] font-mono text-muted-foreground uppercase tracking-widest font-black mb-1">Cellule</p>
+                  <p className="text-lg font-bold text-white">#{user.celluleId}</p>
+               </div>
+               <div className="glass-card p-6 rounded-[2rem] border-white/5">
+                  <p className="text-[9px] font-mono text-muted-foreground uppercase tracking-widest font-black mb-1">Palier</p>
+                  <p className="text-lg font-bold text-primary">{user.palier}</p>
+               </div>
+               <div className="glass-card p-6 rounded-[2rem] border-white/5">
+                  <p className="text-[9px] font-mono text-muted-foreground uppercase tracking-widest font-black mb-1">Secteur</p>
+                  <p className="text-lg font-bold text-white truncate">{user.secteur}</p>
+               </div>
+               <div className="glass-card p-6 rounded-[2rem] border-white/5">
+                  <p className="text-[9px] font-mono text-muted-foreground uppercase tracking-widest font-black mb-1">Réseau</p>
+                  <p className="text-lg font-bold text-secondary">ACTIF</p>
+               </div>
+             </div>
           </section>
 
           <section className="space-y-6">
             <div className="flex items-center justify-between">
-              <h1 className="font-display font-bold text-2xl text-white">Feed Opportunités</h1>
-              <div className="flex gap-2">
-                {['Tout', 'Finances', 'Jobs', 'Mentor'].map(f => (
-                  <button key={f} className={`px-4 py-1.5 rounded-xl text-[10px] font-bold uppercase tracking-widest border transition-all ${f === 'Tout' ? 'bg-primary border-primary text-white' : 'glass-card border-white/5 text-muted hover:border-primary/50'}`}>
-                    {f}
-                  </button>
-                ))}
-              </div>
+              <h1 className="font-display font-bold text-2xl text-white tracking-tighter uppercase">Feed Opportunités</h1>
             </div>
 
             <div className="space-y-6">
@@ -133,28 +127,25 @@ export default function Dashboard() {
                     <div className="flex-1 min-w-0">
                       <div className="flex items-center gap-2">
                         <strong className="text-sm font-bold text-white">{o.author}</strong>
-                        <Badge variant="outline" className={`text-[9px] font-bold border-white/10 text-muted uppercase`}>
+                        <Badge variant="outline" className={`text-[9px] font-bold border-white/10 text-muted-foreground uppercase`}>
                           {o.tier}
                         </Badge>
                       </div>
-                      <div className="flex items-center gap-3 text-[10px] text-muted mt-1 uppercase font-mono tracking-widest">
+                      <div className="flex items-center gap-3 text-[10px] text-muted-foreground mt-1 uppercase font-mono tracking-widest">
                         <span className="flex items-center gap-1"><MapPin size={12} /> {o.zone}</span>
                         <span className="flex items-center gap-1"><Clock size={12} /> {o.time}</span>
                       </div>
                     </div>
-                    <span className="bg-primary/10 border border-primary/20 text-primary text-[9px] font-black px-3 py-1.5 rounded-xl uppercase tracking-widest">
-                      {o.type}
-                    </span>
                   </div>
 
                   <div className="space-y-3">
                     <h3 className="font-display font-bold text-xl text-white group-hover:text-primary transition-colors">{o.title}</h3>
-                    <p className="text-sm text-muted leading-relaxed">{o.body}</p>
+                    <p className="text-sm text-muted-foreground leading-relaxed">{o.body}</p>
                   </div>
                   
                   <div className="flex flex-wrap gap-2">
                     {o.tags.map(t => (
-                      <span key={t} className="text-[10px] font-bold uppercase tracking-widest text-muted bg-surface-2 border border-white/5 px-4 py-1.5 rounded-xl">
+                      <span key={t} className="text-[10px] font-bold uppercase tracking-widest text-muted-foreground bg-surface-2 border border-white/5 px-4 py-1.5 rounded-xl">
                         {t}
                       </span>
                     ))}
@@ -162,18 +153,15 @@ export default function Dashboard() {
 
                   <div className="flex items-center justify-between pt-6 border-t border-white/5">
                     <div className="flex items-center gap-4">
-                      <button className="flex items-center gap-2 text-xs text-muted hover:text-white transition-colors">
+                      <button className="flex items-center gap-2 text-xs text-muted-foreground hover:text-white transition-colors">
                         <Heart size={16} /> {o.likes}
                       </button>
-                      <button className="flex items-center gap-2 text-xs text-muted hover:text-white transition-colors">
+                      <button className="flex items-center gap-2 text-xs text-muted-foreground hover:text-white transition-colors">
                         <MessageCircle size={16} /> {o.comments}
                       </button>
-                      <button className="text-muted hover:text-white transition-colors">
-                        <Share2 size={16} />
-                      </button>
                     </div>
-                    <button className="k-cta h-11 text-xs px-6 shadow-lg shadow-primary/10">
-                      Je suis intéressé·e
+                    <button className="k-cta h-11 text-xs px-6">
+                      Plus d'infos
                     </button>
                   </div>
                 </article>

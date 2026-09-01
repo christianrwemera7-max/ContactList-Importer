@@ -1,3 +1,4 @@
+
 "use client"
 
 import Link from 'next/link';
@@ -35,7 +36,7 @@ export function AppSidebar() {
       <div className="p-8">
         <Link href="/" className="flex items-center gap-3 mb-10 group">
           <KonektLogo />
-          <h1 className="text-2xl font-display font-bold tracking-tighter text-text group-hover:text-primary transition-colors">
+          <h1 className="text-2xl font-display font-bold tracking-tighter text-white group-hover:text-primary transition-colors">
             KONEKT
           </h1>
         </Link>
@@ -45,20 +46,14 @@ export function AppSidebar() {
             <div className="absolute top-0 right-0 p-4 opacity-10 group-hover:rotate-12 transition-transform">
               <Zap className="w-12 h-12 text-primary" />
             </div>
-            <div className="relative z-10 space-y-4">
-              <div className="flex justify-between items-center">
-                <span className="text-[9px] font-mono text-muted uppercase tracking-[0.2em] font-black">Score Valeur</span>
-                <span className="text-sm font-bold text-primary">{user.score}</span>
-              </div>
-              <div className="h-1.5 w-full bg-white/5 rounded-full overflow-hidden">
-                <div 
-                  className="h-full bg-primary transition-all duration-1000" 
-                  style={{ width: `${Math.min(100, (user.score / 1000) * 100)}%` }} 
-                />
-              </div>
-              <p className="text-[9px] text-muted leading-tight font-medium uppercase tracking-widest">
+            <div className="relative z-10 space-y-2">
+              <p className="text-[10px] font-mono text-muted uppercase tracking-[0.2em] font-black">
                 {state.currentCell?.id ? `Cellule ${state.currentCell.id}` : 'Sans Cellule'}
               </p>
+              <div className="flex items-center gap-2">
+                 <div className="w-2 h-2 rounded-full bg-primary animate-pulse" />
+                 <span className="text-[11px] font-bold text-white uppercase tracking-widest">{user.palier} MEMBER</span>
+              </div>
             </div>
           </div>
         )}
@@ -74,11 +69,11 @@ export function AppSidebar() {
               className={cn(
                 "flex items-center gap-4 px-5 py-3.5 rounded-2xl text-xs font-bold uppercase tracking-[0.15em] transition-all group",
                 isActive 
-                  ? "bg-surface-2 text-primary border border-white/5" 
-                  : "text-muted hover:bg-surface/50 hover:text-text"
+                  ? "bg-primary/10 text-primary border border-primary/20" 
+                  : "text-muted hover:bg-surface/50 hover:text-white"
               )}
             >
-              <item.icon className={cn("w-4 h-4 transition-colors", isActive ? "text-primary" : "text-muted group-hover:text-text")} />
+              <item.icon className={cn("w-4 h-4 transition-colors", isActive ? "text-primary" : "text-muted group-hover:text-white")} />
               {item.name}
             </Link>
           );
@@ -89,9 +84,9 @@ export function AppSidebar() {
         {user && (
           <Link
             href="/profile"
-            className="flex items-center gap-4 px-5 py-3 rounded-2xl text-[10px] font-bold uppercase tracking-widest text-muted hover:bg-surface-2 hover:text-text transition-all"
+            className="flex items-center gap-4 px-5 py-3 rounded-2xl text-[10px] font-bold uppercase tracking-widest text-muted hover:bg-surface-2 hover:text-white transition-all"
           >
-            <HexFrame size={32} color={user.palier === 'PRO' ? '#E8A83C' : '#3B82F6'}>
+            <HexFrame size={32} color="#2563EB">
               {user.prenom[0]}
             </HexFrame>
             Mon ID KONEKT
@@ -113,7 +108,7 @@ function KonektLogo() {
   return (
     <svg width="28" height="28" viewBox="0 0 34 34" fill="none">
       <polygon points="17,1 33,9.5 33,26.5 17,35 1,26.5 1,9.5" fill="none" stroke="#E8A83C" strokeWidth="2.5"/>
-      <polygon points="17,12 24,16.5 24,24.5 17,29 10,24.5 10,16.5" fill="#3B82F6"/>
+      <polygon points="17,12 24,16.5 24,24.5 17,29 10,24.5 10,16.5" fill="#2563EB"/>
     </svg>
   );
 }

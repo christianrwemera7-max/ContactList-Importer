@@ -8,7 +8,7 @@ import { ArrowRight, Sparkles } from 'lucide-react';
 
 export default function LandingPage() {
   return (
-    <div className="min-h-screen relative overflow-hidden bg-ink text-text selection:bg-primary/30">
+    <div className="min-h-screen relative overflow-hidden bg-ink text-white selection:bg-primary/30">
       {/* Immersive Background - Neuro Connection */}
       <div className="absolute inset-0 z-0">
         <Image 
@@ -30,10 +30,10 @@ export default function LandingPage() {
             <span className="font-display font-bold text-xl tracking-tighter text-white">KONEKT</span>
           </div>
           <div className="flex items-center gap-4">
-            <Button asChild variant="ghost" className="text-white hover:text-primary font-bold">
+            <Button asChild variant="ghost" className="text-white hover:text-primary font-bold uppercase tracking-widest text-[11px]">
               <Link href="/login">Se connecter</Link>
             </Button>
-            <Button asChild className="rounded-xl font-bold px-6 bg-primary text-white hover:bg-primary/90 shadow-xl shadow-primary/20">
+            <Button asChild className="rounded-xl font-bold px-6 bg-primary text-white hover:bg-primary/90 shadow-xl shadow-primary/20 uppercase tracking-widest text-[11px]">
               <Link href="/join">Rejoindre</Link>
             </Button>
           </div>
@@ -53,19 +53,19 @@ export default function LandingPage() {
               LIBÉRER VOTRE <br />
               <span className="text-primary italic">POTENTIEL</span>.
             </h1>
-            <p className="text-lg md:text-xl text-muted-2 leading-relaxed max-w-xl mx-auto font-medium animate-in fade-in duration-1000 delay-500">
+            <p className="text-lg md:text-xl text-muted-foreground leading-relaxed max-w-xl mx-auto font-medium animate-in fade-in duration-1000 delay-500">
               L'écosystème numérique pour bâtir, apprendre et entreprendre ensemble.
             </p>
           </div>
 
           <div className="flex flex-col sm:flex-row justify-center gap-6 pt-10 animate-in fade-in slide-in-from-bottom-10 duration-1000 delay-700">
-            <Button asChild size="lg" className="h-16 px-12 rounded-2xl text-lg font-bold bg-primary text-white hover:bg-primary/90 shadow-2xl shadow-primary/30 transition-all">
+            <Button asChild size="lg" className="h-16 px-12 rounded-2xl text-lg font-bold bg-primary text-white hover:bg-primary/90 shadow-2xl shadow-primary/30 transition-all uppercase tracking-widest">
               <Link href="/join" className="flex items-center">
                 S'inscrire <ArrowRight className="ml-3 w-5 h-5" />
               </Link>
             </Button>
             
-            <Button asChild variant="outline" size="lg" className="h-16 px-12 rounded-2xl text-lg font-bold glass-card border-white/10 text-white hover:bg-white/5 transition-all">
+            <Button asChild variant="outline" size="lg" className="h-16 px-12 rounded-2xl text-lg font-bold glass-card border-white/10 text-white hover:bg-white/5 transition-all uppercase tracking-widest">
               <Link href="/vision">
                 La Vision
               </Link>

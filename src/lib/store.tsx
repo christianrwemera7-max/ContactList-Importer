@@ -1,3 +1,4 @@
+
 "use client"
 
 import React, { createContext, useContext, useState, useEffect } from 'react';
@@ -20,7 +21,6 @@ export interface KonektMember {
   projetEnCours: boolean;
   projetDesc?: string;
   celluleId: string;
-  score: number;
   status: 'active' | 'suspended' | 'pending';
   joinedAt: string;
 }
@@ -41,12 +41,11 @@ interface KonektContextType {
   state: AppState;
   register: (data: Partial<KonektMember>) => Promise<{ membre: KonektMember; cellule: CellInfo }>;
   logout: () => void;
-  updateScore: (points: number) => void;
 }
 
 const KonektContext = createContext<KonektContextType | undefined>(undefined);
 
-const STORAGE_KEY = 'konekt_global_state_v7';
+const STORAGE_KEY = 'konekt_global_state_v8';
 
 export const KonektProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
   const [state, setState] = useState<AppState>({
@@ -105,7 +104,6 @@ export const KonektProvider: React.FC<{ children: React.ReactNode }> = ({ childr
       projetEnCours: data.projetEnCours || false,
       projetDesc: data.projetDesc || '',
       celluleId: cellule.id,
-      score: 100,
       status: 'active',
       joinedAt: new Date().toISOString(),
     };
@@ -124,21 +122,8 @@ export const KonektProvider: React.FC<{ children: React.ReactNode }> = ({ childr
     localStorage.removeItem(STORAGE_KEY);
   };
 
-  const updateScore = (points: number) => {
-    setState(prev => {
-      if (!prev.currentUser) return prev;
-      return {
-        ...prev,
-        currentUser: {
-          ...prev.currentUser,
-          score: prev.currentUser.score + points
-        }
-      };
-    });
-  };
-
   return (
-    <KonektContext.Provider value={{ state, register, logout, updateScore }}>
+    <KonektContext.Provider value={{ state, register, logout }}>
       {children}
     </KonektContext.Provider>
   );

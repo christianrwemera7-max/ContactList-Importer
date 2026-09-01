@@ -15,7 +15,7 @@
     --primary-foreground: 210 40% 98%;
     --secondary: 45 93% 55%; /* Jaune Or */
     --secondary-foreground: 222 47% 2%;
-    --muted: 222 47% 8%;
+    --muted: 217 20% 12%;
     --muted-foreground: 217 20% 70%; /* Gris-Bleu Clair */
     --accent: 45 93% 55%; /* Jaune Or */
     --accent-foreground: 222 47% 2%;
@@ -29,7 +29,7 @@
 }
 
 body {
-  @apply bg-background text-foreground font-sans min-h-screen antialiased;
+  @apply bg-background text-foreground font-sans min-h-screen antialiased selection:bg-primary selection:text-white;
 }
 
 @layer components {
