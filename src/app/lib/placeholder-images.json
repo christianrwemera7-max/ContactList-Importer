@@ -2,22 +2,28 @@
 {
   "placeholderImages": [
     {
+      "id": "hero-bridge",
+      "description": "Pont de lumière et pièces de puzzle flottantes dans un espace numérique sombre",
+      "imageUrl": "https://picsum.photos/seed/konekt-bridge/1920/1080",
+      "imageHint": "glowing digital bridge puzzle"
+    },
+    {
       "id": "neuro-bg",
       "description": "Connexions neuronales et réseaux numériques futuristes",
       "imageUrl": "https://picsum.photos/seed/neuro1/1920/1080",
-      "imageHint": "neural network"
+      "imageHint": "neural network blue"
     },
     {
       "id": "hero-vision",
       "description": "Entrepreneur travaillant dans un espace moderne à Kinshasa",
       "imageUrl": "https://picsum.photos/seed/konekt1/1200/800",
-      "imageHint": "entrepreneur modern"
+      "imageHint": "entrepreneur modern workspace"
     },
     {
       "id": "cell-meeting",
       "description": "Groupe de 20 personnes collaborant activement",
       "imageUrl": "https://picsum.photos/seed/konekt2/800/600",
-      "imageHint": "community business"
+      "imageHint": "community business teamwork"
     }
   ]
 }
