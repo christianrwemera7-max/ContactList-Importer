@@ -1,29 +1,13 @@
-
 import type { Metadata } from "next";
-import { Inter, Space_Grotesk, IBM_Plex_Mono } from "next/font/google";
+import { Inter } from "next/font/google";
 import "./globals.css";
 import { Toaster } from "@/components/ui/toaster";
-import { KonektProvider } from "@/lib/store";
 
-const inter = Inter({ 
-  subsets: ["latin"], 
-  variable: "--font-inter" 
-});
-
-const spaceGrotesk = Space_Grotesk({ 
-  subsets: ["latin"], 
-  variable: "--font-space" 
-});
-
-const ibmPlexMono = IBM_Plex_Mono({
-  weight: ['400', '500', '600'],
-  subsets: ["latin"],
-  variable: "--font-mono"
-});
+const inter = Inter({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
-  title: "KONEKT — Se connecter, Apprendre, Entreprendre",
-  description: "Plateforme d'adhésion et d'activation numérique KONEKT pour une génération connectée.",
+  title: "Nouveau Projet",
+  description: "Démarrage d'un nouveau projet avec Next.js",
 };
 
 export default function RootLayout({
@@ -32,12 +16,10 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="fr" className={`${inter.variable} ${spaceGrotesk.variable} ${ibmPlexMono.variable}`}>
-      <body className="antialiased selection:bg-primary selection:text-background bg-ink text-text">
-        <KonektProvider>
-          {children}
-          <Toaster />
-        </KonektProvider>
+    <html lang="fr">
+      <body className={inter.className}>
+        {children}
+        <Toaster />
       </body>
     </html>
   );
