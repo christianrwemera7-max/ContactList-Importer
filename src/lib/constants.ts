@@ -1,4 +1,4 @@
-export const APP_NAME = "Nouveau Projet";
+export const APP_NAME = "Application";
 
 export const ROLES = {
   USER: "user",

@@ -4,7 +4,6 @@ import React, { createContext, useContext, useState } from 'react';
 
 interface AppState {
   user: any | null;
-  settings: any;
 }
 
 interface AppContextType {
@@ -17,7 +16,6 @@ const AppContext = createContext<AppContextType | undefined>(undefined);
 export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
   const [state, setState] = useState<AppState>({
     user: null,
-    settings: {},
   });
 
   return (
