@@ -6,7 +6,7 @@ export default function Home() {
           Nouveau Projet
         </h1>
         <p className="text-xl text-muted-foreground">
-          Votre espace de travail est prêt.
+          Votre espace de travail est propre et prêt.
         </p>
       </div>
     </main>

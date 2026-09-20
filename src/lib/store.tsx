@@ -3,27 +3,25 @@
 import React, { createContext, useContext, useState } from 'react';
 
 interface AppState {
-  data: any;
+  user: any | null;
+  settings: any;
 }
 
 interface AppContextType {
   state: AppState;
-  setData: (data: any) => void;
+  setState: React.Dispatch<React.SetStateAction<AppState>>;
 }
 
 const AppContext = createContext<AppContextType | undefined>(undefined);
 
 export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
   const [state, setState] = useState<AppState>({
-    data: null,
+    user: null,
+    settings: {},
   });
 
-  const setData = (data: any) => {
-    setState({ data });
-  };
-
   return (
-    <AppContext.Provider value={{ state, setData }}>
+    <AppContext.Provider value={{ state, setState }}>
       {children}
     </AppContext.Provider>
   );
