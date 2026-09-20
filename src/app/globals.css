@@ -4,19 +4,19 @@
 
 @layer base {
   :root {
-    --background: 0 0% 100%; /* Blanc Pur */
-    --foreground: 222 47% 12%; /* Bleu Nuit Profond */
+    --background: 0 0% 100%;
+    --foreground: 222 47% 12%;
     --card: 0 0% 100%;
     --card-foreground: 222 47% 12%;
     --popover: 0 0% 100%;
     --popover-foreground: 222 47% 12%;
-    --primary: 217 91% 60%; /* Bleu Électrique */
+    --primary: 217 91% 60%;
     --primary-foreground: 0 0% 100%;
-    --secondary: 45 93% 55%; /* Jaune Or */
+    --secondary: 45 93% 55%;
     --secondary-foreground: 222 47% 12%;
     --muted: 217 20% 96%;
     --muted-foreground: 217 20% 40%;
-    --accent: 45 93% 55%; /* Jaune Or */
+    --accent: 45 93% 55%;
     --accent-foreground: 222 47% 12%;
     --destructive: 0 84.2% 60.2%;
     --destructive-foreground: 0 0% 100%;
@@ -28,7 +28,7 @@
 }
 
 body {
-  @apply bg-background text-foreground font-sans min-h-screen antialiased selection:bg-primary/20 selection:text-primary;
+  @apply bg-background text-foreground font-sans min-h-screen antialiased;
 }
 
 @layer components {
@@ -36,10 +36,10 @@ body {
     @apply bg-white border border-border shadow-sm transition-all duration-300 hover:shadow-md;
   }
   .k-cta {
-    @apply flex items-center justify-center gap-2 bg-primary text-primary-foreground font-bold py-3 px-6 rounded-xl hover:brightness-110 transition-all active:scale-95 shadow-md shadow-primary/10 uppercase tracking-widest text-[11px];
+    @apply flex items-center justify-center gap-2 bg-primary text-primary-foreground font-bold py-3 px-6 rounded-xl hover:opacity-90 transition-all active:scale-95 shadow-md shadow-primary/10 uppercase tracking-widest text-[11px];
   }
   .k-cta-gold {
-    @apply flex items-center justify-center gap-2 bg-accent text-accent-foreground font-bold py-3 px-6 rounded-xl hover:brightness-110 transition-all active:scale-95 shadow-md shadow-accent/10 uppercase tracking-widest text-[11px];
+    @apply flex items-center justify-center gap-2 bg-accent text-accent-foreground font-bold py-3 px-6 rounded-xl hover:opacity-90 transition-all active:scale-95 shadow-md shadow-accent/10 uppercase tracking-widest text-[11px];
   }
 }
 
@@ -52,12 +52,10 @@ body {
   background-size: 40px 40px;
 }
 
-::-webkit-scrollbar {
-  width: 6px;
+.no-scrollbar::-webkit-scrollbar {
+  display: none;
 }
-::-webkit-scrollbar-track {
-  @apply bg-background;
-}
-::-webkit-scrollbar-thumb {
-  @apply bg-muted rounded-full;
+.no-scrollbar {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
 }

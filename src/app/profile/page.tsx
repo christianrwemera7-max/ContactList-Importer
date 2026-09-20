@@ -1,11 +1,12 @@
 'use client';
 
+import { useEffect } from 'react';
 import { AppSidebar } from "@/components/layout/AppSidebar";
 import { BottomNav } from "@/components/layout/BottomNav";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
-import { ShieldCheck, Award, Settings, ChevronRight, CreditCard, Share2, Building, Code, Briefcase, Zap, User, LogOut } from "lucide-react";
+import { ShieldCheck, Award, Settings, ChevronRight, CreditCard, Share2, Building, Code, Briefcase, Zap, LogOut } from "lucide-react";
 import { useKonekt } from "@/lib/store";
 import { useRouter } from "next/navigation";
 
@@ -14,9 +15,18 @@ export default function ProfilePage() {
   const user = state.currentUser;
   const router = useRouter();
 
-  if (!user) {
-    if (typeof window !== 'undefined') router.push('/login');
-    return null;
+  useEffect(() => {
+    if (!state.isLoading && !user) {
+      router.push('/login');
+    }
+  }, [user, state.isLoading, router]);
+
+  if (state.isLoading || !user) {
+    return (
+      <div className="flex items-center justify-center min-h-screen bg-background">
+        <div className="w-8 h-8 border-4 border-primary border-t-transparent rounded-full animate-spin"></div>
+      </div>
+    );
   }
 
   const handleLogout = () => {
@@ -26,14 +36,15 @@ export default function ProfilePage() {
 
   return (
     <div className="flex flex-col min-h-screen pb-24 md:pb-0 bg-background connected-nodes">
-      <header className="px-5 py-6 border-b border-border sticky top-0 bg-white/80 backdrop-blur-md z-40 flex justify-between items-center">
+      <AppSidebar />
+      <header className="px-5 py-6 border-b border-border sticky top-0 bg-white/80 backdrop-blur-md z-40 flex justify-between items-center md:ml-72">
         <h1 className="font-display font-bold text-xl tracking-tighter uppercase text-foreground">Mon KONEKT ID</h1>
         <button className="w-10 h-10 flex items-center justify-center rounded-xl bg-muted border border-border group hover:border-primary/50 transition-colors">
           <Settings className="w-5 h-5 text-muted-foreground group-hover:text-primary" />
         </button>
       </header>
 
-      <main className="flex-1 max-w-2xl mx-auto w-full p-5 space-y-10 py-8">
+      <main className="flex-1 max-w-2xl mx-auto w-full p-5 space-y-10 py-8 md:ml-[calc(18rem+auto)]">
         {/* KONEKT ID Card */}
         <section className="flex flex-col items-center text-center">
           <div className="w-32 h-32 rounded-[3rem] p-[3px] bg-gradient-to-tr from-primary via-gold to-primary mb-6 shadow-xl relative group">

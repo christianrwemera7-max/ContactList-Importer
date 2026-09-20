@@ -30,7 +30,7 @@ export default {
           foreground: 'hsl(222 47% 12%)',
         },
         muted: {
-          DEFAULT: 'hsl(217 20% 96%)',
+          DEFAULT: 'hsl(217 20% 90%)',
           foreground: 'hsl(217 20% 40%)',
         },
         'muted-2': 'hsl(217 20% 40%)',
@@ -39,9 +39,18 @@ export default {
         ring: 'hsl(217 91% 60%)',
         gold: 'hsl(45 93% 55%)',
         blue: 'hsl(217 91% 60%)',
-        ink: '#FFFFFF', // Thème blanc
+        cyan: 'hsl(188 100% 47%)',
+        teal: 'hsl(162 59% 48%)',
+        orange: 'hsl(25 100% 50%)',
+        ink: '#FFFFFF',
         surface: '#F8FAFC',
+        'surface-2': '#F1F5F9',
+        'surface-3': '#E2E8F0',
         line: '#E2E8F0',
+        destructive: {
+          DEFAULT: 'hsl(var(--destructive))',
+          foreground: 'hsl(var(--destructive-foreground))',
+        },
       },
       borderRadius: {
         lg: 'var(--radius)',
