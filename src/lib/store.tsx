@@ -1,32 +1,14 @@
 "use client"
+import React, { createContext, useContext } from 'react';
 
-import React, { createContext, useContext, useState } from 'react';
+const AppContext = createContext<any>(null);
 
-interface AppState {
-  user: any | null;
-}
-
-interface AppContextType {
-  state: AppState;
-  setState: React.Dispatch<React.SetStateAction<AppState>>;
-}
-
-const AppContext = createContext<AppContextType | undefined>(undefined);
-
-export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
-  const [state, setState] = useState<AppState>({
-    user: null,
-  });
-
+export const AppProvider = ({ children }: { children: React.ReactNode }) => {
   return (
-    <AppContext.Provider value={{ state, setState }}>
+    <AppContext.Provider value={{}}>
       {children}
     </AppContext.Provider>
   );
 };
 
-export const useApp = () => {
-  const context = useContext(AppContext);
-  if (!context) throw new Error('useApp must be used within AppProvider');
-  return context;
-};
+export const useApp = () => useContext(AppContext);

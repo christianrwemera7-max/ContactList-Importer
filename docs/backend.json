@@ -1,7 +1,7 @@
 {
   "entities": {},
   "auth": {
-    "providers": ["google", "email"]
+    "providers": []
   },
   "firestore": {}
 }
