@@ -22,6 +22,7 @@ interface AppContextType {
   setProfile: (profile: Profile | null) => void;
   toggleTheme: () => void;
   logout: () => Promise<void>;
+  loadProfile: (userId: string) => Promise<void>;
 }
 
 const AppContext = createContext<AppContextType | undefined>(undefined);
@@ -40,27 +41,28 @@ export function AppProvider({ children }: { children: React.ReactNode }) {
       const profile = await userService.getProfile(userId);
       setState(prev => ({ ...prev, profile }));
     } catch (error: any) {
-      console.error('Failed to load profile:', error.message);
+      console.error('Erreur lors du chargement du profil :', error.message);
     }
   };
 
   useEffect(() => {
-    // Session initiale
+    // Récupération de la session initiale
     supabase.auth.getSession().then(({ data: { session } }) => {
       if (session) {
         setState(prev => ({ 
           ...prev, 
           session, 
           user: session.user,
-          isLoading: false 
         }));
-        loadProfile(session.user.id);
+        loadProfile(session.user.id).finally(() => {
+          setState(prev => ({ ...prev, isLoading: false }));
+        });
       } else {
         setState(prev => ({ ...prev, isLoading: false }));
       }
     });
 
-    // Écouteur de changements
+    // Écoute des changements d'état d'authentification
     const { data: { subscription } } = supabase.auth.onAuthStateChange(async (event, session) => {
       if (session) {
         setState(prev => ({ 
@@ -99,12 +101,12 @@ export function AppProvider({ children }: { children: React.ReactNode }) {
     try {
       await supabase.auth.signOut();
     } catch (error) {
-      console.error('Logout error:', error);
+      console.error('Erreur lors de la déconnexion :', error);
     }
   };
 
   return (
-    <AppContext.Provider value={{ state, setUser, setProfile, toggleTheme, logout }}>
+    <AppContext.Provider value={{ state, setUser, setProfile, toggleTheme, logout, loadProfile }}>
       {children}
     </AppContext.Provider>
   );

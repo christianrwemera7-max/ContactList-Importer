@@ -5,7 +5,7 @@ type Profile = Database['public']['Tables']['profiles']['Row'];
 
 export const userService = {
   /**
-   * Récupère le profil complet d'un utilisateur.
+   * Récupère le profil complet d'un utilisateur par son ID.
    */
   async getProfile(userId: string): Promise<Profile | null> {
     const { data, error } = await supabase
@@ -15,14 +15,14 @@ export const userService = {
       .single();
     
     if (error) {
-      if (error.code === 'PGRST116') return null; // Profil inexistant
+      if (error.code === 'PGRST116') return null; // Aucun profil trouvé
       throw error;
     }
     return data;
   },
 
   /**
-   * Met à jour les informations du profil.
+   * Met à jour les informations du profil dans la table 'profiles'.
    */
   async updateProfile(userId: string, updates: Partial<Profile>): Promise<Profile> {
     const { data, error } = await supabase
@@ -40,9 +40,9 @@ export const userService = {
   },
 
   /**
-   * Crée un profil initial (utilisé généralement après l'inscription).
+   * Crée ou met à jour le profil initial.
    */
-  async createProfile(profile: Database['public']['Tables']['profiles']['Insert']): Promise<Profile> {
+  async upsertProfile(profile: Database['public']['Tables']['profiles']['Insert']): Promise<Profile> {
     const { data, error } = await supabase
       .from('profiles')
       .upsert(profile)

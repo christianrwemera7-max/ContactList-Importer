@@ -44,7 +44,7 @@ export default function ProfilePage() {
             <Avatar className="w-24 h-24 border-4 border-white shadow-xl">
               <AvatarImage src={profile.photo_url || ''} />
               <AvatarFallback className="text-2xl font-bold bg-primary text-primary-foreground">
-                {profile.first_name?.[0]}{profile.last_name?.[0]}
+                {(profile.first_name?.[0] || '') + (profile.last_name?.[0] || '')}
               </AvatarFallback>
             </Avatar>
             <div className="text-center md:text-left space-y-1">
@@ -74,7 +74,7 @@ export default function ProfilePage() {
               <Card>
                 <CardHeader>
                   <CardTitle className="text-xl font-display">Informations Personnelles</CardTitle>
-                  <CardDescription>Mettez à jour vos informations de profil étudiant.</CardDescription>
+                  <CardDescription>Gérez vos informations d'étudiant.</CardDescription>
                 </CardHeader>
                 <CardContent>
                   <form onSubmit={handleSubmit} className="space-y-4">
@@ -88,23 +88,26 @@ export default function ProfilePage() {
                         <Input id="last_name" name="last_name" defaultValue={profile.last_name || ''} required />
                       </div>
                     </div>
+                    
                     <div className="space-y-2">
                       <Label htmlFor="university">Université / École</Label>
                       <Input id="university" name="university" defaultValue={profile.university || ''} placeholder="Ex: Sorbonne Université" />
                     </div>
+
                     <div className="grid grid-cols-2 gap-4">
                       <div className="space-y-2">
                         <Label htmlFor="faculty">Faculté / Domaine</Label>
-                        <Input id="faculty" name="faculty" defaultValue={profile.faculty || ''} placeholder="Ex: Médecine" />
+                        <Input id="faculty" name="faculty" defaultValue={profile.faculty || ''} placeholder="Ex: Informatique" />
                       </div>
                       <div className="space-y-2">
                         <Label htmlFor="study_level">Niveau d'études</Label>
-                        <Input id="study_level" name="study_level" defaultValue={profile.study_level || ''} placeholder="Ex: Master 1" />
+                        <Input id="study_level" name="study_level" defaultValue={profile.study_level || ''} placeholder="Ex: Master 2" />
                       </div>
                     </div>
+
                     <Button type="submit" className="w-full md:w-auto" disabled={isUpdating}>
                       {isUpdating && <Loader2 className="w-4 h-4 animate-spin mr-2" />}
-                      Sauvegarder les modifications
+                      Enregistrer les modifications
                     </Button>
                   </form>
                 </CardContent>
@@ -114,11 +117,11 @@ export default function ProfilePage() {
             <div className="space-y-6">
               <Card>
                 <CardHeader>
-                  <CardTitle className="text-lg font-display">Statistiques</CardTitle>
+                  <CardTitle className="text-lg font-display">Activité</CardTitle>
                 </CardHeader>
                 <CardContent className="space-y-4">
-                  <StatItem label="Cours suivis" value="0" icon={BookOpen} color="text-blue-500" />
-                  <StatItem label="Défis remportés" value="0" icon={User} color="text-orange" />
+                  <StatItem label="Cours" value="0" icon={BookOpen} color="text-blue-500" />
+                  <StatItem label="Niveau" value="1" icon={User} color="text-orange" />
                 </CardContent>
               </Card>
             </div>
