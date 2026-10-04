@@ -1,4 +1,5 @@
 
+
 export type Json =
   | string
   | number
@@ -407,6 +408,30 @@ export interface Database {
           completed_at?: string | null
         }
       }
+      connections: {
+        Row: {
+          id: string
+          sender_id: string
+          receiver_id: string
+          status: 'pending' | 'accepted' | 'rejected'
+          created_at: string
+        }
+        Insert: {
+          id?: string
+          sender_id: string
+          receiver_id: string
+          status?: 'pending' | 'accepted' | 'rejected'
+          created_at?: string
+        }
+        Update: {
+          id?: string
+          sender_id?: string
+          receiver_id?: string
+          status?: 'pending' | 'accepted' | 'rejected'
+          created_at?: string
+        }
+      }
     }
   }
 }
+
