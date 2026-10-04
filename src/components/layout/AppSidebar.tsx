@@ -61,15 +61,15 @@ export function AppSidebar() {
         </Link>
 
         {user && (
-          <div className="bg-primary/5 p-5 rounded-2xl border border-primary/10 relative overflow-hidden group">
+          <div className="bg-primary/5 p-5 rounded-[24px] border border-primary/10 relative overflow-hidden group">
             <div className="absolute -top-4 -right-4 w-16 h-16 bg-primary/10 rounded-full blur-2xl group-hover:scale-150 transition-transform duration-500" />
             <div className="relative z-10 space-y-1">
-              <p className="text-[10px] font-bold text-primary/60 uppercase tracking-widest">
+              <p className="text-[10px] font-bold text-primary/60 uppercase tracking-widest leading-none">
                 {profile?.study_level || 'MEMBRE'}
               </p>
               <div className="flex items-center gap-2">
                  <div className="w-1.5 h-1.5 rounded-full bg-primary animate-pulse" />
-                 <span className="text-xs font-black text-foreground truncate">
+                 <span className="text-sm font-black text-foreground truncate">
                    {profile?.first_name} {profile?.last_name}
                  </span>
               </div>
@@ -86,7 +86,7 @@ export function AppSidebar() {
               key={item.name}
               href={item.href}
               className={cn(
-                "flex items-center gap-4 px-5 py-3 rounded-xl text-[13px] font-bold transition-all group",
+                "flex items-center gap-4 px-5 py-3 rounded-[20px] text-[13px] font-bold transition-all group",
                 isActive 
                   ? "bg-primary text-white shadow-lg shadow-primary/20" 
                   : "text-muted-foreground hover:bg-primary/5 hover:text-primary"
@@ -102,7 +102,7 @@ export function AppSidebar() {
       <div className="p-6 border-t border-border/50 space-y-2">
         <button 
           onClick={handleLogout}
-          className="w-full flex items-center gap-4 px-5 py-3 rounded-xl text-[13px] font-bold text-muted-foreground hover:bg-destructive/5 hover:text-destructive transition-colors text-left"
+          className="w-full flex items-center gap-4 px-5 py-3 rounded-[20px] text-[13px] font-bold text-muted-foreground hover:bg-destructive/5 hover:text-destructive transition-colors text-left"
         >
           <LogOut className="w-4 h-4" />
           Déconnexion
@@ -115,7 +115,7 @@ export function AppSidebar() {
 function NeoStudLogo() {
   return (
     <svg width="32" height="32" viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg">
-      <rect width="40" height="40" rx="10" className="fill-primary" />
+      <rect width="40" height="40" rx="12" className="fill-primary" />
       <path d="M12 28V12L28 28V12" stroke="white" strokeWidth="4" strokeLinecap="round" strokeLinejoin="round" />
       <circle cx="28" cy="12" r="3" className="fill-white" />
     </svg>

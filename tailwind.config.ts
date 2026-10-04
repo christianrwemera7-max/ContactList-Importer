@@ -49,6 +49,10 @@ const config: Config = {
   			ring: 'hsl(var(--ring))',
         success: 'hsl(var(--success))',
         warning: 'hsl(var(--warning))',
+        orange: {
+          DEFAULT: '#FF6B00',
+          dim: '#7A3400',
+        },
   		},
   		borderRadius: {
   			lg: 'var(--radius)',
@@ -57,6 +61,7 @@ const config: Config = {
         'xl': '20px',
         '2xl': '24px',
         '3xl': '32px',
+        '4xl': '40px',
   		}
   	}
   },

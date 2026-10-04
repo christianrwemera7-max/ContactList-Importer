@@ -37,7 +37,7 @@
   --input: 260 20% 92%;
   --ring: 258 100% 58%;
   
-  --radius: 1rem; /* 16px par défaut */
+  --radius: 1.5rem; /* 24px par défaut, on poussera à 32px sur les cartes */
 }
 
 .dark {
@@ -72,7 +72,11 @@ body {
   -webkit-text-fill-color: transparent;
 }
 
-/* Cartes Premium */
+/* Cartes Premium Style Reference */
 .neostud-card {
-  @apply rounded-[20px] border-none shadow-[0_8px_30px_rgb(0,0,0,0.02)] bg-white transition-all duration-300 hover:shadow-[0_20px_40px_rgb(108,43,255,0.04)];
+  @apply rounded-[32px] border-none shadow-[0_8px_30px_rgb(0,0,0,0.02)] bg-white transition-all duration-300 hover:shadow-[0_20px_40px_rgb(108,43,255,0.04)];
+}
+
+.neostud-stats-card {
+  @apply rounded-[32px] bg-primary text-white border-none shadow-[0_20px_40px_rgba(108,43,255,0.15)] overflow-hidden;
 }
