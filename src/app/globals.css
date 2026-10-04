@@ -3,11 +3,11 @@
 @tailwind utilities;
 
 :root {
-  /* Fond principal NeoStud - Lumineux et Premium */
-  --background: 250 40% 98%;
+  /* Fond principal NeoStud - Lumineux et Premium (Teinté) */
+  --background: 250 40% 98%; /* #F8F7FC */
   --foreground: 262 24% 10%;
   
-  /* Cartes et éléments de surface */
+  /* Cartes et éléments de surface - Le Blanc devient secondaire */
   --card: 0 0% 100%;
   --card-foreground: 262 24% 10%;
   --popover: 0 0% 100%;
