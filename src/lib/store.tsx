@@ -1,16 +1,16 @@
-
 "use client";
 
 import React, { createContext, useContext, useState, useEffect } from 'react';
 import { supabase } from '@/lib/supabase/client';
 import { userService } from '@/services/userService';
-import { User } from '@supabase/supabase-js';
+import { User, Session } from '@supabase/supabase-js';
 import { Database } from '@/lib/supabase/types';
 
 type Profile = Database['public']['Tables']['profiles']['Row'];
 
 interface AppState {
   user: User | null;
+  session: Session | null;
   profile: Profile | null;
   isLoading: boolean;
   theme: 'light' | 'dark';
@@ -29,6 +29,7 @@ const AppContext = createContext<AppContextType | undefined>(undefined);
 export function AppProvider({ children }: { children: React.ReactNode }) {
   const [state, setState] = useState<AppState>({
     user: null,
+    session: null,
     profile: null,
     isLoading: true,
     theme: 'light',
@@ -38,28 +39,43 @@ export function AppProvider({ children }: { children: React.ReactNode }) {
     try {
       const profile = await userService.getProfile(userId);
       setState(prev => ({ ...prev, profile }));
-    } catch (error) {
-      console.error('Error fetching profile:', error);
+    } catch (error: any) {
+      // Si la table n'existe pas ou erreur, on logue simplement sans bloquer
+      console.log('Profile fetch notice:', error.message);
     }
   };
 
   useEffect(() => {
-    // Check active session
+    // 1. Récupérer la session initiale
     supabase.auth.getSession().then(({ data: { session } }) => {
       if (session) {
-        setState(prev => ({ ...prev, user: session.user }));
-        fetchProfile(session.user.id);
-      }
-      setState(prev => ({ ...prev, isLoading: false }));
-    });
-
-    // Listen for auth changes
-    const { data: { subscription } } = supabase.auth.onAuthStateChange(async (event, session) => {
-      if (session) {
-        setState(prev => ({ ...prev, user: session.user, isLoading: false }));
+        setState(prev => ({ ...prev, session, user: session.user, isLoading: false }));
         fetchProfile(session.user.id);
       } else {
-        setState(prev => ({ ...prev, user: null, profile: null, isLoading: false }));
+        setState(prev => ({ ...prev, isLoading: false }));
+      }
+    });
+
+    // 2. Écouter les changements d'auth
+    const { data: { subscription } } = supabase.auth.onAuthStateChange(async (event, session) => {
+      if (session) {
+        setState(prev => ({ 
+          ...prev, 
+          session, 
+          user: session.user, 
+          isLoading: false 
+        }));
+        if (event === 'SIGNED_IN' || event === 'USER_UPDATED') {
+          fetchProfile(session.user.id);
+        }
+      } else {
+        setState(prev => ({ 
+          ...prev, 
+          session: null, 
+          user: null, 
+          profile: null, 
+          isLoading: false 
+        }));
       }
     });
 
@@ -68,14 +84,20 @@ export function AppProvider({ children }: { children: React.ReactNode }) {
 
   const setUser = (user: User | null) => setState(prev => ({ ...prev, user }));
   const setProfile = (profile: Profile | null) => setState(prev => ({ ...prev, profile }));
-  const toggleTheme = () => setState(prev => ({ 
-    ...prev, 
-    theme: prev.theme === 'light' ? 'dark' : 'light' 
-  }));
+  
+  const toggleTheme = () => {
+    const newTheme = state.theme === 'light' ? 'dark' : 'light';
+    setState(prev => ({ ...prev, theme: newTheme }));
+    document.documentElement.classList.toggle('dark', newTheme === 'dark');
+  };
 
   const logout = async () => {
-    await supabase.auth.signOut();
-    setState(prev => ({ ...prev, user: null, profile: null }));
+    try {
+      await supabase.auth.signOut();
+      // Le listener onAuthStateChange s'occupera du reset de l'état
+    } catch (error) {
+      console.error('Logout error:', error);
+    }
   };
 
   return (
@@ -93,5 +115,4 @@ export function useApp() {
   return context;
 }
 
-// Alias for compatibility with existing components
 export const useKonekt = useApp;
