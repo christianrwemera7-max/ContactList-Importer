@@ -1,15 +1,15 @@
+
 'use client';
 
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { cn } from '@/lib/utils';
-import { Compass, Users, Rocket, Library, UserCircle2, BookOpen } from 'lucide-react';
+import { Compass, Users, Rocket, Library, UserCircle2, BookOpen, CheckSquare } from 'lucide-react';
 
 const navigation = [
   { name: 'Feed', href: '/dashboard', icon: Compass },
   { name: 'Étude', href: '/study', icon: BookOpen },
-  { name: 'Match', href: '/explorer', icon: Users },
-  { name: 'Biblio', href: '/academy', icon: Library },
+  { name: 'Tâches', href: '/tasks', icon: CheckSquare },
   { name: 'Profil', href: '/profile', icon: UserCircle2 },
 ];
 

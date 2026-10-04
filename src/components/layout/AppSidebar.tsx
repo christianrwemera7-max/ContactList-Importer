@@ -1,3 +1,4 @@
+
 "use client"
 
 import Link from 'next/link';
@@ -13,7 +14,8 @@ import {
   LogOut,
   Zap,
   LayoutGrid,
-  BookOpen
+  BookOpen,
+  CheckSquare
 } from 'lucide-react';
 import { HexFrame } from '@/components/ui/HexFrame';
 import { useApp } from '@/lib/store';
@@ -22,6 +24,7 @@ import { useRouter } from 'next/navigation';
 const navigation = [
   { name: 'Feed', href: '/dashboard', icon: Compass },
   { name: 'Étudier', href: '/study', icon: BookOpen },
+  { name: 'Tâches', href: '/tasks', icon: CheckSquare },
   { name: 'Match', href: '/explorer', icon: Users },
   { name: 'Projets', href: '/opportunities?tab=projects', icon: Rocket },
   { name: 'Communauté', href: '/community', icon: LayoutGrid },

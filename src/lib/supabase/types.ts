@@ -1,3 +1,4 @@
+
 export type Json =
   | string
   | number
@@ -99,8 +100,46 @@ export interface Database {
           id?: string
           user_id?: string
           course_id?: string | null
-          title?: string
+          title: string
           content?: string | null
+          created_at?: string
+          updated_at?: string
+        }
+      }
+      tasks: {
+        Row: {
+          id: string
+          user_id: string
+          course_id: string | null
+          title: string
+          description: string | null
+          due_date: string | null
+          priority: 'low' | 'medium' | 'high'
+          status: 'pending' | 'completed'
+          created_at: string
+          updated_at: string
+        }
+        Insert: {
+          id?: string
+          user_id: string
+          course_id?: string | null
+          title: string
+          description?: string | null
+          due_date?: string | null
+          priority?: 'low' | 'medium' | 'high'
+          status?: 'pending' | 'completed'
+          created_at?: string
+          updated_at?: string
+        }
+        Update: {
+          id?: string
+          user_id?: string
+          course_id?: string | null
+          title?: string
+          description?: string | null
+          due_date?: string | null
+          priority?: 'low' | 'medium' | 'high'
+          status?: 'pending' | 'completed'
           created_at?: string
           updated_at?: string
         }
