@@ -8,9 +8,7 @@ import {
   Compass, 
   Users, 
   Rocket, 
-  Library, 
   UserCircle2, 
-  ShieldCheck, 
   LogOut,
   Zap,
   LayoutGrid,
@@ -34,7 +32,6 @@ const navigation = [
   { name: 'Academy', href: '/academy', icon: GraduationCap },
   { name: 'Défis', href: '/challenges', icon: Trophy },
   { name: 'Match', href: '/explorer', icon: Users },
-  { name: 'Projets', href: '/opportunities?tab=projects', icon: Rocket },
   { name: 'Communauté', href: '/community', icon: LayoutGrid },
   { name: 'Mon espace', href: '/profile', icon: UserCircle2 },
 ];
