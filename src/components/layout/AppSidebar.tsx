@@ -6,6 +6,8 @@ import { usePathname } from 'next/navigation';
 import { cn } from '@/lib/utils';
 import { useApp } from '@/lib/store';
 import { useRouter } from 'next/navigation';
+import Image from 'next/image';
+import placeholderData from '@/app/lib/placeholder-images.json';
 
 const navigation = [
   { name: 'Feed', href: '/dashboard' },
@@ -27,6 +29,8 @@ export function AppSidebar() {
   const user = state.user;
   const profile = state.profile;
 
+  const logoImage = placeholderData.placeholderImages.find(img => img.id === 'official-logo');
+
   const handleLogout = async () => {
     try {
       await logout();
@@ -38,17 +42,22 @@ export function AppSidebar() {
 
   return (
     <div className="hidden md:flex flex-col w-72 bg-white border-r border-border/50 h-screen fixed left-0 top-0 z-50">
-      <div className="p-10">
-        <Link href="/" className="group inline-block mb-12">
-          <div className="flex items-center gap-1">
-            <span className="text-2xl font-sans font-bold tracking-tighter text-foreground">
-              neostud
-            </span>
-            <svg width="20" height="20" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
-              <circle cx="70" cy="30" r="8" fill="#FF0000" />
-              <path d="M70 42C70 42 60 45 60 60V85H70V65H80V85H90V60C90 45 80 42 80 42H70Z" fill="#FF0000" />
-              <path d="M85 45L95 40L95 60L85 65V45Z" fill="#FF0000" />
-            </svg>
+      <div className="p-8">
+        <Link href="/" className="group inline-block mb-10">
+          <div className="relative w-40 h-16">
+            {logoImage ? (
+              <Image 
+                src={logoImage.imageUrl}
+                alt="neostud"
+                fill
+                className="object-contain brightness-0" // Noir pour la sidebar blanche
+                priority
+              />
+            ) : (
+              <span className="text-2xl font-sans font-bold tracking-tighter text-foreground">
+                neostud
+              </span>
+            )}
           </div>
         </Link>
 

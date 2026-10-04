@@ -36,9 +36,9 @@ export default function SplashPage() {
 
       setStep(4);
       setIsVisible(true);
-      await new Promise(r => setTimeout(r, 4000));
+      await new Promise(r => setTimeout(r, 4500));
       setIsVisible(false);
-      await new Promise(r => setTimeout(r, 1200));
+      await new Promise(r => setTimeout(r, 1500));
       
       setStep(5);
       setIsVisible(true);
@@ -56,10 +56,11 @@ export default function SplashPage() {
   };
 
   const heroImage = placeholderData.placeholderImages.find(img => img.id === 'hero-composition');
+  const logoImage = placeholderData.placeholderImages.find(img => img.id === 'official-logo');
 
   return (
     <div className={cn(
-      "min-h-screen transition-colors duration-[2000ms] flex items-center justify-center overflow-hidden relative",
+      "min-h-screen transition-colors duration-[2500ms] flex items-center justify-center overflow-hidden relative",
       step < 5 ? "bg-[#05030A]" : "bg-black"
     )}>
       {/* Background Glows during Splash */}
@@ -69,9 +70,9 @@ export default function SplashPage() {
         </div>
       )}
 
-      {/* Full Screen Image Background for Hero - Immersif et sans déformation */}
+      {/* Full Screen Image Background for Hero */}
       {step === 5 && heroImage && (
-        <div className="absolute inset-0 z-0 animate-in fade-in duration-[2000ms]">
+        <div className="absolute inset-0 z-0 animate-in fade-in duration-[2500ms]">
           <Image 
             src={heroImage.imageUrl}
             alt={heroImage.description}
@@ -87,47 +88,46 @@ export default function SplashPage() {
       )}
 
       <div className={cn(
-        "relative z-10 w-full transition-all duration-[1500ms]",
+        "relative z-10 w-full transition-all duration-[2000ms]",
         step === 5 ? "max-w-md px-6" : "max-w-xl text-center"
       )}>
         {/* Splash Sequence */}
         {step < 4 && (
           <p 
             className={cn(
-              "text-primary text-4xl md:text-7xl font-display font-black tracking-tight transition-all duration-[1500ms]",
-              isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"
+              "text-primary text-4xl md:text-8xl font-display font-black tracking-tighter transition-all duration-[2000ms]",
+              isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-12"
             )}
           >
             {INTRO_WORDS[step]}
           </p>
         )}
 
-        {/* Logo Signature NEOSTUD */}
-        {step === 4 && (
+        {/* Logo Officiel NEOSTUD */}
+        {step === 4 && logoImage && (
           <div className={cn(
-            "flex flex-col items-center transition-all duration-[2000ms]",
+            "flex flex-col items-center transition-all duration-[2500ms]",
             isVisible ? "opacity-100 scale-100" : "opacity-0 scale-95"
           )}>
-             <div className="flex items-center gap-3">
-                <span className="text-white font-sans font-medium text-6xl md:text-7xl tracking-tighter">
-                  neostud
-                </span>
-                <svg width="60" height="60" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg" className="mt-2">
-                  <circle cx="70" cy="30" r="8" fill="#FF0000" />
-                  <path d="M70 42C70 42 60 45 60 60V85H70V65H80V85H90V60C90 45 80 42 80 42H70Z" fill="#FF0000" />
-                  <path d="M85 45L95 40L95 60L85 65V45Z" fill="#FF0000" />
-                </svg>
+             <div className="relative w-72 h-40 md:w-[400px] md:h-[200px]">
+                <Image 
+                  src={logoImage.imageUrl}
+                  alt="neostud"
+                  fill
+                  className="object-contain"
+                  priority
+                />
              </div>
           </div>
         )}
 
-        {/* Hero Hub - Minimalisme total */}
+        {/* Hero Hub - Explorer Neostud */}
         {step === 5 && (
-          <div className="flex flex-col items-center justify-center min-h-screen animate-in fade-in zoom-in-95 duration-[2000ms]">
+          <div className="flex flex-col items-center justify-center min-h-screen animate-in fade-in zoom-in-95 duration-[2500ms]">
             <Button 
               onClick={handleStart}
               size="lg"
-              className="h-24 w-full rounded-[40px] bg-primary text-white hover:bg-primary/90 text-2xl font-bold shadow-2xl shadow-primary/40 transition-all active:scale-95 border-none"
+              className="h-24 w-full rounded-[40px] bg-primary text-white hover:bg-primary/90 text-2xl font-black uppercase tracking-widest shadow-2xl shadow-primary/40 transition-all active:scale-95 border-none"
             >
               Explorer Neostud
             </Button>
@@ -138,7 +138,7 @@ export default function SplashPage() {
       {/* Persistent Footer Credit */}
       <div className="absolute bottom-10 left-0 right-0 flex justify-center pointer-events-none z-20">
         <div className={cn(
-          "text-[10px] font-black uppercase tracking-[0.5em] transition-opacity duration-[2000ms]",
+          "text-[10px] font-black uppercase tracking-[0.6em] transition-opacity duration-[2500ms]",
           step < 5 ? "text-white/10" : "text-white/20"
         )}>
           NeoStud
