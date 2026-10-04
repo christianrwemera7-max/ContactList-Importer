@@ -1,30 +1,55 @@
-
 import { supabase } from '@/lib/supabase/client';
 import { Database } from '@/lib/supabase/types';
 
 type Profile = Database['public']['Tables']['profiles']['Row'];
 
 export const userService = {
-  async getProfile(userId: string) {
+  /**
+   * Récupère le profil complet d'un utilisateur.
+   */
+  async getProfile(userId: string): Promise<Profile | null> {
     const { data, error } = await supabase
       .from('profiles')
       .select('*')
       .eq('id', userId)
       .single();
     
-    if (error) throw error;
-    return data as Profile;
+    if (error) {
+      if (error.code === 'PGRST116') return null; // Profil inexistant
+      throw error;
+    }
+    return data;
   },
 
-  async updateProfile(userId: string, updates: Partial<Profile>) {
+  /**
+   * Met à jour les informations du profil.
+   */
+  async updateProfile(userId: string, updates: Partial<Profile>): Promise<Profile> {
     const { data, error } = await supabase
       .from('profiles')
-      .update({ ...updates, updated_at: new Date().toISOString() })
+      .update({ 
+        ...updates, 
+        updated_at: new Date().toISOString() 
+      })
       .eq('id', userId)
       .select()
       .single();
     
     if (error) throw error;
-    return data as Profile;
+    return data;
+  },
+
+  /**
+   * Crée un profil initial (utilisé généralement après l'inscription).
+   */
+  async createProfile(profile: Database['public']['Tables']['profiles']['Insert']): Promise<Profile> {
+    const { data, error } = await supabase
+      .from('profiles')
+      .upsert(profile)
+      .select()
+      .single();
+    
+    if (error) throw error;
+    return data;
   }
 };

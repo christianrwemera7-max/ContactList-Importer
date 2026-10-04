@@ -35,28 +35,32 @@ export function AppProvider({ children }: { children: React.ReactNode }) {
     theme: 'light',
   });
 
-  const fetchProfile = async (userId: string) => {
+  const loadProfile = async (userId: string) => {
     try {
       const profile = await userService.getProfile(userId);
       setState(prev => ({ ...prev, profile }));
     } catch (error: any) {
-      // Si la table n'existe pas ou erreur, on logue simplement sans bloquer
-      console.log('Profile fetch notice:', error.message);
+      console.error('Failed to load profile:', error.message);
     }
   };
 
   useEffect(() => {
-    // 1. Récupérer la session initiale
+    // Session initiale
     supabase.auth.getSession().then(({ data: { session } }) => {
       if (session) {
-        setState(prev => ({ ...prev, session, user: session.user, isLoading: false }));
-        fetchProfile(session.user.id);
+        setState(prev => ({ 
+          ...prev, 
+          session, 
+          user: session.user,
+          isLoading: false 
+        }));
+        loadProfile(session.user.id);
       } else {
         setState(prev => ({ ...prev, isLoading: false }));
       }
     });
 
-    // 2. Écouter les changements d'auth
+    // Écouteur de changements
     const { data: { subscription } } = supabase.auth.onAuthStateChange(async (event, session) => {
       if (session) {
         setState(prev => ({ 
@@ -66,7 +70,7 @@ export function AppProvider({ children }: { children: React.ReactNode }) {
           isLoading: false 
         }));
         if (event === 'SIGNED_IN' || event === 'USER_UPDATED') {
-          fetchProfile(session.user.id);
+          loadProfile(session.user.id);
         }
       } else {
         setState(prev => ({ 
@@ -94,7 +98,6 @@ export function AppProvider({ children }: { children: React.ReactNode }) {
   const logout = async () => {
     try {
       await supabase.auth.signOut();
-      // Le listener onAuthStateChange s'occupera du reset de l'état
     } catch (error) {
       console.error('Logout error:', error);
     }
@@ -114,5 +117,3 @@ export function useApp() {
   }
   return context;
 }
-
-export const useKonekt = useApp;
