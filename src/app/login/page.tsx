@@ -1,3 +1,4 @@
+
 "use client";
 
 import React, { useState, useEffect } from 'react';
@@ -10,7 +11,6 @@ import { Label } from '@/components/ui/label';
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '@/components/ui/card';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { useToast } from '@/hooks/use-toast';
-import { Loader2, GraduationCap } from 'lucide-react';
 
 export default function LoginPage() {
   const [isLoading, setIsLoading] = useState(false);
@@ -33,13 +33,13 @@ export default function LoginPage() {
 
     try {
       await authService.signIn(email, password);
-      toast({ title: "Connexion réussie", description: "Bon retour parmi nous !" });
+      toast({ title: "Accès autorisé", description: "Bienvenue sur votre portail." });
       router.push('/dashboard');
     } catch (error: any) {
       toast({
         variant: "destructive",
-        title: "Erreur de connexion",
-        description: error.message || "Vérifiez vos identifiants.",
+        title: "Échec d'authentification",
+        description: error.message || "Vérifiez vos accès.",
       });
     } finally {
       setIsLoading(false);
@@ -59,13 +59,13 @@ export default function LoginPage() {
       await authService.signUp(email, password, firstName, lastName);
       toast({
         title: "Compte créé",
-        description: "Veuillez vérifier votre email pour confirmer votre inscription.",
+        description: "Confirmez votre email pour finaliser l'accès.",
       });
     } catch (error: any) {
       toast({
         variant: "destructive",
-        title: "Erreur d'inscription",
-        description: error.message || "Impossible de créer le compte.",
+        title: "Échec de création",
+        description: error.message || "Impossible de générer le profil.",
       });
     } finally {
       setIsLoading(false);
@@ -73,77 +73,68 @@ export default function LoginPage() {
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-muted/30 p-4">
-      <Card className="w-full max-w-md shadow-xl border-border/50 bg-white">
-        <CardHeader className="text-center space-y-1">
-          <div className="flex justify-center mb-2">
-            <div className="p-3 bg-primary rounded-2xl">
-              <GraduationCap className="w-8 h-8 text-primary-foreground" />
-            </div>
+    <div className="min-h-screen flex items-center justify-center bg-[#F8F7FC] p-6">
+      <Card className="w-full max-w-md shadow-2xl border-none bg-white rounded-[48px] overflow-hidden">
+        <CardHeader className="text-center space-y-4 pt-12">
+          <div className="flex justify-center mb-4">
+            <span className="text-4xl font-display font-black text-primary lowercase tracking-tighter">neostud</span>
           </div>
-          <CardTitle className="text-2xl font-display font-bold text-secondary">NEOSTUD</CardTitle>
-          <CardDescription>Votre espace de réussite académique</CardDescription>
+          <CardTitle className="text-2xl font-display font-black tracking-tight text-foreground uppercase">Portail d'accès</CardTitle>
+          <p className="text-[10px] font-black uppercase tracking-[0.3em] text-muted-foreground">Authentification requise</p>
         </CardHeader>
-        <CardContent>
+        <CardContent className="px-8 pb-12">
           <Tabs defaultValue="login" className="w-full">
-            <TabsList className="grid w-full grid-cols-2 mb-6">
-              <TabsTrigger value="login">Connexion</TabsTrigger>
-              <TabsTrigger value="register">Inscription</TabsTrigger>
+            <TabsList className="grid w-full grid-cols-2 mb-10 bg-muted/30 p-1.5 rounded-[24px] h-14">
+              <TabsTrigger value="login" className="rounded-[20px] font-black uppercase text-[10px] tracking-widest">Connexion</TabsTrigger>
+              <TabsTrigger value="register" className="rounded-[20px] font-black uppercase text-[10px] tracking-widest">Inscription</TabsTrigger>
             </TabsList>
             
             <TabsContent value="login">
-              <form onSubmit={handleSignIn} className="space-y-4">
+              <form onSubmit={handleSignIn} className="space-y-6">
                 <div className="space-y-2">
-                  <Label htmlFor="email">Email</Label>
-                  <Input id="email" name="email" type="email" placeholder="etudiant@univ.fr" required />
+                  <Label htmlFor="email" className="text-[10px] font-black uppercase tracking-widest ml-1">Email</Label>
+                  <Input id="email" name="email" type="email" placeholder="nom@etudiant.fr" required className="h-14 rounded-2xl bg-muted/20 border-none px-6" />
                 </div>
                 <div className="space-y-2">
-                  <div className="flex justify-between items-center">
-                    <Label htmlFor="password">Mot de passe</Label>
-                    <button type="button" className="text-xs text-primary hover:underline">Oublié ?</button>
+                  <div className="flex justify-between items-center px-1">
+                    <Label htmlFor="password" title="Mot de passe" className="text-[10px] font-black uppercase tracking-widest">Code</Label>
+                    <button type="button" className="text-[9px] font-black uppercase text-primary tracking-widest">Oublié</button>
                   </div>
-                  <Input id="password" name="password" type="password" required />
+                  <Input id="password" name="password" type="password" required className="h-14 rounded-2xl bg-muted/20 border-none px-6" />
                 </div>
-                <Button type="submit" className="w-full bg-primary hover:bg-primary/90" disabled={isLoading}>
-                  {isLoading ? <Loader2 className="w-4 h-4 animate-spin mr-2" /> : null}
-                  Se connecter
+                <Button type="submit" className="w-full h-16 rounded-3xl bg-primary text-white font-black uppercase tracking-[0.2em] text-xs mt-4" disabled={isLoading}>
+                  {isLoading ? "Authentification..." : "Entrer"}
                 </Button>
               </form>
             </TabsContent>
             
             <TabsContent value="register">
-              <form onSubmit={handleSignUp} className="space-y-4">
+              <form onSubmit={handleSignUp} className="space-y-5">
                 <div className="grid grid-cols-2 gap-4">
                   <div className="space-y-2">
-                    <Label htmlFor="firstName">Prénom</Label>
-                    <Input id="firstName" name="firstName" placeholder="Jean" required />
+                    <Label htmlFor="firstName" className="text-[10px] font-black uppercase tracking-widest ml-1">Prénom</Label>
+                    <Input id="firstName" name="firstName" placeholder="Jean" required className="h-14 rounded-2xl bg-muted/20 border-none px-6" />
                   </div>
                   <div className="space-y-2">
-                    <Label htmlFor="lastName">Nom</Label>
-                    <Input id="lastName" name="lastName" placeholder="Dupont" required />
+                    <Label htmlFor="lastName" className="text-[10px] font-black uppercase tracking-widest ml-1">Nom</Label>
+                    <Input id="lastName" name="lastName" placeholder="Dupont" required className="h-14 rounded-2xl bg-muted/20 border-none px-6" />
                   </div>
                 </div>
                 <div className="space-y-2">
-                  <Label htmlFor="reg-email">Email</Label>
-                  <Input id="reg-email" name="email" type="email" placeholder="etudiant@univ.fr" required />
+                  <Label htmlFor="reg-email" className="text-[10px] font-black uppercase tracking-widest ml-1">Email</Label>
+                  <Input id="reg-email" name="email" type="email" placeholder="nom@etudiant.fr" required className="h-14 rounded-2xl bg-muted/20 border-none px-6" />
                 </div>
                 <div className="space-y-2">
-                  <Label htmlFor="reg-password">Mot de passe</Label>
-                  <Input id="reg-password" name="password" type="password" required minLength={6} />
+                  <Label htmlFor="reg-password" title="Mot de passe" className="text-[10px] font-black uppercase tracking-widest ml-1">Code</Label>
+                  <Input id="reg-password" name="password" type="password" required minLength={6} className="h-14 rounded-2xl bg-muted/20 border-none px-6" />
                 </div>
-                <Button type="submit" className="w-full bg-primary hover:bg-primary/90" disabled={isLoading}>
-                  {isLoading ? <Loader2 className="w-4 h-4 animate-spin mr-2" /> : null}
-                  Créer mon compte
+                <Button type="submit" className="w-full h-16 rounded-3xl bg-primary text-white font-black uppercase tracking-[0.2em] text-xs mt-4" disabled={isLoading}>
+                  {isLoading ? "Création..." : "Créer le profil"}
                 </Button>
               </form>
             </TabsContent>
           </Tabs>
         </CardContent>
-        <CardFooter className="flex flex-col text-center">
-          <p className="text-xs text-muted-foreground">
-            En continuant, vous acceptez nos conditions d'utilisation.
-          </p>
-        </CardFooter>
       </Card>
     </div>
   );

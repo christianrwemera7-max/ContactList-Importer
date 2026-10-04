@@ -1,35 +1,23 @@
+
 "use client"
 
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { cn } from '@/lib/utils';
-import { 
-  Compass, 
-  Users, 
-  UserCircle2, 
-  LogOut,
-  LayoutGrid,
-  BookOpen,
-  CheckSquare,
-  FileText,
-  Timer,
-  GraduationCap,
-  Trophy
-} from 'lucide-react';
 import { useApp } from '@/lib/store';
 import { useRouter } from 'next/navigation';
 
 const navigation = [
-  { name: 'Feed', href: '/dashboard', icon: Compass },
-  { name: 'Étudier', href: '/study', icon: BookOpen },
-  { name: 'Sessions', href: '/study-sessions', icon: Timer },
-  { name: 'Tâches', href: '/tasks', icon: CheckSquare },
-  { name: 'Documents', href: '/documents', icon: FileText },
-  { name: 'Academy', href: '/academy', icon: GraduationCap },
-  { name: 'Défis', href: '/challenges', icon: Trophy },
-  { name: 'Match', href: '/explorer', icon: Users },
-  { name: 'Communauté', href: '/community', icon: LayoutGrid },
-  { name: 'Mon espace', href: '/profile', icon: UserCircle2 },
+  { name: 'Feed', href: '/dashboard' },
+  { name: 'Étudier', href: '/study' },
+  { name: 'Sessions', href: '/study-sessions' },
+  { name: 'Tâches', href: '/tasks' },
+  { name: 'Documents', href: '/documents' },
+  { name: 'Academy', href: '/academy' },
+  { name: 'Défis', href: '/challenges' },
+  { name: 'Match', href: '/explorer' },
+  { name: 'Communauté', href: '/community' },
+  { name: 'Mon espace', href: '/profile' },
 ];
 
 export function AppSidebar() {
@@ -50,32 +38,26 @@ export function AppSidebar() {
 
   return (
     <div className="hidden md:flex flex-col w-72 bg-white border-r border-border/50 h-screen fixed left-0 top-0 z-50">
-      <div className="p-8">
-        <Link href="/" className="flex items-center gap-3 mb-10 group">
-          <span className="text-2xl font-display font-black tracking-[-0.08em] text-primary lowercase">
+      <div className="p-10">
+        <Link href="/" className="group inline-block mb-12">
+          <span className="text-2xl font-display font-black tracking-[-0.05em] text-primary lowercase">
             neostud
           </span>
         </Link>
 
         {user && (
-          <div className="bg-primary/5 p-5 rounded-[24px] border border-primary/10 relative overflow-hidden group">
-            <div className="absolute -top-4 -right-4 w-16 h-16 bg-primary/10 rounded-full blur-2xl group-hover:scale-150 transition-transform duration-500" />
-            <div className="relative z-10 space-y-1">
-              <p className="text-[10px] font-bold text-primary/60 uppercase tracking-widest leading-none">
-                {profile?.study_level || 'MEMBRE'}
-              </p>
-              <div className="flex items-center gap-2">
-                 <div className="w-1.5 h-1.5 rounded-full bg-primary animate-pulse" />
-                 <span className="text-sm font-black text-foreground truncate">
-                   {profile?.first_name} {profile?.last_name}
-                 </span>
-              </div>
-            </div>
+          <div className="space-y-1 mb-8">
+            <p className="text-[9px] font-black text-primary/40 uppercase tracking-[0.3em] leading-none">
+              Niveau {profile?.study_level || 'Membre'}
+            </p>
+            <p className="text-sm font-black text-foreground truncate">
+              {profile?.first_name} {profile?.last_name}
+            </p>
           </div>
         )}
       </div>
       
-      <nav className="flex-1 px-4 space-y-1 overflow-y-auto no-scrollbar">
+      <nav className="flex-1 px-6 space-y-1 overflow-y-auto no-scrollbar">
         {navigation.map((item) => {
           const isActive = pathname === item.href || (item.href.includes('?') && pathname === item.href.split('?')[0]);
           return (
@@ -83,25 +65,23 @@ export function AppSidebar() {
               key={item.name}
               href={item.href}
               className={cn(
-                "flex items-center gap-4 px-5 py-3 rounded-[20px] text-[13px] font-bold transition-all group",
+                "flex items-center px-6 py-4 rounded-[24px] text-[11px] font-black uppercase tracking-[0.2em] transition-all group",
                 isActive 
                   ? "bg-primary text-white shadow-lg shadow-primary/20" 
                   : "text-muted-foreground hover:bg-primary/5 hover:text-primary"
               )}
             >
-              <item.icon className={cn("w-4.5 h-4.5 transition-colors", isActive ? "text-white" : "text-muted-foreground group-hover:text-primary")} />
               {item.name}
             </Link>
           );
         })}
       </nav>
 
-      <div className="p-6 border-t border-border/50 space-y-2">
+      <div className="p-8 border-t border-border/50">
         <button 
           onClick={handleLogout}
-          className="w-full flex items-center gap-4 px-5 py-3 rounded-[20px] text-[13px] font-bold text-muted-foreground hover:bg-destructive/5 hover:text-destructive transition-colors text-left"
+          className="w-full text-left px-6 py-4 rounded-[24px] text-[11px] font-black uppercase tracking-[0.2em] text-muted-foreground hover:bg-destructive/5 hover:text-destructive transition-colors"
         >
-          <LogOut className="w-4 h-4" />
           Déconnexion
         </button>
       </div>

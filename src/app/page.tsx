@@ -6,7 +6,6 @@ import { useRouter } from 'next/navigation';
 import { useApp } from '@/lib/store';
 import { cn } from '@/lib/utils';
 import { Button } from '@/components/ui/button';
-import { ArrowRight } from 'lucide-react';
 import Image from 'next/image';
 import placeholderData from '@/app/lib/placeholder-images.json';
 
@@ -109,7 +108,7 @@ export default function SplashPage() {
             isVisible ? "opacity-100 scale-100" : "opacity-0 scale-95"
           )}>
              <div className="relative">
-                <svg width="500" height="120" viewBox="0 0 500 120" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <svg width="600" height="150" viewBox="0 0 600 150" fill="none" xmlns="http://www.w3.org/2000/svg">
                   <defs>
                     <filter id="liquid" x="-20%" y="-20%" width="140%" height="140%">
                       <feGaussianBlur in="SourceGraphic" stdDeviation="3" result="blur" />
@@ -117,11 +116,14 @@ export default function SplashPage() {
                     </filter>
                   </defs>
                   <g filter="url(#liquid)">
-                    <text x="50%" y="55%" dominantBaseline="middle" textAnchor="middle" className="fill-primary font-display font-black text-7xl lowercase" style={{ letterSpacing: '0.2em' }}>
+                    <text x="50%" y="55%" dominantBaseline="middle" textAnchor="middle" className="fill-primary font-display font-black text-8xl lowercase" style={{ letterSpacing: '0.25em' }}>
                       neostud
                     </text>
                   </g>
                 </svg>
+             </div>
+             <div className="mt-4 text-primary/40 font-bold uppercase tracking-[1em] text-xs">
+               Premium
              </div>
           </div>
         )}
@@ -132,10 +134,9 @@ export default function SplashPage() {
             <Button 
               onClick={handleStart}
               size="lg"
-              className="h-24 w-full rounded-[40px] bg-primary text-white hover:bg-primary/90 text-2xl font-bold shadow-2xl shadow-primary/40 gap-5 transition-all active:scale-95"
+              className="h-24 w-full rounded-[40px] bg-primary text-white hover:bg-primary/90 text-2xl font-bold shadow-2xl shadow-primary/40 transition-all active:scale-95"
             >
               Explorer Neostud
-              <ArrowRight className="w-7 h-7" />
             </Button>
           </div>
         )}
