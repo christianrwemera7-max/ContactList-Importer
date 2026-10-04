@@ -1,4 +1,3 @@
-
 "use client";
 
 import React, { useState, useEffect } from 'react';
@@ -75,14 +74,14 @@ export default function LoginPage() {
 
   return (
     <div className="min-h-screen flex items-center justify-center bg-muted/30 p-4">
-      <Card className="w-full max-w-md shadow-xl border-border/50">
+      <Card className="w-full max-w-md shadow-xl border-border/50 bg-white">
         <CardHeader className="text-center space-y-1">
           <div className="flex justify-center mb-2">
             <div className="p-3 bg-primary rounded-2xl">
               <GraduationCap className="w-8 h-8 text-primary-foreground" />
             </div>
           </div>
-          <CardTitle className="text-2xl font-display font-bold">RévisionFacile</CardTitle>
+          <CardTitle className="text-2xl font-display font-bold text-secondary">NEOSTUD</CardTitle>
           <CardDescription>Votre espace de réussite académique</CardDescription>
         </CardHeader>
         <CardContent>
@@ -105,7 +104,7 @@ export default function LoginPage() {
                   </div>
                   <Input id="password" name="password" type="password" required />
                 </div>
-                <Button type="submit" className="w-full" disabled={isLoading}>
+                <Button type="submit" className="w-full bg-primary hover:bg-primary/90" disabled={isLoading}>
                   {isLoading ? <Loader2 className="w-4 h-4 animate-spin mr-2" /> : null}
                   Se connecter
                 </Button>
@@ -132,7 +131,7 @@ export default function LoginPage() {
                   <Label htmlFor="reg-password">Mot de passe</Label>
                   <Input id="reg-password" name="password" type="password" required minLength={6} />
                 </div>
-                <Button type="submit" className="w-full" disabled={isLoading}>
+                <Button type="submit" className="w-full bg-primary hover:bg-primary/90" disabled={isLoading}>
                   {isLoading ? <Loader2 className="w-4 h-4 animate-spin mr-2" /> : null}
                   Créer mon compte
                 </Button>
