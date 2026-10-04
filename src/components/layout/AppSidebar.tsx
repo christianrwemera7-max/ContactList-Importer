@@ -16,7 +16,8 @@ import {
   LayoutGrid,
   BookOpen,
   CheckSquare,
-  FileText
+  FileText,
+  Timer
 } from 'lucide-react';
 import { HexFrame } from '@/components/ui/HexFrame';
 import { useApp } from '@/lib/store';
@@ -25,12 +26,13 @@ import { useRouter } from 'next/navigation';
 const navigation = [
   { name: 'Feed', href: '/dashboard', icon: Compass },
   { name: 'Étudier', href: '/study', icon: BookOpen },
+  { name: 'Sessions', href: '/study-sessions', icon: Timer },
   { name: 'Tâches', href: '/tasks', icon: CheckSquare },
   { name: 'Documents', href: '/documents', icon: FileText },
   { name: 'Match', href: '/explorer', icon: Users },
   { name: 'Projets', href: '/opportunities?tab=projects', icon: Rocket },
   { name: 'Communauté', href: '/community', icon: LayoutGrid },
-  { name: 'Espace perso', href: '/profile', icon: UserCircle2 },
+  { name: 'Mon espace', href: '/profile', icon: UserCircle2 },
   { name: 'Gouvernance', href: '/governance', icon: ShieldCheck },
 ];
 
