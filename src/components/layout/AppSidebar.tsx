@@ -18,7 +18,6 @@ import {
   GraduationCap,
   Trophy
 } from 'lucide-react';
-import { HexFrame } from '@/components/ui/HexFrame';
 import { useApp } from '@/lib/store';
 import { useRouter } from 'next/navigation';
 
@@ -52,28 +51,26 @@ export function AppSidebar() {
   };
 
   return (
-    <div className="hidden md:flex flex-col w-72 bg-white border-r border-border h-screen fixed left-0 top-0 z-50 shadow-sm">
+    <div className="hidden md:flex flex-col w-72 bg-white border-r border-border/50 h-screen fixed left-0 top-0 z-50">
       <div className="p-8">
         <Link href="/" className="flex items-center gap-3 mb-10 group">
           <NeoStudLogo />
-          <h1 className="text-2xl font-display font-bold tracking-tighter text-secondary group-hover:text-primary transition-colors">
+          <h1 className="text-xl font-display font-black tracking-tight text-foreground group-hover:text-primary transition-colors">
             NEOSTUD
           </h1>
         </Link>
 
         {user && (
-          <div className="bg-muted p-5 rounded-[2rem] border border-border relative overflow-hidden group">
-            <div className="absolute top-0 right-0 p-4 opacity-10 group-hover:rotate-12 transition-transform">
-              <Zap className="w-12 h-12 text-primary" />
-            </div>
-            <div className="relative z-10 space-y-2">
-              <p className="text-[10px] font-mono text-muted-foreground uppercase tracking-[0.2em] font-black">
-                {profile?.id ? `ID: ${profile.id.substring(0, 8)}` : 'STUDENT ID'}
+          <div className="bg-primary/5 p-5 rounded-2xl border border-primary/10 relative overflow-hidden group">
+            <div className="absolute -top-4 -right-4 w-16 h-16 bg-primary/10 rounded-full blur-2xl group-hover:scale-150 transition-transform duration-500" />
+            <div className="relative z-10 space-y-1">
+              <p className="text-[10px] font-bold text-primary/60 uppercase tracking-widest">
+                {profile?.study_level || 'MEMBRE'}
               </p>
               <div className="flex items-center gap-2">
-                 <div className="w-2 h-2 rounded-full bg-primary animate-pulse" />
-                 <span className="text-[11px] font-bold text-foreground uppercase tracking-widest">
-                   {profile?.study_level || 'STUDENT'} MEMBER
+                 <div className="w-1.5 h-1.5 rounded-full bg-primary animate-pulse" />
+                 <span className="text-xs font-black text-foreground truncate">
+                   {profile?.first_name} {profile?.last_name}
                  </span>
               </div>
             </div>
@@ -89,34 +86,23 @@ export function AppSidebar() {
               key={item.name}
               href={item.href}
               className={cn(
-                "flex items-center gap-4 px-5 py-3.5 rounded-2xl text-xs font-bold uppercase tracking-[0.15em] transition-all group",
+                "flex items-center gap-4 px-5 py-3 rounded-xl text-[13px] font-bold transition-all group",
                 isActive 
-                  ? "bg-primary text-white shadow-md shadow-primary/20" 
-                  : "text-muted-foreground hover:bg-muted hover:text-primary"
+                  ? "bg-primary text-white shadow-lg shadow-primary/20" 
+                  : "text-muted-foreground hover:bg-primary/5 hover:text-primary"
               )}
             >
-              <item.icon className={cn("w-4 h-4 transition-colors", isActive ? "text-white" : "text-muted-foreground group-hover:text-primary")} />
+              <item.icon className={cn("w-4.5 h-4.5 transition-colors", isActive ? "text-white" : "text-muted-foreground group-hover:text-primary")} />
               {item.name}
             </Link>
           );
         })}
       </nav>
 
-      <div className="p-6 border-t border-border space-y-3">
-        {user && (
-          <Link
-            href="/profile"
-            className="flex items-center gap-4 px-5 py-3 rounded-2xl text-[10px] font-bold uppercase tracking-widest text-muted-foreground hover:bg-muted hover:text-primary transition-all"
-          >
-            <HexFrame size={32} color="#8B5CF6">
-              {profile?.first_name?.[0] || user.email?.[0].toUpperCase()}
-            </HexFrame>
-            Mon Profil
-          </Link>
-        )}
+      <div className="p-6 border-t border-border/50 space-y-2">
         <button 
           onClick={handleLogout}
-          className="w-full flex items-center gap-4 px-5 py-3.5 rounded-2xl text-xs font-bold uppercase tracking-widest text-red-500 hover:bg-red-50 transition-colors text-left"
+          className="w-full flex items-center gap-4 px-5 py-3 rounded-xl text-[13px] font-bold text-muted-foreground hover:bg-destructive/5 hover:text-destructive transition-colors text-left"
         >
           <LogOut className="w-4 h-4" />
           Déconnexion
@@ -128,9 +114,10 @@ export function AppSidebar() {
 
 function NeoStudLogo() {
   return (
-    <svg width="28" height="28" viewBox="0 0 34 34" fill="none">
-      <polygon points="17,1 33,9.5 33,26.5 17,35 1,26.5 1,9.5" fill="none" stroke="#8B5CF6" strokeWidth="2.5"/>
-      <polygon points="17,12 24,16.5 24,24.5 17,29 10,24.5 10,16.5" fill="#8B5CF6"/>
+    <svg width="32" height="32" viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <rect width="40" height="40" rx="10" className="fill-primary" />
+      <path d="M12 28V12L28 28V12" stroke="white" strokeWidth="4" strokeLinecap="round" strokeLinejoin="round" />
+      <circle cx="28" cy="12" r="3" className="fill-white" />
     </svg>
   );
 }

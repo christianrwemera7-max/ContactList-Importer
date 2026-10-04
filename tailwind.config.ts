@@ -10,8 +10,8 @@ const config: Config = {
   theme: {
   	extend: {
       fontFamily: {
-        sans: ['Inter', 'sans-serif'],
-        display: ['Space Grotesk', 'sans-serif'],
+        sans: ['Inter', 'Manrope', 'sans-serif'],
+        display: ['Plus Jakarta Sans', 'Manrope', 'sans-serif'],
       },
   		colors: {
   			background: 'hsl(var(--background))',
@@ -47,11 +47,16 @@ const config: Config = {
   			border: 'hsl(var(--border))',
   			input: 'hsl(var(--input))',
   			ring: 'hsl(var(--ring))',
+        success: 'hsl(var(--success))',
+        warning: 'hsl(var(--warning))',
   		},
   		borderRadius: {
   			lg: 'var(--radius)',
   			md: 'calc(var(--radius) - 2px)',
-  			sm: 'calc(var(--radius) - 4px)'
+  			sm: 'calc(var(--radius) - 4px)',
+        'xl': '20px',
+        '2xl': '24px',
+        '3xl': '32px',
   		}
   	}
   },

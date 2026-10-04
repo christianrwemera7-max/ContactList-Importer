@@ -3,43 +3,47 @@
 @tailwind utilities;
 
 :root {
-  /* Blanc NeoStud (60%) */
-  --background: 0 0% 100%;
+  /* Fond principal NeoStud - Lumineux et Premium */
+  --background: 250 40% 98%;
+  --foreground: 262 24% 10%;
+  
+  /* Cartes et éléments de surface */
   --card: 0 0% 100%;
+  --card-foreground: 262 24% 10%;
   --popover: 0 0% 100%;
+  --popover-foreground: 262 24% 10%;
   
-  /* Bleu Nuit NeoStud (10%) - Utilisé pour le texte et le contraste */
-  --foreground: 243 47% 20%;
-  --card-foreground: 243 47% 20%;
-  --popover-foreground: 243 47% 20%;
-  --secondary: 243 47% 20%;
-  --secondary-foreground: 0 0% 100%;
-  
-  /* Mauve NeoStud (30%) - Identité visuelle, boutons, progression */
-  --primary: 258 91% 66%;
+  /* Violet Neostud Signature (#6C2BFF) */
+  --primary: 258 100% 58%;
   --primary-foreground: 0 0% 100%;
   
-  /* États neutres et nuances */
-  --muted: 243 20% 96%;
-  --muted-foreground: 243 10% 45%;
-  --accent: 258 91% 96%;
-  --accent-foreground: 258 91% 30%;
+  /* États neutres et Lavande */
+  --secondary: 258 91% 96%;
+  --secondary-foreground: 258 100% 58%;
   
-  --destructive: 0 84.2% 60.2%;
+  --muted: 260 20% 92%;
+  --muted-foreground: 260 6% 47%;
+  
+  --accent: 258 100% 97%;
+  --accent-foreground: 258 100% 58%;
+  
+  /* États fonctionnels */
+  --destructive: 346 84% 61%;
   --destructive-foreground: 0 0% 98%;
+  --success: 154 68% 42%;
+  --warning: 38 100% 56%;
   
-  --border: 243 20% 90%;
-  --input: 243 20% 90%;
-  --ring: 258 91% 66%;
+  --border: 260 20% 92%;
+  --input: 260 20% 92%;
+  --ring: 258 100% 58%;
   
-  --radius: 1rem;
+  --radius: 1rem; /* 16px par défaut */
 }
 
 .dark {
-  --background: 243 47% 10%;
-  --foreground: 0 0% 100%;
-  --primary: 258 91% 66%;
-  --primary-foreground: 0 0% 100%;
+  --background: 262 24% 5%;
+  --foreground: 250 40% 98%;
+  --primary: 258 100% 58%;
 }
 
 body {
@@ -48,11 +52,27 @@ body {
   font-feature-settings: "rlig" 1, "calt" 1;
 }
 
-/* Suppression de la barre de défilement pour une interface plus propre */
+/* Scrollbar invisible pour un look épuré */
 .no-scrollbar::-webkit-scrollbar {
   display: none;
 }
 .no-scrollbar {
   -ms-overflow-style: none;
   scrollbar-width: none;
+}
+
+/* Gradient Signature NeoStud */
+.bg-neostud-gradient {
+  background: linear-gradient(135deg, #4B16C8 0%, #6C2BFF 50%, #9B6CFF 100%);
+}
+
+.text-neostud-gradient {
+  background: linear-gradient(135deg, #4B16C8 0%, #6C2BFF 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+/* Cartes Premium */
+.neostud-card {
+  @apply rounded-[20px] border-none shadow-[0_8px_30px_rgb(0,0,0,0.02)] bg-white transition-all duration-300 hover:shadow-[0_20px_40px_rgb(108,43,255,0.04)];
 }
