@@ -1,4 +1,3 @@
-
 "use client";
 
 import React from 'react';
@@ -6,12 +5,12 @@ import { useApp } from '@/lib/store';
 import { 
   BookOpen, 
   Timer,
-  GraduationCap,
   LayoutGrid,
   Trophy,
   Users,
   LogOut,
-  Sparkles
+  Sparkles,
+  ArrowRight
 } from 'lucide-react';
 import Link from 'next/link';
 import { cn } from '@/lib/utils';
