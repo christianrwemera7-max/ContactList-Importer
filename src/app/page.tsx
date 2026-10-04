@@ -1,3 +1,4 @@
+
 "use client";
 
 import { useEffect, useState } from 'react';
@@ -23,28 +24,22 @@ export default function SplashPage() {
 
   useEffect(() => {
     const sequence = async () => {
-      // Délai initial plus long pour l'immersion
       await new Promise(r => setTimeout(r, 1200));
       
       for (let i = 0; i < INTRO_WORDS.length; i++) {
         setStep(i);
         setIsVisible(true);
-        // Chaque mot reste 2.5 secondes
         await new Promise(r => setTimeout(r, 2500));
         setIsVisible(false);
-        // Transition de 1 seconde entre les mots
         await new Promise(r => setTimeout(r, 1000));
       }
 
-      // Étape du Logo Signature
       setStep(4);
       setIsVisible(true);
-      // Le logo reste 4 secondes pour bien marquer l'esprit
       await new Promise(r => setTimeout(r, 4000));
       setIsVisible(false);
       await new Promise(r => setTimeout(r, 1200));
       
-      // Étape finale : Le Hero
       setStep(5);
       setIsVisible(true);
     };
@@ -74,15 +69,16 @@ export default function SplashPage() {
         </div>
       )}
 
-      {/* Full Screen Image Background for Hero */}
+      {/* Full Screen Image Background for Hero - Immersif et sans déformation */}
       {step === 5 && heroImage && (
         <div className="absolute inset-0 z-0 animate-in fade-in duration-[2000ms]">
           <Image 
             src={heroImage.imageUrl}
             alt={heroImage.description}
             fill
-            className="object-cover"
+            className="object-cover object-center"
             priority
+            quality={100}
             data-ai-hint={heroImage.imageHint}
           />
           <div className="absolute inset-0 bg-black/40" />
@@ -116,26 +112,22 @@ export default function SplashPage() {
                 <span className="text-white font-sans font-medium text-6xl md:text-7xl tracking-tighter">
                   neostud
                 </span>
-                {/* Icône Lecteur Rouge */}
                 <svg width="60" height="60" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg" className="mt-2">
                   <circle cx="70" cy="30" r="8" fill="#FF0000" />
                   <path d="M70 42C70 42 60 45 60 60V85H70V65H80V85H90V60C90 45 80 42 80 42H70Z" fill="#FF0000" />
                   <path d="M85 45L95 40L95 60L85 65V45Z" fill="#FF0000" />
                 </svg>
              </div>
-             <div className="mt-12 text-white/10 font-black uppercase tracking-[1em] text-[10px] animate-pulse">
-               Premium
-             </div>
           </div>
         )}
 
-        {/* Hero Hub - Ultra Minimalist */}
+        {/* Hero Hub - Minimalisme total */}
         {step === 5 && (
           <div className="flex flex-col items-center justify-center min-h-screen animate-in fade-in zoom-in-95 duration-[2000ms]">
             <Button 
               onClick={handleStart}
               size="lg"
-              className="h-24 w-full rounded-[40px] bg-primary text-white hover:bg-primary/90 text-2xl font-bold shadow-2xl shadow-primary/40 transition-all active:scale-95"
+              className="h-24 w-full rounded-[40px] bg-primary text-white hover:bg-primary/90 text-2xl font-bold shadow-2xl shadow-primary/40 transition-all active:scale-95 border-none"
             >
               Explorer Neostud
             </Button>

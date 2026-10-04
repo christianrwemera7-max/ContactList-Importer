@@ -1,6 +1,7 @@
 
 import { supabase } from '@/lib/supabase/client';
 import { Database } from '@/lib/supabase/types';
+import { uploadToCloudinary } from '@/app/actions/cloudinary';
 
 type Document = Database['public']['Tables']['documents']['Row'];
 
@@ -19,40 +20,39 @@ export const documentService = {
   },
 
   /**
-   * Télécharge un fichier et enregistre ses métadonnées.
+   * Télécharge un fichier vers Cloudinary et enregistre ses métadonnées dans Supabase.
    */
   async uploadDocument(file: File, courseId?: string): Promise<Document> {
     const { data: { user } } = await supabase.auth.getUser();
     if (!user) throw new Error('Utilisateur non connecté');
 
-    const fileExt = file.name.split('.').pop();
-    const fileName = `${Math.random().toString(36).substring(2)}.${fileExt}`;
-    const filePath = `${user.id}/${fileName}`;
+    // Conversion du fichier en base64 pour le passer à l'action serveur
+    const reader = new FileReader();
+    const base64Promise = new Promise<string>((resolve) => {
+      reader.onload = () => resolve(reader.result as string);
+      reader.readAsDataURL(file);
+    });
+    
+    const base64Data = await base64Promise;
+    
+    // 1. Upload vers Cloudinary
+    const cloudinaryResult = await uploadToCloudinary(base64Data, file.name);
 
-    // 1. Upload du fichier dans Storage
-    const { error: uploadError } = await supabase.storage
-      .from('student-docs')
-      .upload(filePath, file);
-
-    if (uploadError) throw uploadError;
-
-    // 2. Enregistrement des métadonnées dans la table documents
+    // 2. Enregistrement des métadonnées dans la table documents (Supabase)
     const { data, error: dbError } = await supabase
       .from('documents')
       .insert({
         user_id: user.id,
         course_id: courseId === 'none' ? null : courseId,
         name: file.name,
-        file_path: filePath,
+        file_path: cloudinaryResult.url, // On stocke l'URL directe de Cloudinary
         file_type: file.type,
-        file_size: file.size
+        file_size: cloudinaryResult.bytes
       })
       .select()
       .single();
 
     if (dbError) {
-      // Nettoyage si l'insertion DB échoue
-      await supabase.storage.from('student-docs').remove([filePath]);
       throw dbError;
     }
 
@@ -60,29 +60,18 @@ export const documentService = {
   },
 
   /**
-   * Récupère l'URL de téléchargement d'un document.
+   * Pour Cloudinary, l'URL est déjà publique ou signée si besoin.
    */
   async getDownloadUrl(filePath: string): Promise<string> {
-    const { data, error } = await supabase.storage
-      .from('student-docs')
-      .createSignedUrl(filePath, 60); // URL valide 60 secondes
-    
-    if (error) throw error;
-    return data.signedUrl;
+    return filePath;
   },
 
   /**
-   * Supprime un document (Storage + DB).
+   * Supprime un document.
    */
   async deleteDocument(id: string, filePath: string): Promise<void> {
-    // 1. Supprimer du Storage
-    const { error: storageError } = await supabase.storage
-      .from('student-docs')
-      .remove([filePath]);
-    
-    if (storageError) throw storageError;
-
-    // 2. Supprimer de la DB
+    // Note: Pour une suppression complète, il faudrait aussi supprimer sur Cloudinary via une action serveur.
+    // Pour cet MVP, on supprime l'entrée en base de données.
     const { error: dbError } = await supabase
       .from('documents')
       .delete()
