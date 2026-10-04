@@ -61,38 +61,9 @@ body {
   scrollbar-width: none;
 }
 
-/* Gradient Splash Immersif */
+/* Gradient Splash "Mort" (OLED Deep Violet) */
 .bg-splash-gradient {
-  background: linear-gradient(135deg, #4B16C8 0%, #6C2BFF 50%, #9B6CFF 100%);
-  background-size: 400% 400%;
-  animation: light-move 15s ease infinite;
-}
-
-@keyframes light-move {
-  0% { background-position: 0% 50% }
-  50% { background-position: 100% 50% }
-  100% { background-position: 0% 50% }
-}
-
-/* Animation d'écriture */
-.typing-effect {
-  overflow: hidden;
-  border-right: .15em solid white;
-  white-space: nowrap;
-  letter-spacing: .15em;
-  animation: 
-    typing 3.5s steps(40, end),
-    blink-caret .75s step-end infinite;
-}
-
-@keyframes typing {
-  from { width: 0 }
-  to { width: 100% }
-}
-
-@keyframes blink-caret {
-  from, to { border-color: transparent }
-  50% { border-color: white; }
+  background: radial-gradient(circle at center, #0F0921 0%, #05030A 100%);
 }
 
 .neostud-card {

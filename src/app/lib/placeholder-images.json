@@ -1,11 +1,10 @@
-
 {
   "placeholderImages": [
     {
       "id": "hero-composition",
-      "description": "Composition visuelle illustrant la réussite étudiante, la technologie et l'apprentissage moderne.",
-      "imageUrl": "https://picsum.photos/seed/neostud-hero/1200/800",
-      "imageHint": "student university"
+      "description": "Composition visuelle immersive d'un campus moderne avec des étudiants utilisant la technologie.",
+      "imageUrl": "https://picsum.photos/seed/neostud-premium-hero/1600/1000",
+      "imageHint": "modern university"
     }
   ]
 }
