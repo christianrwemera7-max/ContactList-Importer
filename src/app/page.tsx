@@ -82,8 +82,8 @@ export default function SplashPage() {
             data-ai-hint={heroImage.imageHint}
           />
           {/* Subtle Overlay to make text pop */}
-          <div className="absolute inset-0 bg-black/40 backdrop-blur-[2px]" />
-          <div className="absolute inset-0 bg-gradient-to-t from-black via-transparent to-black/30" />
+          <div className="absolute inset-0 bg-black/50 backdrop-blur-[1px]" />
+          <div className="absolute inset-0 bg-gradient-to-t from-black via-transparent to-black/40" />
         </div>
       )}
 
@@ -124,6 +124,10 @@ export default function SplashPage() {
                   </g>
                 </svg>
              </div>
+             {/* Subtitle Premium appearing under the logo */}
+             <div className="mt-4 text-primary/60 text-[10px] font-black uppercase tracking-[1em] animate-in fade-in slide-in-from-top-2 duration-1000 delay-500">
+               Premium
+             </div>
           </div>
         )}
 
@@ -133,7 +137,7 @@ export default function SplashPage() {
             <div className="space-y-6">
               <div className="inline-flex items-center gap-3 px-6 py-3 bg-white/10 backdrop-blur-xl border border-white/20 rounded-full text-white text-[12px] font-black uppercase tracking-[0.3em]">
                 <Sparkles className="w-4 h-4 text-primary" />
-                L'éducation réinventée
+                L'éducation réinventée — Premium
               </div>
               <h2 className="text-6xl md:text-9xl font-display font-black text-white tracking-tighter leading-none">
                 Ton avenir <br/> commence <span className="text-primary">ici.</span>
@@ -143,7 +147,7 @@ export default function SplashPage() {
               </p>
             </div>
             
-            <div className="flex flex-col sm:flex-row gap-6 w-full max-w-lg mx-auto">
+            <div className="w-full max-w-sm mx-auto">
               <Button 
                 onClick={handleStart}
                 size="lg"
@@ -151,14 +155,6 @@ export default function SplashPage() {
               >
                 Explorer Neostud
                 <ArrowRight className="w-7 h-7 group-hover:translate-x-2 transition-transform" />
-              </Button>
-              <Button 
-                onClick={handleStart}
-                variant="outline"
-                size="lg"
-                className="h-24 w-full rounded-[40px] border-2 border-white/30 bg-white/10 backdrop-blur-md text-white hover:bg-white hover:text-black text-2xl font-bold transition-all active:scale-95"
-              >
-                Commencer
               </Button>
             </div>
           </div>
