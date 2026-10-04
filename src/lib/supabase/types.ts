@@ -100,7 +100,7 @@ export interface Database {
           id?: string
           user_id?: string
           course_id?: string | null
-          title: string
+          title?: string
           content?: string | null
           created_at?: string
           updated_at?: string
@@ -275,6 +275,84 @@ export interface Database {
           user_id?: string
           content?: string
           created_at?: string
+        }
+      }
+      quizzes: {
+        Row: {
+          id: string
+          course_id: string | null
+          title: string
+          description: string | null
+          created_by: string
+          created_at: string
+        }
+        Insert: {
+          id?: string
+          course_id?: string | null
+          title: string
+          description?: string | null
+          created_by: string
+          created_at?: string
+        }
+        Update: {
+          id?: string
+          course_id?: string | null
+          title?: string
+          description?: string | null
+          created_by?: string
+          created_at?: string
+        }
+      }
+      quiz_questions: {
+        Row: {
+          id: string
+          quiz_id: string
+          question_text: string
+          options: Json
+          correct_option_index: number
+          created_at: string
+        }
+        Insert: {
+          id?: string
+          quiz_id: string
+          question_text: string
+          options: Json
+          correct_option_index: number
+          created_at?: string
+        }
+        Update: {
+          id?: string
+          quiz_id?: string
+          question_text?: string
+          options?: Json
+          correct_option_index?: number
+          created_at?: string
+        }
+      }
+      quiz_results: {
+        Row: {
+          id: string
+          quiz_id: string
+          user_id: string
+          score: number
+          total_questions: number
+          completed_at: string
+        }
+        Insert: {
+          id?: string
+          quiz_id: string
+          user_id: string
+          score: number
+          total_questions: number
+          completed_at?: string
+        }
+        Update: {
+          id?: string
+          quiz_id?: string
+          user_id?: string
+          score?: number
+          total_questions?: number
+          completed_at?: string
         }
       }
     }

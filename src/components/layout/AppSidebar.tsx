@@ -17,7 +17,8 @@ import {
   BookOpen,
   CheckSquare,
   FileText,
-  Timer
+  Timer,
+  GraduationCap
 } from 'lucide-react';
 import { HexFrame } from '@/components/ui/HexFrame';
 import { useApp } from '@/lib/store';
@@ -29,11 +30,11 @@ const navigation = [
   { name: 'Sessions', href: '/study-sessions', icon: Timer },
   { name: 'Tâches', href: '/tasks', icon: CheckSquare },
   { name: 'Documents', href: '/documents', icon: FileText },
+  { name: 'Academy', href: '/academy', icon: GraduationCap },
   { name: 'Match', href: '/explorer', icon: Users },
   { name: 'Projets', href: '/opportunities?tab=projects', icon: Rocket },
   { name: 'Communauté', href: '/community', icon: LayoutGrid },
   { name: 'Mon espace', href: '/profile', icon: UserCircle2 },
-  { name: 'Gouvernance', href: '/governance', icon: ShieldCheck },
 ];
 
 export function AppSidebar() {
