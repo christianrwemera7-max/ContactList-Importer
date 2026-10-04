@@ -1,4 +1,3 @@
-
 "use client";
 
 import { useEffect, useState } from 'react';
@@ -24,22 +23,28 @@ export default function SplashPage() {
 
   useEffect(() => {
     const sequence = async () => {
-      await new Promise(r => setTimeout(r, 800));
+      // Délai initial plus long pour l'immersion
+      await new Promise(r => setTimeout(r, 1200));
       
       for (let i = 0; i < INTRO_WORDS.length; i++) {
         setStep(i);
         setIsVisible(true);
-        await new Promise(r => setTimeout(r, 1600));
+        // Chaque mot reste 2.5 secondes
+        await new Promise(r => setTimeout(r, 2500));
         setIsVisible(false);
-        await new Promise(r => setTimeout(r, 600));
+        // Transition de 1 seconde entre les mots
+        await new Promise(r => setTimeout(r, 1000));
       }
 
+      // Étape du Logo Signature
       setStep(4);
       setIsVisible(true);
-      await new Promise(r => setTimeout(r, 3000));
+      // Le logo reste 4 secondes pour bien marquer l'esprit
+      await new Promise(r => setTimeout(r, 4000));
       setIsVisible(false);
-      await new Promise(r => setTimeout(r, 800));
+      await new Promise(r => setTimeout(r, 1200));
       
+      // Étape finale : Le Hero
       setStep(5);
       setIsVisible(true);
     };
@@ -59,7 +64,7 @@ export default function SplashPage() {
 
   return (
     <div className={cn(
-      "min-h-screen transition-colors duration-1000 flex items-center justify-center overflow-hidden relative",
+      "min-h-screen transition-colors duration-[2000ms] flex items-center justify-center overflow-hidden relative",
       step < 5 ? "bg-[#05030A]" : "bg-black"
     )}>
       {/* Background Glows during Splash */}
@@ -71,7 +76,7 @@ export default function SplashPage() {
 
       {/* Full Screen Image Background for Hero */}
       {step === 5 && heroImage && (
-        <div className="absolute inset-0 z-0 animate-in fade-in duration-1000">
+        <div className="absolute inset-0 z-0 animate-in fade-in duration-[2000ms]">
           <Image 
             src={heroImage.imageUrl}
             alt={heroImage.description}
@@ -86,15 +91,15 @@ export default function SplashPage() {
       )}
 
       <div className={cn(
-        "relative z-10 w-full transition-all duration-1000",
+        "relative z-10 w-full transition-all duration-[1500ms]",
         step === 5 ? "max-w-md px-6" : "max-w-xl text-center"
       )}>
         {/* Splash Sequence */}
         {step < 4 && (
           <p 
             className={cn(
-              "text-primary text-4xl md:text-7xl font-display font-black tracking-tight transition-all duration-1000",
-              isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-4"
+              "text-primary text-4xl md:text-7xl font-display font-black tracking-tight transition-all duration-[1500ms]",
+              isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"
             )}
           >
             {INTRO_WORDS[step]}
@@ -104,21 +109,21 @@ export default function SplashPage() {
         {/* Logo Signature NEOSTUD */}
         {step === 4 && (
           <div className={cn(
-            "flex flex-col items-center transition-all duration-2000",
+            "flex flex-col items-center transition-all duration-[2000ms]",
             isVisible ? "opacity-100 scale-100" : "opacity-0 scale-95"
           )}>
-             <div className="flex items-center gap-2">
+             <div className="flex items-center gap-3">
                 <span className="text-white font-sans font-medium text-6xl md:text-7xl tracking-tighter">
                   neostud
                 </span>
-                {/* Icône Lecteur Rouge - Recréée en SVG fidèle à l'image */}
+                {/* Icône Lecteur Rouge */}
                 <svg width="60" height="60" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg" className="mt-2">
                   <circle cx="70" cy="30" r="8" fill="#FF0000" />
                   <path d="M70 42C70 42 60 45 60 60V85H70V65H80V85H90V60C90 45 80 42 80 42H70Z" fill="#FF0000" />
                   <path d="M85 45L95 40L95 60L85 65V45Z" fill="#FF0000" />
                 </svg>
              </div>
-             <div className="mt-12 text-white/20 font-black uppercase tracking-[0.8em] text-[10px]">
+             <div className="mt-12 text-white/10 font-black uppercase tracking-[1em] text-[10px] animate-pulse">
                Premium
              </div>
           </div>
@@ -126,7 +131,7 @@ export default function SplashPage() {
 
         {/* Hero Hub - Ultra Minimalist */}
         {step === 5 && (
-          <div className="flex flex-col items-center justify-center min-h-screen animate-in fade-in zoom-in-95 duration-1000">
+          <div className="flex flex-col items-center justify-center min-h-screen animate-in fade-in zoom-in-95 duration-[2000ms]">
             <Button 
               onClick={handleStart}
               size="lg"
@@ -141,7 +146,7 @@ export default function SplashPage() {
       {/* Persistent Footer Credit */}
       <div className="absolute bottom-10 left-0 right-0 flex justify-center pointer-events-none z-20">
         <div className={cn(
-          "text-[10px] font-black uppercase tracking-[0.5em] transition-opacity duration-1000",
+          "text-[10px] font-black uppercase tracking-[0.5em] transition-opacity duration-[2000ms]",
           step < 5 ? "text-white/10" : "text-white/20"
         )}>
           NeoStud
