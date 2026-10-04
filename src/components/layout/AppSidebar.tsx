@@ -15,7 +15,8 @@ import {
   Zap,
   LayoutGrid,
   BookOpen,
-  CheckSquare
+  CheckSquare,
+  FileText
 } from 'lucide-react';
 import { HexFrame } from '@/components/ui/HexFrame';
 import { useApp } from '@/lib/store';
@@ -25,6 +26,7 @@ const navigation = [
   { name: 'Feed', href: '/dashboard', icon: Compass },
   { name: 'Étudier', href: '/study', icon: BookOpen },
   { name: 'Tâches', href: '/tasks', icon: CheckSquare },
+  { name: 'Documents', href: '/documents', icon: FileText },
   { name: 'Match', href: '/explorer', icon: Users },
   { name: 'Projets', href: '/opportunities?tab=projects', icon: Rocket },
   { name: 'Communauté', href: '/community', icon: LayoutGrid },

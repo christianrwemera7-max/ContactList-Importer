@@ -1,3 +1,4 @@
+
 "use client";
 
 import "./globals.css";
@@ -17,7 +18,9 @@ const PROTECTED_ROUTES = [
   '/opportunities',
   '/academy',
   '/governance',
-  '/vision'
+  '/vision',
+  '/tasks',
+  '/documents'
 ];
 
 function AuthGuard({ children }: { children: React.ReactNode }) {

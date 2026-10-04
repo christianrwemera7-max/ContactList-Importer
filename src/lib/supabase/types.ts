@@ -144,6 +144,38 @@ export interface Database {
           updated_at?: string
         }
       }
+      documents: {
+        Row: {
+          id: string
+          user_id: string
+          course_id: string | null
+          name: string
+          file_path: string
+          file_type: string | null
+          file_size: number | null
+          created_at: string
+        }
+        Insert: {
+          id?: string
+          user_id: string
+          course_id?: string | null
+          name: string
+          file_path: string
+          file_type?: string | null
+          file_size?: number | null
+          created_at?: string
+        }
+        Update: {
+          id?: string
+          user_id?: string
+          course_id?: string | null
+          name?: string
+          file_path?: string
+          file_type?: string | null
+          file_size?: number | null
+          created_at?: string
+        }
+      }
     }
   }
 }
