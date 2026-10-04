@@ -6,19 +6,31 @@ export const authService = {
     const { data, error } = await supabase.auth.signUp({
       email,
       password,
+      options: {
+        data: {
+          first_name: firstName,
+          last_name: lastName,
+        }
+      }
     });
 
     if (error) throw error;
+    
     if (data.user) {
-      // Create initial profile
-      const { error: profileError } = await supabase.from('profiles').insert({
+      // Create initial profile in public.profiles
+      const { error: profileError } = await supabase.from('profiles').upsert({
         id: data.user.id,
         first_name: firstName,
         last_name: lastName,
         email: email,
+        updated_at: new Date().toISOString(),
       });
-      if (profileError) console.error('Error creating profile:', profileError);
+      
+      if (profileError) {
+        console.error('Error creating profile record:', profileError);
+      }
     }
+    
     return data;
   },
 
@@ -37,7 +49,9 @@ export const authService = {
   },
 
   async resetPassword(email: string) {
-    const { error } = await supabase.auth.resetPasswordForEmail(email);
+    const { error } = await supabase.auth.resetPasswordForEmail(email, {
+      redirectTo: `${window.location.origin}/login?type=recovery`,
+    });
     if (error) throw error;
   },
 

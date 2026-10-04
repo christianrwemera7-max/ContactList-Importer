@@ -21,6 +21,7 @@ interface AppContextType {
   setUser: (user: User | null) => void;
   setProfile: (profile: Profile | null) => void;
   toggleTheme: () => void;
+  logout: () => Promise<void>;
 }
 
 const AppContext = createContext<AppContextType | undefined>(undefined);
@@ -33,20 +34,30 @@ export function AppProvider({ children }: { children: React.ReactNode }) {
     theme: 'light',
   });
 
+  const fetchProfile = async (userId: string) => {
+    try {
+      const profile = await userService.getProfile(userId);
+      setState(prev => ({ ...prev, profile }));
+    } catch (error) {
+      console.error('Error fetching profile:', error);
+    }
+  };
+
   useEffect(() => {
-    // Initial session check
+    // Check active session
     supabase.auth.getSession().then(({ data: { session } }) => {
       if (session) {
-        fetchProfile(session.user);
-      } else {
-        setState(prev => ({ ...prev, isLoading: false }));
+        setState(prev => ({ ...prev, user: session.user }));
+        fetchProfile(session.user.id);
       }
+      setState(prev => ({ ...prev, isLoading: false }));
     });
 
     // Listen for auth changes
     const { data: { subscription } } = supabase.auth.onAuthStateChange(async (event, session) => {
       if (session) {
-        fetchProfile(session.user);
+        setState(prev => ({ ...prev, user: session.user, isLoading: false }));
+        fetchProfile(session.user.id);
       } else {
         setState(prev => ({ ...prev, user: null, profile: null, isLoading: false }));
       }
@@ -55,16 +66,6 @@ export function AppProvider({ children }: { children: React.ReactNode }) {
     return () => subscription.unsubscribe();
   }, []);
 
-  const fetchProfile = async (user: User) => {
-    try {
-      const profile = await userService.getProfile(user.id);
-      setState(prev => ({ ...prev, user, profile, isLoading: false }));
-    } catch (error) {
-      console.error('Error fetching profile:', error);
-      setState(prev => ({ ...prev, user, isLoading: false }));
-    }
-  };
-
   const setUser = (user: User | null) => setState(prev => ({ ...prev, user }));
   const setProfile = (profile: Profile | null) => setState(prev => ({ ...prev, profile }));
   const toggleTheme = () => setState(prev => ({ 
@@ -72,8 +73,13 @@ export function AppProvider({ children }: { children: React.ReactNode }) {
     theme: prev.theme === 'light' ? 'dark' : 'light' 
   }));
 
+  const logout = async () => {
+    await supabase.auth.signOut();
+    setState(prev => ({ ...prev, user: null, profile: null }));
+  };
+
   return (
-    <AppContext.Provider value={{ state, setUser, setProfile, toggleTheme }}>
+    <AppContext.Provider value={{ state, setUser, setProfile, toggleTheme, logout }}>
       {children}
     </AppContext.Provider>
   );
@@ -86,3 +92,6 @@ export function useApp() {
   }
   return context;
 }
+
+// Alias for compatibility with existing components
+export const useKonekt = useApp;
