@@ -1,9 +1,12 @@
+
 import "./globals.css";
 import type { Metadata } from "next";
+import { AppProvider } from "@/lib/store";
+import { Toaster } from "@/components/ui/toaster";
 
 export const metadata: Metadata = {
-  title: "Nouveau Projet",
-  description: "Démarrage d'un nouveau projet",
+  title: "Espace Étudiant - RévisionFacile",
+  description: "Plateforme moderne d'organisation et de révision pour étudiants",
 };
 
 export default function RootLayout({
@@ -13,7 +16,12 @@ export default function RootLayout({
 }) {
   return (
     <html lang="fr">
-      <body>{children}</body>
+      <body className="antialiased">
+        <AppProvider>
+          {children}
+          <Toaster />
+        </AppProvider>
+      </body>
     </html>
   );
 }
