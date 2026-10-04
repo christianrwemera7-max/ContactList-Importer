@@ -64,8 +64,8 @@ export default function SplashPage() {
     )}>
       {/* Background Glows during Splash */}
       {step < 5 && (
-        <div className="absolute inset-0 opacity-20 pointer-events-none overflow-hidden">
-          <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-primary/30 rounded-full blur-[160px] animate-pulse" />
+        <div className="absolute inset-0 opacity-10 pointer-events-none overflow-hidden">
+          <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-primary/20 rounded-full blur-[160px] animate-pulse" />
         </div>
       )}
 
@@ -80,8 +80,8 @@ export default function SplashPage() {
             priority
             data-ai-hint={heroImage.imageHint}
           />
-          <div className="absolute inset-0 bg-black/30 backdrop-blur-[1px]" />
-          <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-black/20" />
+          <div className="absolute inset-0 bg-black/40" />
+          <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-black/20" />
         </div>
       )}
 
@@ -101,28 +101,24 @@ export default function SplashPage() {
           </p>
         )}
 
-        {/* Wordmark "neostud" Liquide */}
+        {/* Logo Signature NEOSTUD */}
         {step === 4 && (
           <div className={cn(
             "flex flex-col items-center transition-all duration-2000",
             isVisible ? "opacity-100 scale-100" : "opacity-0 scale-95"
           )}>
-             <div className="relative">
-                <svg width="600" height="150" viewBox="0 0 600 150" fill="none" xmlns="http://www.w3.org/2000/svg">
-                  <defs>
-                    <filter id="liquid" x="-20%" y="-20%" width="140%" height="140%">
-                      <feGaussianBlur in="SourceGraphic" stdDeviation="3" result="blur" />
-                      <feColorMatrix in="blur" mode="matrix" values="1 0 0 0 0  0 1 0 0 0  0 0 1 0 0  0 0 0 20 -8" result="liquid" />
-                    </filter>
-                  </defs>
-                  <g filter="url(#liquid)">
-                    <text x="50%" y="55%" dominantBaseline="middle" textAnchor="middle" className="fill-primary font-display font-black text-8xl lowercase" style={{ letterSpacing: '0.25em' }}>
-                      neostud
-                    </text>
-                  </g>
+             <div className="flex items-center gap-2">
+                <span className="text-white font-sans font-medium text-6xl md:text-7xl tracking-tighter">
+                  neostud
+                </span>
+                {/* Icône Lecteur Rouge - Recréée en SVG fidèle à l'image */}
+                <svg width="60" height="60" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg" className="mt-2">
+                  <circle cx="70" cy="30" r="8" fill="#FF0000" />
+                  <path d="M70 42C70 42 60 45 60 60V85H70V65H80V85H90V60C90 45 80 42 80 42H70Z" fill="#FF0000" />
+                  <path d="M85 45L95 40L95 60L85 65V45Z" fill="#FF0000" />
                 </svg>
              </div>
-             <div className="mt-4 text-primary/40 font-bold uppercase tracking-[1em] text-xs">
+             <div className="mt-12 text-white/20 font-black uppercase tracking-[0.8em] text-[10px]">
                Premium
              </div>
           </div>
@@ -146,7 +142,7 @@ export default function SplashPage() {
       <div className="absolute bottom-10 left-0 right-0 flex justify-center pointer-events-none z-20">
         <div className={cn(
           "text-[10px] font-black uppercase tracking-[0.5em] transition-opacity duration-1000",
-          step < 5 ? "text-primary/40" : "text-white/20"
+          step < 5 ? "text-white/10" : "text-white/20"
         )}>
           NeoStud
         </div>
