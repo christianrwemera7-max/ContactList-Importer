@@ -1,4 +1,3 @@
-
 "use client"
 
 import Link from 'next/link';
@@ -13,7 +12,8 @@ import {
   ShieldCheck, 
   LogOut,
   Zap,
-  LayoutGrid
+  LayoutGrid,
+  BookOpen
 } from 'lucide-react';
 import { HexFrame } from '@/components/ui/HexFrame';
 import { useApp } from '@/lib/store';
@@ -21,11 +21,11 @@ import { useRouter } from 'next/navigation';
 
 const navigation = [
   { name: 'Feed', href: '/dashboard', icon: Compass },
+  { name: 'Étudier', href: '/study', icon: BookOpen },
   { name: 'Match', href: '/explorer', icon: Users },
   { name: 'Projets', href: '/opportunities?tab=projects', icon: Rocket },
   { name: 'Communauté', href: '/community', icon: LayoutGrid },
   { name: 'Espace perso', href: '/profile', icon: UserCircle2 },
-  { name: 'Bibliothèque', href: '/academy', icon: Library },
   { name: 'Gouvernance', href: '/governance', icon: ShieldCheck },
 ];
 
@@ -62,7 +62,7 @@ export function AppSidebar() {
             </div>
             <div className="relative z-10 space-y-2">
               <p className="text-[10px] font-mono text-muted-foreground uppercase tracking-[0.2em] font-black">
-                {profile?.university_id ? `ID: ${profile.university_id.substring(0, 8)}` : 'STUDENT ID'}
+                {profile?.id ? `ID: ${profile.id.substring(0, 8)}` : 'STUDENT ID'}
               </p>
               <div className="flex items-center gap-2">
                  <div className="w-2 h-2 rounded-full bg-primary animate-pulse" />

@@ -76,6 +76,35 @@ export interface Database {
           updated_at?: string
         }
       }
+      notes: {
+        Row: {
+          id: string
+          user_id: string
+          course_id: string | null
+          title: string
+          content: string | null
+          created_at: string
+          updated_at: string
+        }
+        Insert: {
+          id?: string
+          user_id: string
+          course_id?: string | null
+          title: string
+          content?: string | null
+          created_at?: string
+          updated_at?: string
+        }
+        Update: {
+          id?: string
+          user_id?: string
+          course_id?: string | null
+          title?: string
+          content?: string | null
+          created_at?: string
+          updated_at?: string
+        }
+      }
     }
   }
 }
