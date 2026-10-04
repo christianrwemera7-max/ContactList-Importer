@@ -355,6 +355,58 @@ export interface Database {
           completed_at?: string
         }
       }
+      challenges: {
+        Row: {
+          id: string
+          title: string
+          description: string | null
+          reward_points: number
+          category: string
+          difficulty: 'easy' | 'medium' | 'hard'
+          created_at: string
+        }
+        Insert: {
+          id?: string
+          title: string
+          description?: string | null
+          reward_points?: number
+          category?: string
+          difficulty?: 'easy' | 'medium' | 'hard'
+          created_at?: string
+        }
+        Update: {
+          id?: string
+          title?: string
+          description?: string | null
+          reward_points?: number
+          category?: string
+          difficulty?: 'easy' | 'medium' | 'hard'
+          created_at?: string
+        }
+      }
+      challenge_participants: {
+        Row: {
+          challenge_id: string
+          user_id: string
+          status: 'in_progress' | 'completed'
+          joined_at: string
+          completed_at: string | null
+        }
+        Insert: {
+          challenge_id: string
+          user_id: string
+          status?: 'in_progress' | 'completed'
+          joined_at?: string
+          completed_at?: string | null
+        }
+        Update: {
+          challenge_id?: string
+          user_id?: string
+          status?: 'in_progress' | 'completed'
+          joined_at?: string
+          completed_at?: string | null
+        }
+      }
     }
   }
 }

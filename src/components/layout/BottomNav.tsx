@@ -4,12 +4,12 @@
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { cn } from '@/lib/utils';
-import { Compass, Users, Rocket, Library, UserCircle2, BookOpen, CheckSquare, FileText, Timer } from 'lucide-react';
+import { Compass, Users, Rocket, Library, UserCircle2, BookOpen, CheckSquare, FileText, Timer, Trophy } from 'lucide-react';
 
 const navigation = [
   { name: 'Feed', href: '/dashboard', icon: Compass },
   { name: 'Étude', href: '/study', icon: BookOpen },
-  { name: 'Sessions', href: '/study-sessions', icon: Timer },
+  { name: 'Défis', href: '/challenges', icon: Trophy },
   { name: 'Profil', href: '/profile', icon: UserCircle2 },
 ];
 

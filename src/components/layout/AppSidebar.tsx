@@ -18,7 +18,8 @@ import {
   CheckSquare,
   FileText,
   Timer,
-  GraduationCap
+  GraduationCap,
+  Trophy
 } from 'lucide-react';
 import { HexFrame } from '@/components/ui/HexFrame';
 import { useApp } from '@/lib/store';
@@ -31,6 +32,7 @@ const navigation = [
   { name: 'Tâches', href: '/tasks', icon: CheckSquare },
   { name: 'Documents', href: '/documents', icon: FileText },
   { name: 'Academy', href: '/academy', icon: GraduationCap },
+  { name: 'Défis', href: '/challenges', icon: Trophy },
   { name: 'Match', href: '/explorer', icon: Users },
   { name: 'Projets', href: '/opportunities?tab=projects', icon: Rocket },
   { name: 'Communauté', href: '/community', icon: LayoutGrid },
