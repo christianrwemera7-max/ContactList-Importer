@@ -64,8 +64,8 @@ export interface Database {
           name: string
           description?: string | null
           color?: string
-          created_at?: string
-          updated_at?: string
+          created_at: string
+          updated_at: string
         }
         Update: {
           id?: string
@@ -205,6 +205,75 @@ export interface Database {
           end_time?: string | null
           duration_minutes?: number | null
           notes?: string | null
+          created_at?: string
+        }
+      }
+      groups: {
+        Row: {
+          id: string
+          name: string
+          description: string | null
+          image_url: string | null
+          created_by: string
+          created_at: string
+        }
+        Insert: {
+          id?: string
+          name: string
+          description?: string | null
+          image_url?: string | null
+          created_by: string
+          created_at?: string
+        }
+        Update: {
+          id?: string
+          name?: string
+          description?: string | null
+          image_url?: string | null
+          created_by?: string
+          created_at?: string
+        }
+      }
+      group_members: {
+        Row: {
+          group_id: string
+          user_id: string
+          role: 'admin' | 'member'
+          joined_at: string
+        }
+        Insert: {
+          group_id: string
+          user_id: string
+          role?: 'admin' | 'member'
+          joined_at?: string
+        }
+        Update: {
+          group_id?: string
+          user_id?: string
+          role?: 'admin' | 'member'
+          joined_at?: string
+        }
+      }
+      group_posts: {
+        Row: {
+          id: string
+          group_id: string
+          user_id: string
+          content: string
+          created_at: string
+        }
+        Insert: {
+          id?: string
+          group_id: string
+          user_id: string
+          content: string
+          created_at?: string
+        }
+        Update: {
+          id?: string
+          group_id?: string
+          user_id?: string
+          content?: string
           created_at?: string
         }
       }
