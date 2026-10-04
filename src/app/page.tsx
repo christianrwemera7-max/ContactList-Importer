@@ -24,22 +24,29 @@ export default function SplashPage() {
 
   useEffect(() => {
     const sequence = async () => {
-      await new Promise(r => setTimeout(r, 1200));
+      // Pause initiale plus longue
+      await new Promise(r => setTimeout(r, 2000));
       
       for (let i = 0; i < INTRO_WORDS.length; i++) {
         setStep(i);
         setIsVisible(true);
-        await new Promise(r => setTimeout(r, 2500));
+        // Affichage du mot pendant 3 secondes
+        await new Promise(r => setTimeout(r, 3000));
         setIsVisible(false);
-        await new Promise(r => setTimeout(r, 1000));
+        // Pause entre les mots de 1.2 seconde
+        await new Promise(r => setTimeout(r, 1200));
       }
 
+      // Étape du Logo Officiel
       setStep(4);
       setIsVisible(true);
-      await new Promise(r => setTimeout(r, 4500));
+      // Le logo reste affiché 5 secondes pour bien marquer l'esprit
+      await new Promise(r => setTimeout(r, 5000));
       setIsVisible(false);
-      await new Promise(r => setTimeout(r, 1500));
+      // Pause de transition vers le Hero
+      await new Promise(r => setTimeout(r, 2000));
       
+      // Étape Hero Finale
       setStep(5);
       setIsVisible(true);
     };
@@ -60,7 +67,7 @@ export default function SplashPage() {
 
   return (
     <div className={cn(
-      "min-h-screen transition-colors duration-[2500ms] flex items-center justify-center overflow-hidden relative",
+      "min-h-screen transition-colors duration-[3000ms] flex items-center justify-center overflow-hidden relative",
       step < 5 ? "bg-[#05030A]" : "bg-black"
     )}>
       {/* Background Glows during Splash */}
@@ -70,9 +77,9 @@ export default function SplashPage() {
         </div>
       )}
 
-      {/* Full Screen Image Background for Hero */}
+      {/* Full Screen Image Background for Hero (HD Cloudinary) */}
       {step === 5 && heroImage && (
-        <div className="absolute inset-0 z-0 animate-in fade-in duration-[2500ms]">
+        <div className="absolute inset-0 z-0 animate-in fade-in duration-[3000ms]">
           <Image 
             src={heroImage.imageUrl}
             alt={heroImage.description}
@@ -80,36 +87,35 @@ export default function SplashPage() {
             className="object-cover object-center"
             priority
             quality={100}
-            data-ai-hint={heroImage.imageHint}
           />
-          <div className="absolute inset-0 bg-black/40" />
-          <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-black/20" />
+          {/* Overlay subtil pour la lisibilité du bouton */}
+          <div className="absolute inset-0 bg-black/30" />
         </div>
       )}
 
       <div className={cn(
-        "relative z-10 w-full transition-all duration-[2000ms]",
+        "relative z-10 w-full transition-all duration-[2500ms]",
         step === 5 ? "max-w-md px-6" : "max-w-xl text-center"
       )}>
-        {/* Splash Sequence */}
+        {/* Splash Sequence - Mots Mauves sur fond Mort */}
         {step < 4 && (
           <p 
             className={cn(
-              "text-primary text-4xl md:text-8xl font-display font-black tracking-tighter transition-all duration-[2000ms]",
-              isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-12"
+              "text-primary text-4xl md:text-7xl font-display font-black tracking-tighter transition-all duration-[2000ms] italic",
+              isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"
             )}
           >
             {INTRO_WORDS[step]}
           </p>
         )}
 
-        {/* Logo Officiel NEOSTUD */}
+        {/* Logo Officiel NEOSTUD - Version Cloudinary */}
         {step === 4 && logoImage && (
           <div className={cn(
-            "flex flex-col items-center transition-all duration-[2500ms]",
+            "flex flex-col items-center transition-all duration-[3000ms]",
             isVisible ? "opacity-100 scale-100" : "opacity-0 scale-95"
           )}>
-             <div className="relative w-72 h-40 md:w-[400px] md:h-[200px]">
+             <div className="relative w-80 h-44 md:w-[500px] md:h-[250px]">
                 <Image 
                   src={logoImage.imageUrl}
                   alt="neostud"
@@ -121,9 +127,9 @@ export default function SplashPage() {
           </div>
         )}
 
-        {/* Hero Hub - Explorer Neostud */}
+        {/* Hero Hub - Explorer Neostud au centre de l'image */}
         {step === 5 && (
-          <div className="flex flex-col items-center justify-center min-h-screen animate-in fade-in zoom-in-95 duration-[2500ms]">
+          <div className="flex flex-col items-center justify-center min-h-screen animate-in fade-in zoom-in-95 duration-[3000ms]">
             <Button 
               onClick={handleStart}
               size="lg"
@@ -138,7 +144,7 @@ export default function SplashPage() {
       {/* Persistent Footer Credit */}
       <div className="absolute bottom-10 left-0 right-0 flex justify-center pointer-events-none z-20">
         <div className={cn(
-          "text-[10px] font-black uppercase tracking-[0.6em] transition-opacity duration-[2500ms]",
+          "text-[10px] font-black uppercase tracking-[0.6em] transition-opacity duration-[3000ms]",
           step < 5 ? "text-white/10" : "text-white/20"
         )}>
           NeoStud

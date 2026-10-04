@@ -3,9 +3,9 @@
   "placeholderImages": [
     {
       "id": "hero-composition",
-      "description": "Vue de dessus immersive d'un bureau d'étudiant avec ordinateur, tablette et notes de cours.",
-      "imageUrl": "https://images.unsplash.com/photo-1522202176988-66273c2fd55f?q=80&w=1200&h=1600&auto=format&fit=crop",
-      "imageHint": "student desk top down"
+      "description": "Vue de dessus immersive d'un bureau d'étudiant avec ordinateur, tablette et notes de cours (Version Cloudinary HD).",
+      "imageUrl": "https://res.cloudinary.com/c6krili4/image/upload/v1/neostud/hero",
+      "imageHint": "student desk"
     },
     {
       "id": "official-logo",
