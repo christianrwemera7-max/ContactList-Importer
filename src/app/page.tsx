@@ -19,7 +19,7 @@ const INTRO_WORDS = [
 export default function SplashPage() {
   const { state } = useApp();
   const router = useRouter();
-  const [step, setStep] = useState(0); // 0-3: Words, 4: NEOSTUD, 5: Hero Section
+  const [step, setStep] = useState(0); // 0-3: Words, 4: neostud liquid wordmark, 5: Hero Section
   const [isVisible, setIsVisible] = useState(false);
 
   useEffect(() => {
@@ -36,9 +36,9 @@ export default function SplashPage() {
 
       setStep(4);
       setIsVisible(true);
-      await new Promise(r => setTimeout(r, 2500));
+      await new Promise(r => setTimeout(r, 3000));
       setIsVisible(false);
-      await new Promise(r => setTimeout(r, 500));
+      await new Promise(r => setTimeout(r, 800));
       
       setStep(5);
       setIsVisible(true);
@@ -66,13 +66,13 @@ export default function SplashPage() {
       {step < 5 && (
         <div className="absolute inset-0 opacity-30 pointer-events-none">
           <div className="absolute top-1/4 left-1/4 w-96 h-96 bg-white rounded-full blur-[120px] animate-pulse" />
-          <div className="absolute bottom-1/4 right-1/4 w-96 h-96 bg-lavender-400 rounded-full blur-[120px] animate-pulse" />
+          <div className="absolute bottom-1/4 right-1/4 w-96 h-96 bg-primary/20 rounded-full blur-[120px] animate-pulse" />
         </div>
       )}
 
       <div className={cn(
         "relative z-10 w-full transition-all duration-1000",
-        step === 5 ? "max-w-6xl px-6" : "max-w-lg text-center"
+        step === 5 ? "max-w-6xl px-6" : "max-w-xl text-center"
       )}>
         {/* Splash Sequence: Words */}
         {step < 4 && (
@@ -86,22 +86,30 @@ export default function SplashPage() {
           </p>
         )}
 
-        {/* Splash Sequence: Logo */}
+        {/* Splash Sequence: neostud wordmark (Aesthetic inspired by 'fuse') */}
         {step === 4 && (
-          <div className="flex flex-col items-center gap-6">
-             <div className="w-20 h-20 bg-white rounded-[28px] flex items-center justify-center shadow-2xl animate-bounce">
-                <svg width="40" height="40" viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg">
-                  <path d="M12 28V12L28 28V12" stroke="#6C2BFF" strokeWidth="5" strokeLinecap="round" strokeLinejoin="round" />
+          <div className={cn(
+            "flex flex-col items-center transition-all duration-2000",
+            isVisible ? "opacity-100 scale-100" : "opacity-0 scale-90"
+          )}>
+             <div className="relative group">
+                {/* SVG Liquid Wordmark approximation */}
+                <svg width="280" height="80" viewBox="0 0 280 80" fill="none" xmlns="http://www.w3.org/2000/svg" className="drop-shadow-2xl">
+                  <defs>
+                    <filter id="liquid" x="-20%" y="-20%" width="140%" height="140%">
+                      <feGaussianBlur in="SourceGraphic" stdDeviation="2" result="blur" />
+                      <feColorMatrix in="blur" mode="matrix" values="1 0 0 0 0  0 1 0 0 0  0 0 1 0 0  0 0 0 18 -7" result="liquid" />
+                    </filter>
+                  </defs>
+                  <g filter="url(#liquid)">
+                    <text x="50%" y="55%" dominantBaseline="middle" textAnchor="middle" className="fill-white font-display font-black text-6xl lowercase tracking-[-0.08em]">
+                      neostud
+                    </text>
+                  </g>
                 </svg>
+                {/* Subtle light effect behind the text */}
+                <div className="absolute inset-0 bg-white/20 blur-3xl rounded-full opacity-50 -z-10 group-hover:opacity-100 transition-opacity" />
              </div>
-             <h1 
-              className={cn(
-                "text-6xl md:text-7xl font-display font-black text-white tracking-tighter transition-all duration-1000",
-                isVisible ? "opacity-100 scale-100" : "opacity-0 scale-90"
-              )}
-            >
-              NEOSTUD
-            </h1>
           </div>
         )}
 
@@ -112,7 +120,7 @@ export default function SplashPage() {
               <div className="space-y-6">
                 <div className="inline-flex items-center gap-2 px-4 py-2 bg-primary/10 rounded-full text-primary text-xs font-black uppercase tracking-widest">
                   <Sparkles className="w-3.5 h-3.5" />
-                  Nouveau : L'expérience EdTech Premium
+                  L'expérience EdTech Premium
                 </div>
                 <h2 className="text-5xl md:text-7xl font-display font-black text-foreground tracking-tighter leading-[0.9]">
                   Ton avenir <br/> commence ici.
@@ -168,7 +176,7 @@ export default function SplashPage() {
               </div>
               {/* Decorative elements */}
               <div className="absolute -bottom-6 -right-6 w-32 h-32 bg-primary/10 rounded-full blur-3xl -z-10" />
-              <div className="absolute -top-6 -left-6 w-32 h-32 bg-lavender-400/20 rounded-full blur-3xl -z-10" />
+              <div className="absolute -top-6 -left-6 w-32 h-32 bg-primary/5 rounded-full blur-3xl -z-10" />
             </div>
           </div>
         )}

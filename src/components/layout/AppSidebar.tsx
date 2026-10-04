@@ -6,10 +6,8 @@ import { cn } from '@/lib/utils';
 import { 
   Compass, 
   Users, 
-  Rocket, 
   UserCircle2, 
   LogOut,
-  Zap,
   LayoutGrid,
   BookOpen,
   CheckSquare,
@@ -54,10 +52,9 @@ export function AppSidebar() {
     <div className="hidden md:flex flex-col w-72 bg-white border-r border-border/50 h-screen fixed left-0 top-0 z-50">
       <div className="p-8">
         <Link href="/" className="flex items-center gap-3 mb-10 group">
-          <NeoStudLogo />
-          <h1 className="text-xl font-display font-black tracking-tight text-foreground group-hover:text-primary transition-colors">
-            NEOSTUD
-          </h1>
+          <span className="text-2xl font-display font-black tracking-[-0.08em] text-primary lowercase">
+            neostud
+          </span>
         </Link>
 
         {user && (
@@ -109,15 +106,5 @@ export function AppSidebar() {
         </button>
       </div>
     </div>
-  );
-}
-
-function NeoStudLogo() {
-  return (
-    <svg width="32" height="32" viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg">
-      <rect width="40" height="40" rx="12" className="fill-primary" />
-      <path d="M12 28V12L28 28V12" stroke="white" strokeWidth="4" strokeLinecap="round" strokeLinejoin="round" />
-      <circle cx="28" cy="12" r="3" className="fill-white" />
-    </svg>
   );
 }
