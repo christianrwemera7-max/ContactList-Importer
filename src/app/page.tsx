@@ -46,6 +46,7 @@ export default function ContactImporterPage() {
       let name = "";
 
       if (parts.length >= 2) {
+        // Tentative de détection du numéro par ratio de chiffres
         const digitRatios = parts.map(p => {
           const digits = p.replace(/\D/g, "").length;
           return digits / p.length;
@@ -127,13 +128,13 @@ export default function ContactImporterPage() {
 
   if (step === 'splash') {
     return (
-      <div className="min-h-screen bg-white flex items-center justify-center">
-        <div className="relative w-32 h-12 animate-reveal">
+      <div className="min-h-screen bg-white flex flex-col items-center justify-center p-6">
+        <div className="relative w-48 h-48 animate-reveal mb-8">
            <Image 
              src="https://res.cloudinary.com/c6krili4/image/upload/v1/neostud/logo"
              alt="Logo"
              fill
-             className="object-contain grayscale brightness-0"
+             className="object-contain"
              priority
            />
         </div>
@@ -146,7 +147,7 @@ export default function ContactImporterPage() {
       <div className="max-w-2xl mx-auto px-6 py-12 md:py-24">
         
         <header className="mb-16 flex flex-col items-center text-center space-y-6">
-          <div className="w-24 h-6 relative grayscale brightness-0 opacity-10">
+          <div className="w-24 h-24 relative">
             <Image 
               src="https://res.cloudinary.com/c6krili4/image/upload/v1/neostud/logo"
               alt="Logo Small"

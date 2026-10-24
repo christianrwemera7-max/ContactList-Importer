@@ -2,16 +2,10 @@
 {
   "placeholderImages": [
     {
-      "id": "hero-composition",
-      "description": "Vue de dessus immersive d'un bureau d'étudiant avec ordinateur, tablette et notes de cours (Version Cloudinary HD).",
-      "imageUrl": "https://res.cloudinary.com/c6krili4/image/upload/v1/neostud/hero",
-      "imageHint": "student desk"
-    },
-    {
       "id": "official-logo",
-      "description": "Logo officiel NeoStud avec le mot-symbole et l'étudiant rouge.",
+      "description": "Logo officiel ContactList Importer avec l'icône du carnet d'adresses et la flèche d'importation.",
       "imageUrl": "https://res.cloudinary.com/c6krili4/image/upload/v1/neostud/logo",
-      "imageHint": "neostud logo"
+      "imageHint": "contact import logo"
     }
   ]
 }
