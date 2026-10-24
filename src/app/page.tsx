@@ -16,6 +16,7 @@ interface Contact {
 export default function ContactImporterPage() {
   const [step, setStep] = useState<AppStep>('splash');
   const [rawInput, setRawInput] = useState('');
+  const [globalPrefix, setGlobalPrefix] = useState('');
   const [contacts, setContacts] = useState<Contact[]>([]);
   const [duplicatesCount, setDuplicatesCount] = useState(0);
   const [invalidCount, setInvalidCount] = useState(0);
@@ -39,15 +40,12 @@ export default function ContactImporterPage() {
       const cleanLine = line.trim();
       if (!cleanLine) return;
 
-      // Tentative de séparation Nom / Numéro
-      // On sépare par les délimiteurs courants : Tabulation, Tiret, Virgule, Point-virgule
       const parts = cleanLine.split(/[\t\-\,;]+/).map(p => p.trim()).filter(p => p.length > 0);
       
       let phone = "";
       let name = "";
 
       if (parts.length >= 2) {
-        // On cherche quelle partie ressemble le plus à un numéro (ratio de chiffres élevé)
         const digitRatios = parts.map(p => {
           const digits = p.replace(/\D/g, "").length;
           return digits / p.length;
@@ -60,7 +58,6 @@ export default function ContactImporterPage() {
         remainingParts.splice(maxRatioIndex, 1);
         name = remainingParts.join(" ");
       } else {
-        // Une seule partie : on vérifie si c'est un numéro
         const digits = cleanLine.replace(/\D/g, "");
         if (digits.length >= 5) {
           phone = cleanLine;
@@ -70,7 +67,6 @@ export default function ContactImporterPage() {
         }
       }
 
-      // Validation finale du numéro (doit contenir au moins 3 chiffres)
       const phoneDigits = phone.replace(/\D/g, "");
       if (phoneDigits.length < 3) {
         inv++;
@@ -106,15 +102,19 @@ export default function ContactImporterPage() {
     
     let vcfContent = "";
     contacts.forEach((contact, index) => {
-      const displayName = contact.name.trim() || `Contact ${index + 1}`;
-      vcfContent += `BEGIN:VCARD\nVERSION:3.0\nFN:${displayName}\nTEL;TYPE=CELL:${contact.phone}\nEND:VCARD\n`;
+      const baseName = contact.name.trim() || `Contact ${index + 1}`;
+      const finalName = globalPrefix.trim() 
+        ? `${globalPrefix.trim()} ${baseName}` 
+        : baseName;
+        
+      vcfContent += `BEGIN:VCARD\nVERSION:3.0\nFN:${finalName}\nTEL;TYPE=CELL:${contact.phone}\nEND:VCARD\n`;
     });
 
     const blob = new Blob([vcfContent], { type: 'text/vcard;charset=utf-8' });
     const url = window.URL.createObjectURL(blob);
     const link = document.createElement('a');
     link.href = url;
-    link.setAttribute('download', `Contacts_Studio_${Date.now()}.vcf`);
+    link.setAttribute('download', `${globalPrefix.trim() || 'Contacts'}_${Date.now()}.vcf`);
     document.body.appendChild(link);
     link.click();
     document.body.removeChild(link);
@@ -173,7 +173,7 @@ export default function ContactImporterPage() {
                   <span className="font-bold">Importer</span>
                 </h1>
                 <p className="text-slate-500 text-sm max-w-sm mx-auto leading-relaxed">
-                  Convertissez vos listes mixtes (noms et numéros) en fichiers de contacts. Idéal pour WhatsApp, Excel et SMS.
+                  Importation massive avec gestion des pseudonymes et référencement groupé.
                 </p>
               </div>
               <button 
@@ -187,19 +187,35 @@ export default function ContactImporterPage() {
 
           {step === 'input' && (
             <div className="space-y-8 animate-reveal">
-              <div className="space-y-4">
-                <div className="flex justify-between items-end px-2">
-                  <label className="text-[10px] font-bold uppercase tracking-widest text-slate-400">
-                    Coller vos données
+              <div className="space-y-6">
+                <div className="space-y-2 px-2">
+                  <label className="text-[10px] font-bold uppercase tracking-widest text-primary">
+                    Référence de la liste (Préfixe)
                   </label>
-                  <span className="text-[10px] text-slate-300 font-medium italic">Supporte Nom - Numéro</span>
+                  <input 
+                    type="text"
+                    placeholder="Ex: CLIENTS, EVENT_2024, etc."
+                    className="w-full h-12 bg-slate-50 border border-slate-100 rounded-xl px-4 text-sm font-semibold focus:ring-2 focus:ring-primary/5 focus:border-primary/20 outline-none transition-all"
+                    value={globalPrefix}
+                    onChange={(e) => setGlobalPrefix(e.target.value)}
+                  />
+                  <p className="text-[9px] text-slate-400 italic">Sera ajouté devant chaque nom (ex: {globalPrefix || 'REF'} Jean)</p>
                 </div>
-                <textarea 
-                  placeholder="Exemple :&#10;Jean Dupont - +33612345678&#10;Marie Durant, 0789456123&#10;+243812345678"
-                  className="w-full min-h-[320px] bg-slate-50 border border-slate-100 rounded-2xl p-6 text-sm font-medium focus:ring-2 focus:ring-primary/5 focus:border-primary/20 outline-none transition-all resize-none"
-                  value={rawInput}
-                  onChange={(e) => setRawInput(e.target.value)}
-                />
+
+                <div className="space-y-4">
+                  <div className="flex justify-between items-end px-2">
+                    <label className="text-[10px] font-bold uppercase tracking-widest text-slate-400">
+                      Données brutes
+                    </label>
+                    <span className="text-[10px] text-slate-300 font-medium italic">Nom - Numéro ou colonnes Excel</span>
+                  </div>
+                  <textarea 
+                    placeholder="Collez ici :&#10;Jean Dupont - +33612345678&#10;Marie Durant, 0789456123&#10;+243812345678"
+                    className="w-full min-h-[250px] bg-slate-50 border border-slate-100 rounded-2xl p-6 text-sm font-medium focus:ring-2 focus:ring-primary/5 focus:border-primary/20 outline-none transition-all resize-none"
+                    value={rawInput}
+                    onChange={(e) => setRawInput(e.target.value)}
+                  />
+                </div>
               </div>
               <button 
                 disabled={!rawInput.trim()}
@@ -219,38 +235,48 @@ export default function ContactImporterPage() {
                 <StatBox label="Invalides" value={invalidCount} />
               </div>
 
-              <div className="bg-white border border-slate-100 rounded-2xl overflow-hidden shadow-sm">
-                <div className="max-h-[350px] overflow-y-auto no-scrollbar">
-                  {contacts.length === 0 ? (
-                    <div className="py-20 text-center text-xs font-medium text-slate-400 italic">Aucune donnée exploitable trouvée</div>
-                  ) : (
-                    <table className="w-full text-left border-collapse">
-                      <thead className="sticky top-0 bg-slate-50/90 backdrop-blur-md border-b border-slate-100">
-                        <tr>
-                          <th className="px-4 py-3 text-[10px] font-bold uppercase tracking-widest text-slate-400 w-12">#</th>
-                          <th className="px-4 py-3 text-[10px] font-bold uppercase tracking-widest text-slate-400">Pseudonyme / Nom</th>
-                          <th className="px-4 py-3 text-[10px] font-bold uppercase tracking-widest text-slate-400 text-right">Téléphone</th>
-                        </tr>
-                      </thead>
-                      <tbody className="divide-y divide-slate-50">
-                        {contacts.map((c, i) => (
-                          <tr key={c.id} className="group hover:bg-slate-50 transition-colors">
-                            <td className="px-4 py-3 text-[10px] font-medium text-slate-300">{i + 1}</td>
-                            <td className="px-4 py-3">
-                              <input 
-                                type="text"
-                                value={c.name}
-                                placeholder={`Contact ${i + 1}`}
-                                onChange={(e) => updateContactName(c.id, e.target.value)}
-                                className="w-full bg-transparent border-none p-0 text-sm font-semibold focus:ring-0 placeholder:text-slate-300 placeholder:font-normal"
-                              />
-                            </td>
-                            <td className="px-4 py-3 text-sm font-medium text-primary text-right tabular-nums">{c.phone}</td>
+              <div className="space-y-3">
+                <div className="px-2">
+                   <p className="text-[10px] font-bold uppercase tracking-widest text-slate-400">Aperçu du format final</p>
+                </div>
+                <div className="bg-white border border-slate-100 rounded-2xl overflow-hidden shadow-sm">
+                  <div className="max-h-[350px] overflow-y-auto no-scrollbar">
+                    {contacts.length === 0 ? (
+                      <div className="py-20 text-center text-xs font-medium text-slate-400 italic">Aucune donnée exploitable trouvée</div>
+                    ) : (
+                      <table className="w-full text-left border-collapse">
+                        <thead className="sticky top-0 bg-slate-50/90 backdrop-blur-md border-b border-slate-100">
+                          <tr>
+                            <th className="px-4 py-3 text-[10px] font-bold uppercase tracking-widest text-slate-400 w-12">#</th>
+                            <th className="px-4 py-3 text-[10px] font-bold uppercase tracking-widest text-slate-400">Nom final (Modifiable)</th>
+                            <th className="px-4 py-3 text-[10px] font-bold uppercase tracking-widest text-slate-400 text-right">Téléphone</th>
                           </tr>
-                        ))}
-                      </tbody>
-                    </table>
-                  )}
+                        </thead>
+                        <tbody className="divide-y divide-slate-50">
+                          {contacts.map((c, i) => (
+                            <tr key={c.id} className="group hover:bg-slate-50 transition-colors">
+                              <td className="px-4 py-3 text-[10px] font-medium text-slate-300">{i + 1}</td>
+                              <td className="px-4 py-3">
+                                <div className="flex items-center gap-1.5">
+                                  {globalPrefix && (
+                                    <span className="text-[10px] font-black text-primary bg-primary/5 px-1.5 py-0.5 rounded">{globalPrefix}</span>
+                                  )}
+                                  <input 
+                                    type="text"
+                                    value={c.name}
+                                    placeholder={`Contact ${i + 1}`}
+                                    onChange={(e) => updateContactName(c.id, e.target.value)}
+                                    className="flex-1 bg-transparent border-none p-0 text-sm font-semibold focus:ring-0 placeholder:text-slate-300 placeholder:font-normal"
+                                  />
+                                </div>
+                              </td>
+                              <td className="px-4 py-3 text-sm font-medium text-slate-400 text-right tabular-nums">{c.phone}</td>
+                            </tr>
+                          ))}
+                        </tbody>
+                      </table>
+                    )}
+                  </div>
                 </div>
               </div>
 
@@ -280,7 +306,7 @@ export default function ContactImporterPage() {
                 </div>
                 <h2 className="text-2xl font-display font-bold">Fichier généré</h2>
                 <p className="text-slate-500 text-sm max-w-xs mx-auto">
-                  Votre carnet d'adresses est prêt. Suivez ces étapes pour finaliser l'importation.
+                  Votre carnet d'adresses avec référentiel est prêt.
                 </p>
               </div>
 
@@ -305,7 +331,7 @@ export default function ContactImporterPage() {
               </div>
 
               <button 
-                onClick={() => { setStep('intro'); setRawInput(''); }}
+                onClick={() => { setStep('intro'); setRawInput(''); setGlobalPrefix(''); }}
                 className="w-full h-14 rounded-full bg-slate-900 text-white text-xs font-bold uppercase tracking-widest hover:opacity-90 transition-all"
               >
                 Nouvel import
