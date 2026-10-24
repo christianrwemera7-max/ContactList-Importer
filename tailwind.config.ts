@@ -1,3 +1,4 @@
+
 import type { Config } from "tailwindcss";
 
 const config: Config = {
@@ -10,8 +11,8 @@ const config: Config = {
   theme: {
   	extend: {
       fontFamily: {
-        sans: ['Inter', 'Manrope', 'sans-serif'],
-        display: ['Plus Jakarta Sans', 'Manrope', 'sans-serif'],
+        sans: ['Inter', 'sans-serif'],
+        display: ['Plus Jakarta Sans', 'sans-serif'],
       },
   		colors: {
   			background: 'hsl(var(--background))',
@@ -47,21 +48,11 @@ const config: Config = {
   			border: 'hsl(var(--border))',
   			input: 'hsl(var(--input))',
   			ring: 'hsl(var(--ring))',
-        success: 'hsl(var(--success))',
-        warning: 'hsl(var(--warning))',
-        orange: {
-          DEFAULT: '#FF6B00',
-          dim: '#7A3400',
-        },
   		},
   		borderRadius: {
   			lg: 'var(--radius)',
   			md: 'calc(var(--radius) - 2px)',
   			sm: 'calc(var(--radius) - 4px)',
-        'xl': '20px',
-        '2xl': '24px',
-        '3xl': '32px',
-        '4xl': '40px',
   		}
   	}
   },
