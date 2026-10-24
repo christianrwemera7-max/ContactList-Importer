@@ -1,25 +1,19 @@
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
 :root {
-  /* Fond principal NeoStud - "Mort" (Noir-Violet profond) */
+  /* Fond "Mort" OLED - Noir Violet profond */
   --background: 262 24% 2%; /* #05030A */
   --foreground: 250 40% 98%;
   
-  /* Cartes et éléments de surface - Blanc pur pour les fenêtres Hub */
-  --card: 0 0% 100%;
-  --card-foreground: 262 24% 10%;
-  --popover: 262 24% 5%;
-  --popover-foreground: 250 40% 98%;
+  --card: 262 24% 4%;
+  --card-foreground: 250 40% 98%;
   
-  /* Violet Neostud Signature (#6C2BFF) */
+  /* Violet Neostud Signature */
   --primary: 258 100% 58%;
   --primary-foreground: 0 0% 100%;
-  
-  /* États neutres */
-  --secondary: 262 24% 10%;
-  --secondary-foreground: 258 100% 58%;
   
   --muted: 262 24% 8%;
   --muted-foreground: 260 6% 47%;
@@ -27,24 +21,20 @@
   --accent: 258 100% 58%;
   --accent-foreground: 0 0% 100%;
   
-  --destructive: 0 100% 50%;
-  --destructive-foreground: 210 40% 98%;
-
   --border: 262 24% 12%;
   --input: 262 24% 12%;
   --ring: 258 100% 58%;
   
-  --radius: 3rem; /* 48px pour les fenêtres */
+  --radius: 2rem;
 }
 
 body {
   background-color: hsl(var(--background));
   color: hsl(var(--foreground));
-  font-feature-settings: "rlig" 1, "calt" 1;
   -webkit-font-smoothing: antialiased;
 }
 
-/* Scrollbar invisible */
+/* Scrollbar Invisible */
 .no-scrollbar::-webkit-scrollbar {
   display: none;
 }
@@ -53,10 +43,16 @@ body {
   scrollbar-width: none;
 }
 
-.window-card {
-  @apply rounded-[64px] border-none bg-white transition-all duration-700 hover:scale-[1.02] cursor-pointer;
+.text-glow {
+  text-shadow: 0 0 30px hsla(var(--primary), 0.4);
 }
 
-.text-glow {
-  text-shadow: 0 0 30px hsla(var(--primary), 0.5);
+/* Animations de transition */
+.step-enter {
+  animation: step-in 0.5s ease-out forwards;
+}
+
+@keyframes step-in {
+  from { opacity: 0; transform: translateY(10px); }
+  to { opacity: 1; transform: translateY(0); }
 }

@@ -1,149 +1,284 @@
+
 "use client";
 
-import { useEffect, useState } from 'react';
-import { useRouter } from 'next/navigation';
-import { useApp } from '@/lib/store';
+import { useState, useEffect } from 'react';
 import { cn } from '@/lib/utils';
 import { Button } from '@/components/ui/button';
-import Image from 'next/image';
-import placeholderData from '@/app/lib/placeholder-images.json';
+import { Textarea } from '@/components/ui/textarea';
+import { Card, CardContent } from '@/components/ui/card';
 
-const INTRO_WORDS = [
-  "Apprendre.",
-  "Comprendre.",
-  "Progresser.",
-  "Construire son avenir."
-];
+type AppStep = 'start' | 'input' | 'preview' | 'instructions';
 
-export default function SplashPage() {
-  const { state } = useApp();
-  const router = useRouter();
-  const [step, setStep] = useState(0); 
-  const [isVisible, setIsVisible] = useState(false);
+export default function ContactImporterPage() {
+  const [step, setStep] = useState<AppStep>('start');
+  const [rawInput, setRawInput] = useState('');
+  const [contacts, setContacts] = useState<string[]>([]);
+  const [duplicatesCount, setDuplicatesCount] = useState(0);
+  const [invalidCount, setInvalidCount] = useState(0);
+  const [isGenerating, setIsGenerating] = useState(false);
 
+  // Séquence d'introduction fluide
+  const [showSplash, setShowSplash] = useState(true);
   useEffect(() => {
-    const sequence = async () => {
-      // Temps de réflexion initial
-      await new Promise(r => setTimeout(r, 2000));
-      
-      for (let i = 0; i < INTRO_WORDS.length; i++) {
-        setStep(i);
-        setIsVisible(true);
-        // Chaque mot reste affiché 3 secondes pour la solennité
-        await new Promise(r => setTimeout(r, 3000));
-        setIsVisible(false);
-        // Intervalle entre les mots
-        await new Promise(r => setTimeout(r, 1200));
-      }
-
-      // Étape du Logo Officiel (Cloudinary)
-      setStep(4);
-      setIsVisible(true);
-      await new Promise(r => setTimeout(r, 5000));
-      setIsVisible(false);
-      await new Promise(r => setTimeout(r, 2000));
-      
-      // Hero Hub Final
-      setStep(5);
-      setIsVisible(true);
-    };
-
-    sequence();
+    const timer = setTimeout(() => setShowSplash(false), 3000);
+    return () => clearTimeout(timer);
   }, []);
 
-  const handleStart = () => {
-    if (state.user) {
-      router.push('/dashboard');
-    } else {
-      router.push('/login');
-    }
+  const processNumbers = () => {
+    // Séparateurs : sauts de ligne, virgules, espaces, points-virgules
+    const lines = rawInput.split(/[\n\r\s,;]+/);
+    const seen = new Set<string>();
+    const valid: string[] = [];
+    let dups = 0;
+    let inv = 0;
+
+    lines.forEach(line => {
+      const clean = line.trim();
+      if (!clean) return;
+
+      // Validation basique : doit contenir au moins 3 chiffres
+      const digitMatch = clean.match(/\d/g);
+      if (!digitMatch || digitMatch.length < 3) {
+        inv++;
+        return;
+      }
+
+      if (seen.has(clean)) {
+        dups++;
+      } else {
+        seen.add(clean);
+        if (valid.length < 1000) {
+          valid.push(clean);
+        }
+      }
+    });
+
+    setContacts(valid);
+    setDuplicatesCount(dups);
+    setInvalidCount(inv);
+    setStep('preview');
   };
 
-  const heroImage = placeholderData.placeholderImages.find(img => img.id === 'hero-composition');
-  const logoImage = placeholderData.placeholderImages.find(img => img.id === 'official-logo');
+  const generateVCF = () => {
+    setIsGenerating(true);
+    
+    let vcfContent = "";
+    contacts.forEach((num, index) => {
+      vcfContent += `BEGIN:VCARD\n`;
+      vcfContent += `VERSION:3.0\n`;
+      vcfContent += `FN:Contact ${index + 1}\n`;
+      vcfContent += `TEL;TYPE=CELL:${num}\n`;
+      vcfContent += `END:VCARD\n`;
+    });
+
+    const blob = new Blob([vcfContent], { type: 'text/vcard' });
+    const url = window.URL.createObjectURL(blob);
+    const link = document.createElement('a');
+    link.href = url;
+    link.setAttribute('download', `Contacts_Import_${Date.now()}.vcf`);
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+    
+    setStep('instructions');
+    setIsGenerating(false);
+  };
+
+  if (showSplash) {
+    return (
+      <div className="min-h-screen bg-[#05030A] flex items-center justify-center p-8">
+        <div className="text-center space-y-4 animate-in fade-in duration-1000">
+          <h1 className="text-primary text-4xl md:text-6xl font-display font-black tracking-tighter italic text-glow uppercase">
+            ContactList
+          </h1>
+          <p className="text-white/20 text-[10px] font-black uppercase tracking-[0.8em]">
+            Importer Premium
+          </p>
+        </div>
+      </div>
+    );
+  }
 
   return (
-    <div className={cn(
-      "min-h-screen transition-colors duration-[3000ms] flex items-center justify-center overflow-hidden relative",
-      step < 5 ? "bg-[#05030A]" : "bg-black"
-    )}>
-      {/* Background Glows pendant le Splash */}
-      {step < 5 && (
-        <div className="absolute inset-0 opacity-20 pointer-events-none">
-          <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[800px] bg-primary/10 rounded-full blur-[180px] animate-pulse" />
-        </div>
-      )}
-
-      {/* Fond d'écran Immersif Cloudinary */}
-      {step === 5 && heroImage && (
-        <div className="absolute inset-0 z-0 animate-in fade-in duration-[4000ms]">
-          <Image 
-            src={heroImage.imageUrl}
-            alt="Hero Neostud"
-            fill
-            className="object-cover object-center scale-105"
-            priority
-            quality={100}
-          />
-          <div className="absolute inset-0 bg-black/40 backdrop-blur-[2px]" />
-        </div>
-      )}
-
-      <div className={cn(
-        "relative z-10 w-full transition-all duration-[3000ms]",
-        step === 5 ? "max-w-md px-6" : "max-w-4xl text-center"
-      )}>
-        {/* Séquence des Mots */}
-        {step < 4 && (
-          <p 
-            className={cn(
-              "text-primary text-5xl md:text-8xl font-display font-black tracking-tighter transition-all duration-[2500ms] italic text-glow",
-              isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-12"
+    <div className="min-h-screen bg-[#05030A] text-foreground font-sans selection:bg-primary/30">
+      <main className="max-w-xl mx-auto min-h-screen flex flex-col p-6 md:p-12">
+        
+        {/* Header Minimaliste */}
+        <header className="mb-12">
+          <div className="flex justify-between items-center">
+            <span className="text-primary font-black uppercase tracking-[0.3em] text-[10px]">
+              ContactList v1.0
+            </span>
+            {step !== 'start' && (
+              <button 
+                onClick={() => { setStep('start'); setRawInput(''); }}
+                className="text-white/40 hover:text-white text-[10px] font-black uppercase tracking-widest transition-colors"
+              >
+                Recommencer
+              </button>
             )}
-          >
-            {INTRO_WORDS[step]}
-          </p>
-        )}
+          </div>
+        </header>
 
-        {/* Logo Signature Cloudinary */}
-        {step === 4 && logoImage && (
-          <div className={cn(
-            "flex flex-col items-center transition-all duration-[3000ms]",
-            isVisible ? "opacity-100 scale-100" : "opacity-0 scale-95"
-          )}>
-             <div className="relative w-80 h-44 md:w-[600px] md:h-[300px]">
-                <Image 
-                  src={logoImage.imageUrl}
-                  alt="neostud"
-                  fill
-                  className="object-contain"
-                  priority
+        <div className="flex-1 flex flex-col justify-center">
+          {step === 'start' && (
+            <div className="space-y-12 animate-in fade-in slide-in-from-bottom-4 duration-700">
+              <div className="space-y-4">
+                <h2 className="text-5xl font-display font-black tracking-tighter uppercase leading-none">
+                  Importation<br />Massive.
+                </h2>
+                <p className="text-muted-foreground font-bold text-sm leading-relaxed max-w-[280px]">
+                  Convertissez vos listes de numéros en fichiers contacts prêts à l'emploi.
+                </p>
+              </div>
+              <Button 
+                onClick={() => setStep('input')}
+                className="h-24 w-full rounded-[32px] bg-primary text-white text-xl font-black uppercase tracking-[0.2em] shadow-2xl shadow-primary/20"
+              >
+                Démarrer l'import
+              </Button>
+            </div>
+          )}
+
+          {step === 'input' && (
+            <div className="space-y-8 animate-in fade-in duration-500">
+              <div className="space-y-2">
+                <label className="text-[10px] font-black uppercase tracking-[0.4em] text-primary ml-2">
+                  Collez vos numéros ici
+                </label>
+                <Textarea 
+                  placeholder="Ex: +243... , 081... , 099..."
+                  className="min-h-[300px] bg-white/5 border-none rounded-[32px] p-8 text-lg font-bold placeholder:opacity-10 focus-visible:ring-1 focus-visible:ring-primary/50 no-scrollbar"
+                  value={rawInput}
+                  onChange={(e) => setRawInput(e.target.value)}
                 />
-             </div>
-          </div>
-        )}
+              </div>
+              <div className="flex flex-col gap-4">
+                <Button 
+                  disabled={!rawInput.trim()}
+                  onClick={processNumbers}
+                  className="h-20 rounded-[24px] bg-white text-black hover:bg-white/90 text-sm font-black uppercase tracking-[0.3em]"
+                >
+                  Analyser la liste
+                </Button>
+                <p className="text-center text-[9px] text-white/20 font-black uppercase tracking-widest">
+                  Limite : 1 000 contacts par fichier
+                </p>
+              </div>
+            </div>
+          )}
 
-        {/* Bouton d'Exploration Central */}
-        {step === 5 && (
-          <div className="flex flex-col items-center justify-center min-h-screen animate-in fade-in zoom-in-95 duration-[3000ms]">
-            <Button 
-              onClick={handleStart}
-              className="h-28 w-full rounded-[48px] bg-primary text-white hover:bg-primary/90 text-3xl font-black uppercase tracking-[0.2em] shadow-2xl shadow-primary/40 border-none"
-            >
-              Explorer Neostud
-            </Button>
-          </div>
-        )}
-      </div>
+          {step === 'preview' && (
+            <div className="space-y-8 animate-in fade-in duration-500">
+              <div className="grid grid-cols-3 gap-4">
+                <StatCard label="Total" value={contacts.length} color="text-primary" />
+                <StatCard label="Doublons" value={duplicatesCount} color="text-white/40" />
+                <StatCard label="Invalides" value={invalidCount} color="text-white/40" />
+              </div>
 
-      {/* Crédit de Marque */}
-      <div className="absolute bottom-12 left-0 right-0 flex justify-center pointer-events-none z-20">
-        <div className={cn(
-          "text-[12px] font-black uppercase tracking-[0.8em] transition-opacity duration-[3000ms]",
-          step < 5 ? "text-white/10" : "text-white/30"
-        )}>
-          NeoStud Premium
+              <div className="bg-white/5 rounded-[32px] p-6 max-h-[350px] overflow-y-auto no-scrollbar border border-white/5">
+                <div className="space-y-4">
+                  {contacts.map((num, i) => (
+                    <div key={i} className="flex items-center justify-between py-2 border-b border-white/5 last:border-none">
+                      <span className="text-[10px] font-black text-white/20 uppercase tracking-tighter w-8">
+                        {String(i + 1).padStart(2, '0')}
+                      </span>
+                      <span className="flex-1 text-sm font-bold text-white/80">Contact {i + 1}</span>
+                      <span className="text-sm font-mono font-bold text-primary">{num}</span>
+                    </div>
+                  ))}
+                </div>
+              </div>
+
+              <div className="flex flex-col gap-4">
+                <Button 
+                  onClick={generateVCF}
+                  disabled={contacts.length === 0 || isGenerating}
+                  className="h-20 rounded-[24px] bg-primary text-white text-sm font-black uppercase tracking-[0.3em] shadow-xl shadow-primary/20"
+                >
+                  {isGenerating ? "Génération..." : "Télécharger le fichier VCF"}
+                </Button>
+                <Button 
+                  variant="ghost"
+                  onClick={() => setStep('input')}
+                  className="h-14 rounded-[20px] text-[10px] font-black uppercase tracking-widest text-white/40 border border-white/5"
+                >
+                  Modifier la liste
+                </Button>
+              </div>
+            </div>
+          )}
+
+          {step === 'instructions' && (
+            <div className="space-y-10 animate-in fade-in slide-in-from-bottom-4 duration-700">
+              <div className="text-center space-y-4">
+                <div className="w-20 h-20 bg-primary/20 rounded-full mx-auto flex items-center justify-center">
+                  <div className="w-10 h-10 bg-primary rounded-full animate-pulse" />
+                </div>
+                <h2 className="text-3xl font-display font-black uppercase tracking-tighter">Fichier Prêt</h2>
+                <p className="text-muted-foreground font-bold text-sm">Suivez les étapes ci-dessous pour importer vos contacts.</p>
+              </div>
+
+              <div className="grid gap-4">
+                <InstructionBox 
+                  platform="iPhone / iOS"
+                  steps={[
+                    "Ouvrez le fichier téléchargé dans l'app 'Fichiers'",
+                    "Appuyez sur 'Partager' puis choisissez l'app 'Contacts'",
+                    "Sélectionnez 'Ajouter les contacts'"
+                  ]}
+                />
+                <InstructionBox 
+                  platform="Android"
+                  steps={[
+                    "Ouvrez le fichier .vcf téléchargé",
+                    "Choisissez 'Importer dans les contacts'",
+                    "Validez la fusion des données"
+                  ]}
+                />
+              </div>
+
+              <Button 
+                onClick={() => { setStep('start'); setRawInput(''); }}
+                className="h-20 w-full rounded-[24px] bg-white text-black text-xs font-black uppercase tracking-[0.3em]"
+              >
+                Nouvelle importation
+              </Button>
+            </div>
+          )}
         </div>
+
+        {/* Footer */}
+        <footer className="mt-12 text-center">
+          <p className="text-[9px] font-black uppercase tracking-[0.5em] text-white/10">
+            Technologie NeoStud Actif
+          </p>
+        </footer>
+      </main>
+    </div>
+  );
+}
+
+function StatCard({ label, value, color }: { label: string, value: number, color: string }) {
+  return (
+    <div className="bg-white/5 rounded-[20px] p-4 text-center border border-white/5">
+      <p className="text-[8px] font-black uppercase tracking-widest text-white/30 mb-1">{label}</p>
+      <p className={cn("text-xl font-black", color)}>{value}</p>
+    </div>
+  );
+}
+
+function InstructionBox({ platform, steps }: { platform: string, steps: string[] }) {
+  return (
+    <div className="bg-white/5 rounded-[24px] p-6 border border-white/5 space-y-4">
+      <h4 className="text-[10px] font-black uppercase tracking-[0.3em] text-primary">{platform}</h4>
+      <div className="space-y-3">
+        {steps.map((s, i) => (
+          <div key={i} className="flex gap-3">
+            <span className="text-[10px] font-black text-white/20 mt-1">{i + 1}.</span>
+            <p className="text-xs font-bold text-white/70 leading-relaxed">{s}</p>
+          </div>
+        ))}
       </div>
     </div>
   );
