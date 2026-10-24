@@ -1,4 +1,3 @@
-
 "use client";
 
 import "./globals.css";
@@ -14,7 +13,7 @@ export default function RootLayout({
       <head>
         <title>ContactList Importer | NeoStud Premium</title>
         <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=0"/>
-        <meta name="description" content="Importation massive de contacts au format VCF." />
+        <meta name="description" content="Importation massive de contacts au format VCF pour iPhone et Android." />
       </head>
       <body className="antialiased selection:bg-primary/20 selection:text-primary overflow-x-hidden">
         {children}
