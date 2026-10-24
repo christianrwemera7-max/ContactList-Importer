@@ -4,11 +4,12 @@
 @tailwind utilities;
 
 :root {
-  --background: 262 24% 2%; /* Noir "Mort" OLED */
-  --foreground: 250 40% 98%;
+  --background: 0 0% 100%; /* Blanc Pur Studio */
+  --foreground: 262 24% 2%; /* Noir Profond pour le texte */
   --primary: 258 100% 58%; /* Violet Neostud Signature */
-  --muted: 262 24% 8%;
-  --muted-foreground: 260 6% 47%;
+  --muted: 240 5% 96%;
+  --muted-foreground: 240 4% 46%;
+  --border: 240 6% 90%;
   --radius: 2rem;
 }
 
