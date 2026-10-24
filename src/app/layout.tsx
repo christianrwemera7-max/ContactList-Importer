@@ -1,7 +1,10 @@
-"use client";
 
 import "./globals.css";
-import { Toaster } from "@/components/ui/toaster";
+
+export const metadata = {
+  title: "ContactList Importer",
+  description: "Importation massive de contacts au format VCF.",
+};
 
 export default function RootLayout({
   children,
@@ -11,13 +14,10 @@ export default function RootLayout({
   return (
     <html lang="fr" className="dark">
       <head>
-        <title>ContactList Importer | NeoStud Premium</title>
         <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=0"/>
-        <meta name="description" content="Importation massive de contacts au format VCF pour iPhone et Android." />
       </head>
-      <body className="antialiased selection:bg-primary/20 selection:text-primary overflow-x-hidden">
+      <body className="antialiased selection:bg-primary/20 selection:text-primary">
         {children}
-        <Toaster />
       </body>
     </html>
   );

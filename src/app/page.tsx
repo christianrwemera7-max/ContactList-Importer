@@ -1,12 +1,10 @@
+
 "use client";
 
 import { useState, useEffect } from 'react';
 import { cn } from '@/lib/utils';
-import { Button } from '@/components/ui/button';
-import { Textarea } from '@/components/ui/textarea';
-import Image from 'next/image';
 
-type AppStep = 'splash' | 'start' | 'input' | 'preview' | 'instructions';
+type AppStep = 'splash' | 'intro' | 'input' | 'preview' | 'instructions';
 
 export default function ContactImporterPage() {
   const [step, setStep] = useState<AppStep>('splash');
@@ -18,13 +16,12 @@ export default function ContactImporterPage() {
 
   useEffect(() => {
     if (step === 'splash') {
-      const timer = setTimeout(() => setStep('start'), 4000);
+      const timer = setTimeout(() => setStep('intro'), 2000);
       return () => clearTimeout(timer);
     }
   }, [step]);
 
   const processNumbers = () => {
-    // Séparateurs : sauts de ligne, virgules, espaces, points-virgules
     const lines = rawInput.split(/[\n\r\s,;]+/);
     const seen = new Set<string>();
     const valid: string[] = [];
@@ -35,7 +32,6 @@ export default function ContactImporterPage() {
       const clean = line.trim();
       if (!clean) return;
 
-      // Validation : doit contenir au moins 3 chiffres
       const digitMatch = clean.match(/\d/g);
       if (!digitMatch || digitMatch.length < 3) {
         inv++;
@@ -63,11 +59,7 @@ export default function ContactImporterPage() {
     
     let vcfContent = "";
     contacts.forEach((num, index) => {
-      vcfContent += `BEGIN:VCARD\n`;
-      vcfContent += `VERSION:3.0\n`;
-      vcfContent += `FN:Contact ${index + 1}\n`;
-      vcfContent += `TEL;TYPE=CELL:${num}\n`;
-      vcfContent += `END:VCARD\n`;
+      vcfContent += `BEGIN:VCARD\nVERSION:3.0\nFN:Contact ${index + 1}\nTEL;TYPE=CELL:${num}\nEND:VCARD\n`;
     });
 
     const blob = new Blob([vcfContent], { type: 'text/vcard' });
@@ -87,13 +79,10 @@ export default function ContactImporterPage() {
 
   if (step === 'splash') {
     return (
-      <div className="min-h-screen bg-[#05030A] flex flex-col items-center justify-center p-8">
-        <div className="relative w-64 h-32 animate-in fade-in zoom-in duration-1000">
-           <div className="text-center space-y-6">
-              <span className="text-5xl font-display font-black text-white lowercase tracking-tighter italic">neostud</span>
-              <div className="w-12 h-1 bg-primary mx-auto rounded-full" />
-              <p className="text-[10px] font-black uppercase tracking-[0.8em] text-white/20">ContactList Importer</p>
-           </div>
+      <div className="min-h-screen bg-[#05030A] flex items-center justify-center p-8">
+        <div className="text-center animate-fade-in">
+           <span className="text-4xl font-black text-white lowercase tracking-tighter italic">neostud</span>
+           <div className="w-8 h-1 bg-primary mx-auto mt-4 rounded-full" />
         </div>
       </div>
     );
@@ -103,13 +92,13 @@ export default function ContactImporterPage() {
     <div className="min-h-screen bg-[#05030A] text-foreground font-sans selection:bg-primary/30 no-scrollbar overflow-x-hidden">
       <main className="max-w-xl mx-auto min-h-screen flex flex-col p-6 md:p-12">
         
-        <header className="mb-16 flex justify-between items-center">
+        <header className="mb-12 flex justify-between items-center">
           <span className="text-primary font-black uppercase tracking-[0.4em] text-[10px]">
-            NeoStud Active Protocol
+            Active Protocol
           </span>
-          {step !== 'start' && (
+          {step !== 'intro' && (
             <button 
-              onClick={() => { setStep('start'); setRawInput(''); }}
+              onClick={() => { setStep('intro'); setRawInput(''); }}
               className="text-white/40 hover:text-white text-[10px] font-black uppercase tracking-widest transition-colors"
             >
               Reset
@@ -118,65 +107,65 @@ export default function ContactImporterPage() {
         </header>
 
         <div className="flex-1 flex flex-col justify-center">
-          {step === 'start' && (
-            <div className="space-y-16 animate-in fade-in slide-in-from-bottom-8 duration-1000">
-              <div className="space-y-6 text-center md:text-left">
-                <h2 className="text-6xl md:text-7xl font-display font-black tracking-tighter uppercase leading-[0.85] italic">
+          {step === 'intro' && (
+            <div className="space-y-16 animate-slide-up">
+              <div className="space-y-6">
+                <h2 className="text-6xl md:text-7xl font-black tracking-tighter uppercase leading-[0.85] italic">
                   Import<br /><span className="text-primary">Massif.</span>
                 </h2>
-                <p className="text-muted-foreground font-bold text-sm leading-relaxed max-w-[300px] mx-auto md:mx-0">
-                  Convertissez instantanément vos listes de numéros en fichiers contacts .VCF sécurisés.
+                <p className="text-muted-foreground font-bold text-sm leading-relaxed max-w-[280px]">
+                  Convertissez instantanément vos listes en fichiers de contacts .VCF sécurisés.
                 </p>
               </div>
-              <Button 
+              <button 
                 onClick={() => setStep('input')}
                 className="h-28 w-full rounded-[40px] bg-primary text-white text-2xl font-black uppercase tracking-[0.2em] shadow-2xl shadow-primary/30 hover:scale-[1.02] transition-transform"
               >
-                Commencer
-              </Button>
+                Explorer
+              </button>
             </div>
           )}
 
           {step === 'input' && (
-            <div className="space-y-10 animate-in fade-in duration-700">
+            <div className="space-y-10 animate-fade-in">
               <div className="space-y-4">
                 <label className="text-[10px] font-black uppercase tracking-[0.4em] text-primary ml-4">
-                  Zone de saisie
+                  Source de données
                 </label>
-                <Textarea 
+                <textarea 
                   placeholder="Collez ici vos numéros (WhatsApp, Excel, SMS...)"
-                  className="min-h-[400px] bg-white/5 border-none rounded-[48px] p-10 text-xl font-bold placeholder:opacity-5 focus-visible:ring-1 focus-visible:ring-primary/40 no-scrollbar resize-none"
+                  className="w-full min-h-[400px] bg-white/5 border-none rounded-[48px] p-10 text-xl font-bold placeholder:opacity-5 focus:ring-1 focus:ring-primary/40 no-scrollbar resize-none outline-none"
                   value={rawInput}
                   onChange={(e) => setRawInput(e.target.value)}
                 />
               </div>
               <div className="flex flex-col gap-6">
-                <Button 
+                <button 
                   disabled={!rawInput.trim()}
                   onClick={processNumbers}
-                  className="h-24 rounded-[32px] bg-white text-black hover:bg-white/90 text-sm font-black uppercase tracking-[0.3em]"
+                  className="h-24 rounded-[32px] bg-white text-black hover:bg-white/90 text-sm font-black uppercase tracking-[0.3em] disabled:opacity-20"
                 >
-                  Analyser la liste
-                </Button>
+                  Analyser
+                </button>
                 <p className="text-center text-[9px] text-white/20 font-black uppercase tracking-[0.5em]">
-                  Capacité : 1 000 contacts / fichier
+                  Limite : 1 000 contacts / session
                 </p>
               </div>
             </div>
           )}
 
           {step === 'preview' && (
-            <div className="space-y-10 animate-in fade-in duration-700">
+            <div className="space-y-10 animate-fade-in">
               <div className="grid grid-cols-3 gap-4">
-                <StatCard label="Total" value={contacts.length} color="text-primary" />
+                <StatCard label="Valides" value={contacts.length} color="text-primary" />
                 <StatCard label="Doublons" value={duplicatesCount} color="text-white/20" />
-                <StatCard label="Invalides" value={invalidCount} color="text-white/20" />
+                <StatCard label="Erreurs" value={invalidCount} color="text-white/20" />
               </div>
 
               <div className="bg-white/5 rounded-[48px] p-8 max-h-[350px] overflow-y-auto no-scrollbar border border-white/5">
                 <div className="space-y-6">
                   {contacts.length === 0 ? (
-                    <p className="text-center text-xs font-bold text-white/20 uppercase tracking-widest py-10">Aucun numéro valide détecté</p>
+                    <p className="text-center text-xs font-bold text-white/20 uppercase tracking-widest py-10">Aucune donnée exploitable</p>
                   ) : (
                     contacts.map((num, i) => (
                       <div key={i} className="flex items-center justify-between py-2 border-b border-white/5 last:border-none">
@@ -184,7 +173,7 @@ export default function ContactImporterPage() {
                           {String(i + 1).padStart(3, '0')}
                         </span>
                         <span className="flex-1 text-sm font-bold text-white/80">Contact {i + 1}</span>
-                        <span className="text-sm font-mono font-bold text-primary tracking-tighter">{num}</span>
+                        <span className="text-sm font-bold text-primary tracking-tighter">{num}</span>
                       </div>
                     ))
                   )}
@@ -192,31 +181,30 @@ export default function ContactImporterPage() {
               </div>
 
               <div className="flex flex-col gap-4">
-                <Button 
+                <button 
                   onClick={generateVCF}
                   disabled={contacts.length === 0 || isGenerating}
-                  className="h-24 rounded-[32px] bg-primary text-white text-sm font-black uppercase tracking-[0.3em] shadow-2xl shadow-primary/20"
+                  className="h-24 rounded-[32px] bg-primary text-white text-sm font-black uppercase tracking-[0.3em] shadow-2xl shadow-primary/20 disabled:opacity-20"
                 >
-                  {isGenerating ? "Encryption..." : "Générer le fichier VCF"}
-                </Button>
-                <Button 
-                  variant="ghost"
+                  {isGenerating ? "Génération..." : "Générer le fichier"}
+                </button>
+                <button 
                   onClick={() => setStep('input')}
                   className="h-14 rounded-[20px] text-[10px] font-black uppercase tracking-widest text-white/20 border border-white/5"
                 >
                   Modifier la source
-                </Button>
+                </button>
               </div>
             </div>
           )}
 
           {step === 'instructions' && (
-            <div className="space-y-12 animate-in fade-in slide-in-from-bottom-8 duration-1000">
+            <div className="space-y-12 animate-slide-up">
               <div className="text-center space-y-6">
-                <div className="w-24 h-24 bg-primary/10 rounded-full mx-auto flex items-center justify-center">
-                  <div className="w-8 h-8 bg-primary rounded-full animate-pulse" />
+                <div className="w-20 h-20 bg-primary/10 rounded-full mx-auto flex items-center justify-center">
+                  <div className="w-6 h-6 bg-primary rounded-full animate-pulse" />
                 </div>
-                <h2 className="text-4xl font-display font-black uppercase tracking-tighter italic">Transfert Prêt</h2>
+                <h2 className="text-4xl font-black uppercase tracking-tighter italic">Prêt.</h2>
                 <p className="text-muted-foreground font-bold text-sm max-w-[250px] mx-auto leading-relaxed">
                   Le fichier est dans vos téléchargements. Suivez les étapes d'importation.
                 </p>
@@ -226,34 +214,34 @@ export default function ContactImporterPage() {
                 <InstructionBox 
                   platform="iPhone / iOS"
                   steps={[
-                    "Ouvrez le fichier NeoStud dans 'Fichiers'",
-                    "Partager > App 'Contacts'",
-                    "Sélectionnez 'Ajouter les contacts'"
+                    "Ouvrez le fichier téléchargé",
+                    "Partagez vers l'application Contacts",
+                    "Validez l'ajout des contacts"
                   ]}
                 />
                 <InstructionBox 
-                  platform="Android OS"
+                  platform="Android"
                   steps={[
-                    "Ouvrez le fichier .vcf téléchargé",
-                    "Importer dans les contacts",
-                    "Validez la fusion des données"
+                    "Ouvrez le fichier .vcf",
+                    "Choisissez 'Importer'",
+                    "Sélectionnez le compte de stockage"
                   ]}
                 />
               </div>
 
-              <Button 
-                onClick={() => { setStep('start'); setRawInput(''); }}
+              <button 
+                onClick={() => { setStep('intro'); setRawInput(''); }}
                 className="h-20 w-full rounded-[24px] bg-white text-black text-xs font-black uppercase tracking-[0.3em]"
               >
                 Nouvelle session
-              </Button>
+              </button>
             </div>
           )}
         </div>
 
         <footer className="mt-20 text-center">
           <p className="text-[9px] font-black uppercase tracking-[0.8em] text-white/5">
-            NeoStud Technology Systems
+            Technology Systems
           </p>
         </footer>
       </main>

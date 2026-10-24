@@ -1,6 +1,3 @@
-import { redirect } from 'next/navigation';
 
-export default function DashboardPage() {
-  redirect('/');
-  return null;
-}
+import { redirect } from 'next/navigation';
+export default function Page() { redirect('/'); return null; }
