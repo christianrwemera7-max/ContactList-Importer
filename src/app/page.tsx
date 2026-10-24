@@ -1,4 +1,3 @@
-
 "use client";
 
 import { useEffect, useState } from 'react';
@@ -24,29 +23,27 @@ export default function SplashPage() {
 
   useEffect(() => {
     const sequence = async () => {
-      // Pause initiale plus longue
+      // Temps de réflexion initial
       await new Promise(r => setTimeout(r, 2000));
       
       for (let i = 0; i < INTRO_WORDS.length; i++) {
         setStep(i);
         setIsVisible(true);
-        // Affichage du mot pendant 3 secondes
+        // Chaque mot reste affiché 3 secondes pour la solennité
         await new Promise(r => setTimeout(r, 3000));
         setIsVisible(false);
-        // Pause entre les mots de 1.2 seconde
+        // Intervalle entre les mots
         await new Promise(r => setTimeout(r, 1200));
       }
 
-      // Étape du Logo Officiel
+      // Étape du Logo Officiel (Cloudinary)
       setStep(4);
       setIsVisible(true);
-      // Le logo reste affiché 5 secondes pour bien marquer l'esprit
       await new Promise(r => setTimeout(r, 5000));
       setIsVisible(false);
-      // Pause de transition vers le Hero
       await new Promise(r => setTimeout(r, 2000));
       
-      // Étape Hero Finale
+      // Hero Hub Final
       setStep(5);
       setIsVisible(true);
     };
@@ -70,52 +67,51 @@ export default function SplashPage() {
       "min-h-screen transition-colors duration-[3000ms] flex items-center justify-center overflow-hidden relative",
       step < 5 ? "bg-[#05030A]" : "bg-black"
     )}>
-      {/* Background Glows during Splash */}
+      {/* Background Glows pendant le Splash */}
       {step < 5 && (
-        <div className="absolute inset-0 opacity-10 pointer-events-none overflow-hidden">
-          <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-primary/20 rounded-full blur-[160px] animate-pulse" />
+        <div className="absolute inset-0 opacity-20 pointer-events-none">
+          <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[800px] bg-primary/10 rounded-full blur-[180px] animate-pulse" />
         </div>
       )}
 
-      {/* Full Screen Image Background for Hero (HD Cloudinary) */}
+      {/* Fond d'écran Immersif Cloudinary */}
       {step === 5 && heroImage && (
-        <div className="absolute inset-0 z-0 animate-in fade-in duration-[3000ms]">
+        <div className="absolute inset-0 z-0 animate-in fade-in duration-[4000ms]">
           <Image 
             src={heroImage.imageUrl}
-            alt={heroImage.description}
+            alt="Hero Neostud"
             fill
-            className="object-cover object-center"
+            className="object-cover object-center scale-105"
             priority
             quality={100}
           />
-          {/* Overlay subtil pour la lisibilité du bouton */}
-          <div className="absolute inset-0 bg-black/30" />
+          <div className="absolute inset-0 bg-black/40 backdrop-blur-[2px]" />
         </div>
       )}
 
       <div className={cn(
-        "relative z-10 w-full transition-all duration-[2500ms]",
-        step === 5 ? "max-w-md px-6" : "max-w-xl text-center"
+        "relative z-10 w-full transition-all duration-[3000ms]",
+        step === 5 ? "max-w-md px-6" : "max-w-4xl text-center"
       )}>
-        {/* Splash Sequence - Mots Mauves sur fond Mort */}
+        {/* Séquence des Mots */}
         {step < 4 && (
           <p 
             className={cn(
-              "text-primary text-4xl md:text-7xl font-display font-black tracking-tighter transition-all duration-[2000ms] italic",
-              isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"
+              "text-primary text-5xl md:text-8xl font-display font-black tracking-tighter transition-all duration-[2500ms] italic text-glow",
+              isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-12"
             )}
           >
             {INTRO_WORDS[step]}
           </p>
         )}
 
-        {/* Logo Officiel NEOSTUD - Version Cloudinary */}
+        {/* Logo Signature Cloudinary */}
         {step === 4 && logoImage && (
           <div className={cn(
             "flex flex-col items-center transition-all duration-[3000ms]",
             isVisible ? "opacity-100 scale-100" : "opacity-0 scale-95"
           )}>
-             <div className="relative w-80 h-44 md:w-[500px] md:h-[250px]">
+             <div className="relative w-80 h-44 md:w-[600px] md:h-[300px]">
                 <Image 
                   src={logoImage.imageUrl}
                   alt="neostud"
@@ -127,13 +123,12 @@ export default function SplashPage() {
           </div>
         )}
 
-        {/* Hero Hub - Explorer Neostud au centre de l'image */}
+        {/* Bouton d'Exploration Central */}
         {step === 5 && (
           <div className="flex flex-col items-center justify-center min-h-screen animate-in fade-in zoom-in-95 duration-[3000ms]">
             <Button 
               onClick={handleStart}
-              size="lg"
-              className="h-24 w-full rounded-[40px] bg-primary text-white hover:bg-primary/90 text-2xl font-black uppercase tracking-widest shadow-2xl shadow-primary/40 transition-all active:scale-95 border-none"
+              className="h-28 w-full rounded-[48px] bg-primary text-white hover:bg-primary/90 text-3xl font-black uppercase tracking-[0.2em] shadow-2xl shadow-primary/40 border-none"
             >
               Explorer Neostud
             </Button>
@@ -141,13 +136,13 @@ export default function SplashPage() {
         )}
       </div>
 
-      {/* Persistent Footer Credit */}
-      <div className="absolute bottom-10 left-0 right-0 flex justify-center pointer-events-none z-20">
+      {/* Crédit de Marque */}
+      <div className="absolute bottom-12 left-0 right-0 flex justify-center pointer-events-none z-20">
         <div className={cn(
-          "text-[10px] font-black uppercase tracking-[0.6em] transition-opacity duration-[3000ms]",
-          step < 5 ? "text-white/10" : "text-white/20"
+          "text-[12px] font-black uppercase tracking-[0.8em] transition-opacity duration-[3000ms]",
+          step < 5 ? "text-white/10" : "text-white/30"
         )}>
-          NeoStud
+          NeoStud Premium
         </div>
       </div>
     </div>

@@ -1,4 +1,3 @@
-
 "use client";
 
 import React from 'react';
@@ -70,45 +69,48 @@ export default function DashboardHubPage() {
   };
 
   return (
-    <div className="min-h-screen bg-[#F8F7FC] flex flex-col">
-      {/* Header Hub */}
-      <header className="p-6 md:p-10 flex items-center justify-between">
-        <div className="flex items-center gap-6">
-          <Avatar className="w-16 h-16 border-4 border-white shadow-xl">
-            <AvatarImage src={state.profile?.photo_url || ''} />
-            <AvatarFallback className="bg-primary/10 text-primary font-bold text-2xl">
-              {state.profile?.first_name?.[0]}
-            </AvatarFallback>
-          </Avatar>
+    <div className="min-h-screen bg-[#F8F7FC] flex flex-col no-scrollbar">
+      {/* Header Hub Épuré */}
+      <header className="p-8 md:p-12 flex items-center justify-between">
+        <div className="flex items-center gap-8">
+          <div className="relative">
+            <Avatar className="w-20 h-20 border-4 border-white shadow-2xl">
+              <AvatarImage src={state.profile?.photo_url || ''} />
+              <AvatarFallback className="bg-primary/10 text-primary font-black text-3xl">
+                {state.profile?.first_name?.[0]}
+              </AvatarFallback>
+            </Avatar>
+            <div className="absolute -bottom-1 -right-1 w-6 h-6 bg-green-500 border-4 border-white rounded-full" />
+          </div>
           <div>
-            <h1 className="text-3xl font-display font-black leading-none tracking-tight">Exploration</h1>
-            <p className="text-[10px] text-muted-foreground font-black uppercase tracking-[0.3em] mt-2">
-              Utilisateur : {state.profile?.first_name}
+            <h1 className="text-4xl font-display font-black leading-none tracking-tight text-foreground uppercase italic">Exploration</h1>
+            <p className="text-[11px] text-muted-foreground font-black uppercase tracking-[0.4em] mt-3">
+              Session active : {state.profile?.first_name} {state.profile?.last_name}
             </p>
           </div>
         </div>
         
-        <div className="flex items-center gap-4">
+        <div className="flex items-center gap-6">
           <Button 
             asChild 
             variant="ghost" 
-            className="rounded-full bg-white shadow-sm hover:bg-white/80 px-6 font-black uppercase tracking-widest text-[10px]"
+            className="rounded-full bg-white shadow-sm hover:bg-white/80 px-8 h-12 font-black uppercase tracking-widest text-[11px] border-none"
           >
             <Link href="/profile">Profil</Link>
           </Button>
           <Button 
             onClick={handleLogout}
             variant="ghost" 
-            className="rounded-full bg-white shadow-sm hover:bg-destructive/5 hover:text-destructive px-6 font-black uppercase tracking-widest text-[10px]"
+            className="rounded-full bg-white shadow-sm hover:bg-destructive/5 hover:text-destructive px-8 h-12 font-black uppercase tracking-widest text-[11px] border-none"
           >
             Quitter
           </Button>
         </div>
       </header>
 
-      {/* Grid de Fenêtres */}
-      <main className="flex-1 max-w-6xl mx-auto w-full p-6 md:p-10">
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-10 pb-10">
+      {/* Grid de Fenêtres Géantes */}
+      <main className="flex-1 max-w-7xl mx-auto w-full p-8 md:p-12">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-12 pb-20">
           {EXPLORATION_WINDOWS.map((window) => (
             <Link 
               key={window.name} 
@@ -116,31 +118,31 @@ export default function DashboardHubPage() {
               className="group relative"
             >
               <div className={cn(
-                "h-72 rounded-[64px] bg-white p-10 flex flex-col justify-between transition-all duration-500 hover:-translate-y-4 hover:shadow-2xl",
+                "h-80 rounded-[64px] bg-white p-12 flex flex-col justify-between transition-all duration-700 hover:-translate-y-6 hover:shadow-[0_40px_80px_rgba(0,0,0,0.06)]",
                 window.shadow
               )}>
                 <div className="flex justify-between items-start">
                   <div className={cn(
-                    "px-4 py-1 rounded-full text-white font-black uppercase tracking-widest text-[9px]",
+                    "px-6 py-2 rounded-full text-white font-black uppercase tracking-[0.2em] text-[10px]",
                     window.color
                   )}>
                     {window.tag}
                   </div>
-                  <div className="w-1.5 h-1.5 rounded-full bg-muted group-hover:bg-primary transition-colors" />
+                  <div className="w-2 h-2 rounded-full bg-muted group-hover:bg-primary transition-colors duration-500" />
                 </div>
                 
-                <div className="space-y-3">
-                  <h2 className="text-3xl font-display font-black text-foreground tracking-tight">{window.name}</h2>
-                  <p className="text-xs text-muted-foreground font-bold leading-relaxed opacity-60">
+                <div className="space-y-4">
+                  <h2 className="text-4xl font-display font-black text-foreground tracking-tighter uppercase">{window.name}</h2>
+                  <p className="text-sm text-muted-foreground font-bold leading-relaxed opacity-60 max-w-[200px]">
                     {window.description}
                   </p>
                 </div>
 
-                <div className="flex items-center gap-2">
-                  <span className="text-[10px] font-black uppercase tracking-widest text-primary opacity-0 group-hover:opacity-100 transition-opacity translate-x-[-10px] group-hover:translate-x-0 duration-500">
+                <div className="flex items-center gap-4">
+                  <span className="text-[11px] font-black uppercase tracking-[0.3em] text-primary opacity-0 group-hover:opacity-100 transition-all translate-x-[-20px] group-hover:translate-x-0 duration-700">
                     Entrer
                   </span>
-                  <div className="h-[1px] flex-1 bg-muted group-hover:bg-primary/20 transition-colors" />
+                  <div className="h-[1px] flex-1 bg-muted group-hover:bg-primary/20 transition-colors duration-700" />
                 </div>
               </div>
             </Link>
@@ -149,10 +151,10 @@ export default function DashboardHubPage() {
       </main>
 
       {/* Footer minimaliste */}
-      <footer className="p-10 text-center">
-        <div className="inline-flex items-center gap-3 px-6 py-3 bg-white rounded-full shadow-sm text-[9px] font-black uppercase tracking-[0.4em] text-muted-foreground">
-          <div className="w-1.5 h-1.5 rounded-full bg-green-500" />
-          Accès Premium Actif
+      <footer className="p-12 text-center">
+        <div className="inline-flex items-center gap-4 px-8 py-4 bg-white rounded-full shadow-sm text-[10px] font-black uppercase tracking-[0.5em] text-muted-foreground/40">
+          <div className="w-2 h-2 rounded-full bg-green-500 animate-pulse" />
+          Protocole NeoStud Actif
         </div>
       </footer>
     </div>

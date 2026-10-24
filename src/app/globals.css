@@ -3,53 +3,45 @@
 @tailwind utilities;
 
 :root {
-  /* Fond principal NeoStud - Lumineux et Premium (Teinté) */
-  --background: 250 40% 98%; /* #F8F7FC */
-  --foreground: 262 24% 10%;
+  /* Fond principal NeoStud - "Mort" (Noir-Violet profond) */
+  --background: 262 24% 2%; /* #05030A */
+  --foreground: 250 40% 98%;
   
-  /* Cartes et éléments de surface - Le Blanc devient secondaire */
+  /* Cartes et éléments de surface - Blanc pur pour les fenêtres Hub */
   --card: 0 0% 100%;
   --card-foreground: 262 24% 10%;
-  --popover: 0 0% 100%;
-  --popover-foreground: 262 24% 10%;
+  --popover: 262 24% 5%;
+  --popover-foreground: 250 40% 98%;
   
   /* Violet Neostud Signature (#6C2BFF) */
   --primary: 258 100% 58%;
   --primary-foreground: 0 0% 100%;
   
-  /* États neutres et Lavande */
-  --secondary: 258 91% 96%;
+  /* États neutres */
+  --secondary: 262 24% 10%;
   --secondary-foreground: 258 100% 58%;
   
-  --muted: 260 20% 92%;
+  --muted: 262 24% 8%;
   --muted-foreground: 260 6% 47%;
   
-  --accent: 258 100% 97%;
-  --accent-foreground: 258 100% 58%;
+  --accent: 258 100% 58%;
+  --accent-foreground: 0 0% 100%;
   
-  /* États fonctionnels */
-  --destructive: 346 84% 61%;
-  --destructive-foreground: 0 0% 98%;
-  --success: 154 68% 42%;
-  --warning: 38 100% 56%;
-  
-  --border: 260 20% 92%;
-  --input: 260 20% 92%;
+  --destructive: 0 100% 50%;
+  --destructive-foreground: 210 40% 98%;
+
+  --border: 262 24% 12%;
+  --input: 262 24% 12%;
   --ring: 258 100% 58%;
   
-  --radius: 2rem; /* 32px par défaut */
-}
-
-.dark {
-  --background: 262 24% 5%;
-  --foreground: 250 40% 98%;
-  --primary: 258 100% 58%;
+  --radius: 3rem; /* 48px pour les fenêtres */
 }
 
 body {
   background-color: hsl(var(--background));
   color: hsl(var(--foreground));
   font-feature-settings: "rlig" 1, "calt" 1;
+  -webkit-font-smoothing: antialiased;
 }
 
 /* Scrollbar invisible */
@@ -61,15 +53,10 @@ body {
   scrollbar-width: none;
 }
 
-/* Gradient Splash "Mort" (OLED Deep Violet) */
-.bg-splash-gradient {
-  background: radial-gradient(circle at center, #0F0921 0%, #05030A 100%);
+.window-card {
+  @apply rounded-[64px] border-none bg-white transition-all duration-700 hover:scale-[1.02] cursor-pointer;
 }
 
-.neostud-card {
-  @apply rounded-[32px] border-none shadow-[0_8px_30px_rgb(0,0,0,0.02)] bg-white transition-all duration-300 hover:shadow-[0_20px_40px_rgb(108,43,255,0.04)];
-}
-
-.neostud-stats-card {
-  @apply rounded-[32px] bg-primary text-white border-none shadow-[0_20px_40px_rgba(108,43,255,0.15)] overflow-hidden;
+.text-glow {
+  text-shadow: 0 0 30px hsla(var(--primary), 0.5);
 }
